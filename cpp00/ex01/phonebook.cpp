@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 00:00:54 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/26 19:48:04 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/27 10:36:17 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	PhoneBook::search_contact(unsigned short index)
 	std::cout << "\x1b[33m" <<  "Enter index to search: " << "\x1b[0m";
 	std::getline(std::cin, input);
 	if (std::cin.eof())
-		exit(1);
+		return ;
 	num = atoi(input.c_str());
 	if (contacts[num].isEmpty())
 	{

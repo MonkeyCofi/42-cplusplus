@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:33:48 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/26 19:43:51 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/27 10:36:03 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	Contact::print_query(std::string str)
 int	valid_input(std::string &str, int num_check)
 {
 	if (std::cin.eof())
-		exit(1);
+		return (0);
 	size_t	length = str.length();
 	if (str.empty() || str.at(0) == '\0' || str.at(0) == '\t' || str.at(0) == '\n')
 		return (0);
