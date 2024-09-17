@@ -6,9 +6,14 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:28:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/26 19:21:17 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/08/31 14:21:16 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#pragma once
+
+#ifndef CONTACT_HPP
+# define CONTACT_HPP
 
 #include <iostream>
 
@@ -37,3 +42,5 @@ class Contact
 		std::string getNick() const;
 		Contact();
 };
+
+#endif

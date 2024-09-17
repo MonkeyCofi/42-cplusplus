@@ -1,10 +1,10 @@
-NAME = dreamjob
-
-SRCS = Account.cpp tests.cpp
+NAME = horde
 
 CXX = c++
 
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I./
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 #-fsanitize=address -g3
+
+SRCS = Zombie.cpp zombieHorde.cpp main.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

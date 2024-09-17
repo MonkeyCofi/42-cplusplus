@@ -1,10 +1,10 @@
-NAME = dreamjob
-
-SRCS = Account.cpp tests.cpp
+NAME = zombiezz
 
 CXX = c++
 
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I./
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+
+SRCS = randomChump.cpp Zombie.cpp newZombie.cpp main.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
@@ -24,4 +24,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY:	all clean fclean re

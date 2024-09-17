@@ -1,10 +1,10 @@
-NAME = dreamjob
-
-SRCS = Account.cpp tests.cpp
+NAME = fixedNum
 
 CXX = c++
 
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I./
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+
+SRCS = Fixed.cpp main.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
@@ -18,10 +18,10 @@ all: $(NAME)
 
 clean:
 	rm -f $(OBJS)
-
+	
 fclean: clean
 	rm -f $(NAME)
-
+	
 re: fclean all
 
 .PHONY: all clean fclean re
