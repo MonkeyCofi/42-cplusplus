@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 20:40:14 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/26 17:46:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:54:09 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,15 @@ int main(void)
 		if (std::cin.eof())
 			return (1);
 		if (input == "ADD")
-			phonebook.add_contact(current++);
+		{
+			if (phonebook.add_contact(current++) == 0)
+				return (1);
+		}
 		else if (input == "SEARCH")
-			 phonebook.search_contact(current);
+		{
+			 if (phonebook.search_contact(current) == 0)
+			 	return (1);
+		}
 		else if (input == "EXIT")
 			return (0);
 		if (current == 8)

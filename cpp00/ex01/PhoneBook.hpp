@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 23:59:33 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/26 16:51:10 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:54:08 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,20 @@
 #ifndef PHONEBOOK_HPP
 # define PHONEBOOK_HPP
 
-# include <iostream>
+# include "Utils.hpp"
+# include <cstdlib>
 # include <iomanip>
-# include "Contact.hpp"
 
 class PhoneBook
 {
 	private:
 		void	print_top_row() const;
 		Contact	contacts[8];
-		bool	full;
+		bool	m_full;
 	public:
-		void	add_contact(unsigned short current);
-		void	search_contact(unsigned short index);
+		PhoneBook();
+		int		add_contact(unsigned short current);
+		int		search_contact(unsigned short index);
 		void	is_full();
 		bool	check_full() const;
 };

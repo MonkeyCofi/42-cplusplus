@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:14:59 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/13 16:05:44 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:14:57 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ class	WrongAnimal
 		std::string type;
 	public:
 		WrongAnimal();
-		virtual ~WrongAnimal();
+		~WrongAnimal();
 		WrongAnimal(std::string Type);
 		WrongAnimal(const WrongAnimal &obj);
 		WrongAnimal	&operator=(const WrongAnimal &obj);
 		std::string		getType();
-		virtual void	makeSound();
+		void	makeSound();
 };
 
 #endif

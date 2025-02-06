@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 12:41:44 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/13 13:05:28 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:17:22 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ class	Animal
 		Animal(const Animal &obj);
 		Animal	&operator=(const Animal &obj);
 		virtual void		makeSound();
-		std::string	getType();
+		std::string	getType() const;
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:28:03 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/31 14:21:16 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:50:46 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 #ifndef CONTACT_HPP
 # define CONTACT_HPP
 
-#include <iostream>
+# include <iostream>
+# include "Utils.hpp"
 
 class Contact
 {
@@ -29,10 +30,10 @@ class Contact
 		std::string	m_darkestSecret;
 	public:
 		// all the setters and getters
-		void		setContact();
-		void		setNames();
-		void		setNumber();
-		void		setSecret();
+		int			setContact();
+		int			setNames();
+		int			setNumber();
+		int			setSecret();
 		void		setNonEmpty();
 		bool		isEmpty();
 		std::string	getFirst() const;

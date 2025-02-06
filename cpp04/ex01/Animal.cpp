@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 12:47:45 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/13 13:10:51 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:17:36 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,17 @@ void	Animal::makeSound()
 	std::cout << "Generic animal noises" << std::endl;
 }
 
-std::string	Animal::getType()
+std::string	Animal::getType() const
 {
 	return (this->type);
+};
+
+void	Animal::setType(std::string NewType)
+{
+	this->type = NewType;
+};
+
+Brain	*Animal::brainAddress()
+{
+	return (NULL);
 };

@@ -6,20 +6,27 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 00:00:54 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/27 10:36:17 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:54:09 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PhoneBook.hpp"
 
-void PhoneBook::add_contact(unsigned short current)
+PhoneBook::PhoneBook()
 {
-	contacts[current].setContact();
+	this->m_full = false;
+}
+
+int PhoneBook::add_contact(unsigned short current)
+{
+	if (contacts[current].setContact() == 0)
+		return (0);
+	return (1);
 };
 
 void	PhoneBook::is_full()
 {
-	full = true;
+	m_full = true;
 };
 
 void	PhoneBook::print_top_row() const
@@ -35,7 +42,7 @@ void	PhoneBook::print_top_row() const
 	std::cout << std::endl;
 };
 
-void	PhoneBook::search_contact(unsigned short index)
+int	PhoneBook::search_contact(unsigned short index)
 {
 	std::string	input;
 	int			num;
@@ -45,9 +52,10 @@ void	PhoneBook::search_contact(unsigned short index)
 	if (contacts[0].isEmpty())
 	{
 		std::cout << "\x1b[31m" << "The table is currently empty" << "\x1b[0m" << std::endl;
-		return ;
+		return (0);
 	}
 	print_top_row();
+	(void)index;
 	for (unsigned short i = 0; i < index; i++)
 	{
 		std::cout << std::setw(10) << i << std::right;
@@ -63,16 +71,18 @@ void	PhoneBook::search_contact(unsigned short index)
 	std::cout << "\x1b[33m" <<  "Enter index to search: " << "\x1b[0m";
 	std::getline(std::cin, input);
 	if (std::cin.eof())
+		return (0);
+	if (!valid_input(input, 1))
 		return ;
-	num = atoi(input.c_str());
+	num = std::atoi(input.c_str());
+	if (num < 0 || num > 7)
+	{
+		std::cout << "\x1b[31m" <<  "Number is out of range"  << "\x1b[0m" << std::endl;
+		return ;
+	}
 	if (contacts[num].isEmpty())
 	{
 		std::cout << "\x1b[31m" << "Contact at index " << num << " is empty" << "\x1b[0m" << std::endl;
-		return ;
-	}
-	if (num < 0 || num > 8)
-	{
-		std::cout << "\x1b[31m" <<  "Number is out of range"  << "\x1b[0m" << std::endl;
 		return ;
 	}
 	std::cout << "------------------------------" << std::endl;
@@ -81,9 +91,10 @@ void	PhoneBook::search_contact(unsigned short index)
 	std::cout << "Nickname: " << contacts[num].getNick() << std::endl;
 	std::cout << "Phone number: " << contacts[num].getNumber() << std::endl;
 	std::cout << "Deepest, darkest secret: " << contacts[num].getSecret() << std::endl;
+	return (1);
 }
 
 bool	PhoneBook::check_full() const
 {
-	return this->full;
+	return this->m_full;
 };

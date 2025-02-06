@@ -1,6 +1,6 @@
 NAME = phonebook
 
-SRC = PhoneBook.cpp Contact.cpp main.cpp
+SRC = PhoneBook.cpp Contact.cpp Utils.cpp main.cpp
 
 CXX = c++
 

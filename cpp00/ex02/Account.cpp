@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 20:12:32 by pipolint          #+#    #+#             */
-/*   Updated: 2024/08/28 16:06:31 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:03:57 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,11 @@ bool	Account::makeWithdrawal(int withdrawal)
 	if (_amount - withdrawal < 0)
 		result = false;
 	else
+	{
 		_amount -= withdrawal;
-	_totalAmount -= withdrawal;
-	_nbWithdrawals++;
+		_totalAmount -= withdrawal;
+		_nbWithdrawals++;
+	}
 	if (result)
 	{
 		std::cout << "withdrawal:" << withdrawal << ";" << "amount:" << _amount << ";" \
@@ -91,7 +93,7 @@ void	Account::displayStatus(void) const
 {
 	_displayTimestamp();
 	std::cout << "index:" << _accountIndex << ";" << "amount:" << checkAmount() << ";" \
-		"deposits:" << _nbDeposits << ";" << "withdrawals:" << _nbWithdrawals << ";" << std::endl;
+		"deposits:" << _nbDeposits << ";" << "withdrawals:" << _nbWithdrawals << std::endl;
 };
 
 int	Account::getNbAccounts(void)
@@ -118,5 +120,5 @@ void	Account::displayAccountsInfos(void)
 {
 	_displayTimestamp();
 	std::cout << "accounts:" << getNbAccounts() << ";" << "total:" << getTotalAmount() << ";" << \
-		"deposits:" << getNbDeposits() << ";" << "withdrawals:" << getNbWithdrawals() << ";" << std::endl;
+		"deposits:" << getNbDeposits() << ";" << "withdrawals:" << getNbWithdrawals() << std::endl;
 };
