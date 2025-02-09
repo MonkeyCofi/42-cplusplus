@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 18:28:35 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/28 14:26:30 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/08 12:23:12 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,3 @@ unsigned int	Array<T>::size() const
 {
 	return (this->m_size);
 }
-
-template <class T>
