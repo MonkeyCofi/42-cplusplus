@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 18:28:35 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/08 12:23:12 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/09 13:14:30 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ Array<T>::Array(const Array<T>& obj)
 {
 	this->m_size = obj.m_size;
 	this->m_array = new T[this->m_size];
-	for (int i = 0; i < this->m_size; i++)
+	for (unsigned int i = 0; i < this->m_size; i++)
 		this->m_array[i] = obj.m_array[i];
 }
 
@@ -56,7 +56,7 @@ Array<T>	&Array<T>::operator=(const Array<T>& obj)
 {
 	this->m_size = obj.m_size;
 	Array<T>*	newArr = new T[obj.m_size];
-	for (int i = 0; i < this->m_size; i++)
+	for (unsigned int i = 0; i < this->m_size; i++)
 		newArr[i] = obj.m_array[i];
 	delete [] this->m_array;
 	this->m_array = newArr;
@@ -67,4 +67,26 @@ template <class T>
 unsigned int	Array<T>::size() const
 {
 	return (this->m_size);
+}
+
+template <class T>
+T	&Array<T>::operator[](unsigned int index)
+{
+	if (index > this->m_size - 1)
+	{
+		std::cout << "index " << index << " is out of bounds\n";
+		throw std::exception();
+	}
+	return (this->m_array[index]);
+}
+
+template <class T>
+const T	&Array<T>::operator[](unsigned int index) const
+{
+	if (index > this->m_size - 1)
+	{
+		std::cout << "index " << index << " is out of bounds\n";
+		throw std::exception();
+	}
+	return (this->m_array[index]);
 }

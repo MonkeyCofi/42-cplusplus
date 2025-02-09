@@ -4,7 +4,7 @@ SRCS= main.cpp
 
 CXX = c++
 
-CXXFLAGS = -Wall -Wextra -Werror
+CXXFLAGS = -Wall -Wextra -Werror -I./
 
 $(NAME): $(SRCS)
 	$(CXX) $(CXXFLAGS) $(SRCS) -o $(NAME)
