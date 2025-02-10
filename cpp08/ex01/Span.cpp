@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Span.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 15:33:26 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/10 13:51:19 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:06:18 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	Span::shortestSpan()
 		throw(Span::NoElementsException());
 	if (numbers.size() == 1)
 		throw (Span::OneElementException());
-	std::sort(copy.begin(), copy.end());	// sort the vector of numbers
+	std::sort(copy.begin(), copy.end());	// sort a copy of the vector
 	
 	return (1);
 }
@@ -59,7 +59,8 @@ int	Span::longestSpan()
 		throw(Span::NoElementsException());
 	if (numbers.size() == 1)
 		throw (Span::OneElementException());
-	return (1);
+	return ((*std::max_element(this->numbers.begin(), this->numbers.end())) \
+		- (*std::min_element(this->numbers.begin(), this->numbers.end())));
 }
 
 void	Span::addNumber(int number)
