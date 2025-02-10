@@ -1,20 +1,20 @@
 NAME = easyfind
 
+SRCS = main.cpp
+
 CXX = c++
 
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I./
 
-SRCS = main.cpp
-
 $(NAME): $(SRCS)
-	$(CXX) $(CXXFLAGS) $(SRCS) -o $(NAME)
+	$(CXX) $(CXXFLAGS) $< -o $@
 
 all: $(NAME)
 
 clean:
+	rm -f $(NAME)
 
-fclean:
-	rm -rf $(NAME)
+fclean: clean
 
 re: fclean all
 
