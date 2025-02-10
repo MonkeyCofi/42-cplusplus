@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Span.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 15:32:01 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/09 17:37:53 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:08:54 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ class Span
 
 		Span(unsigned int N);
 		void	addNumber(int number);
+		void	addNumber(std::vector<int> _start, std::vector<int> _end, int valuetest);
 		int		shortestSpan();
 		int		longestSpan();
 		

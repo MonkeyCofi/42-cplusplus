@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Span.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 15:33:26 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/09 17:45:34 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/10 13:51:19 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ Span::~Span()
 Span::Span(const Span& obj)
 {
 	this->N = obj.N;
+	this->numbers = obj.numbers;
 }
 
 Span	&Span::operator=(const Span& obj)
 {
 	this->N = obj.N;
+	this->numbers = obj.numbers;
 	return (*this);
 }
 
@@ -40,10 +42,14 @@ Span::Span(unsigned int N)
 
 int	Span::shortestSpan()
 {
+	std::vector<int>	copy(this->numbers);
+
 	if (numbers.empty())
 		throw(Span::NoElementsException());
 	if (numbers.size() == 1)
 		throw (Span::OneElementException());
+	std::sort(copy.begin(), copy.end());	// sort the vector of numbers
+	
 	return (1);
 }
 
