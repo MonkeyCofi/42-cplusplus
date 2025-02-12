@@ -65,6 +65,7 @@
 		"fstream": "cpp",
 		"stack": "cpp",
 		"*.tpp": "cpp",
-		"list": "cpp"
+		"list": "cpp",
+		"span": "cpp"
 	}
 }

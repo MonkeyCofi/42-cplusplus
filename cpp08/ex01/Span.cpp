@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 15:33:26 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/10 17:06:18 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:02:31 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,13 @@ void	Span::addNumber(int number)
 	if (numbers.size() == N)
 		throw (Span::VectorFullException());
 	numbers.push_back(number);
+}
+
+void	Span::addNumber(std::vector<int>::iterator pos, int _begin, int _end)
+{
+	if (numbers.size() == N)
+		throw (Span::VectorFullException());
+	while ()
 }
 
 void	Span::printElements()
