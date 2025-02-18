@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 11:17:37 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/26 17:07:57 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/18 20:07:50 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,57 +64,63 @@ static bool	isInt(std::string arg)
 
 static bool	isChar(std::string arg)
 {
-	for (int i = 0; arg[i]; i++)
+	if (arg.length() == 1)
 	{
-		if (arg[i] >= 127 && arg[i] <= 0)
+		if (static_cast<unsigned char>(arg.at(0)) > 127)
 			return (false);
+		return (true);
 	}
-	return (true);
+	return (false);
 }
 
-//int	convertInt(std::string arg)
-//{
-//	int	res = 0;
-//	int i = 0;
-//	int	negative = (-2 * (arg[i] == '-')) + 1;
-//	for (; arg[i]; i++)
-//	{
-//		if (arg[i] >= '0' && arg[i] <= '9')
-//			res = (arg[i] - '0') + (res * 10);
-//	}
-//	return (res *= negative);
-//}
-
-//float	convertFloat(std::string arg)
-//{
-//	float res = std::atof(arg.c_str());
-//	return (res);
-//}
-
-//void	ScalarConverter::convert(std::string to_convert)
-//{
-//	std::string types[4] = {"float", "double", "char", "int"};
-//	bool	(*typesFunc[4])(std::string) = {isDouble, isDouble, isChar, isInt};
-//	bool	stats[4] = {false, false, false, false};
-//	int	type = 0;
-//	for (; type < 4; type++)
-//	{
-//		if (typesFunc[type](to_convert) == true)
-//		{
-//			stats[type] = true;
-//			break ;
-//		}
-//	}
-//	for (int i = 0; i < 4; i++)
-//		std::cout << stats[i] << "\n";
-//};
+char	ScalarConverter::toChar(std::string arg)
+{
+	char c = std::atoi(arg.c_str());
+	return (c);
+}
 
 std::string	getType(std::string arg)
 {
+	if (isChar(arg)) return ("Char");
+	if (isInt(arg)) return ("Int");
+	if (isDouble(arg)) return ("Double");
+	return ("Float");
+}
 
+void	ScalarConverter::printChar(char c) const
+{
+	if (c <= 31)
+		return ;
+	std::cout << 
 }
 
 void	ScalarConverter::convert(std::string arg)
 {
-	// check the type
+	const std::string	types[4] = {"Char", "Int", "Float", "Double"};
+	std::string	type = getType(arg);
+	int	t = 0;
+	for (; t < 4; t++)
+	{
+		if (type == types[t])
+			break ;
+	}
+	switch(t)
+	{
+		case(Char):
+		{
+			std::cout << "Char: " << arg << "\n";
+			std::cout << "Int: " << static_cast<int>(arg.at(0)) << "\n";
+			std::cout << "Float: " << static_cast<float>(arg.at(0)) << "\n";
+			std::cout << "Float: " << static_cast<double>(arg.at(0)) << "\n";
+			return ;
+		}
+		case(Int):
+		{
+			std::cout << "Char: " << static_cast<unsigned char>(std::atoi(arg.c_str())) << "\n";
+			std::cout << "Int: " << std::atoi(arg.c_str()) << "\n";
+			std::cout << "Float: " << static_cast<float>(std::atoi(arg.c_str())) << "\n";
+			std::cout << "Double: " << static_cast<double>(std::atoi(arg.c_str())) << "\n";
+			return ;
+		}
+	}
 }
