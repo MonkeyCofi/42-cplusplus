@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 15:32:01 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/12 11:55:24 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:23:38 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ class Span
 
 		Span(unsigned int N);
 		void	addNumber(int number);
-		void	addNumber(std::vector<int>::iterator pos, int _begin, int _end);
+		void	addNumber(std::vector<int>::iterator pos, std::vector<int>::iterator _begin, std::vector<int>::iterator _end);
 		int		shortestSpan();
 		int		longestSpan();
 		

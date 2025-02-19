@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 11:17:37 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/19 14:41:25 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/02/19 17:32:21 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,17 @@ ScalarConverter	&ScalarConverter::operator=(const ScalarConverter& obj)
 
 static bool	isFloat(std::string arg)
 {
-	if (arg.find_first_of('.') == std::string::npos || arg.find_first_of('.') != arg.find_last_of('.'))
+	bool	negative = arg.find_first_of('-') != std::string::npos;
+
+	if (arg.find_first_of('.') == std::string::npos || arg.find_first_of('.') != arg.find_last_of('.') \
+		|| (negative && (arg.find_first_of('-') != arg.find_last_of('-'))) || (negative && \
+			arg.find('-') != 0))
 		return (false);
 	if (arg.find_first_not_of("0123456789.") != std::string::npos)
 	{
 		if ((*(arg.end() - 1)) == 'f')
 			return (true);
-		return (false);
+		return (negative ? true : false);
 	}
 	return (true);
 }
@@ -133,16 +137,12 @@ void	ScalarConverter::convert(std::string arg)
 	{
 		case(Char):
 		{
-			char	c = arg.at(0);
-			// printChar(arg, static_cast<e_types>(t));
-			std::cout << "Char: ";
-			if (c <= 31)
-				std::cout << "Non-printable\n";
-			else
-				std::cout << c << "\n";
+			const char	c = arg.at(0);
+
+			printChar(arg, static_cast<e_types>(t));
 			std::cout << "Int: " << static_cast<int>(c) << "\n";
-			std::cout << "Float: " << static_cast<float>(c) << "f" << "\n";
-			std::cout << "Double: " << static_cast<double>(c) << "\n";
+			std::cout << "Float: " << static_cast<float>(c) << ".0f" << "\n";
+			std::cout << "Double: " << static_cast<double>(c) << ".0" << "\n";
 			return ;
 		}
 		case(Int):
@@ -151,8 +151,8 @@ void	ScalarConverter::convert(std::string arg)
 
 			printChar(arg, static_cast<e_types>(t));
 			std::cout << "Int: " << res << "\n";
-			std::cout << "Float: " << static_cast<float>(res) << "f" << "\n";
-			std::cout << "Double: " << static_cast<double>(res) << "\n";
+			std::cout << "Float: " << static_cast<float>(res) << ".0f" << "\n";
+			std::cout << "Double: " << static_cast<double>(res) << ".0" << "\n";
 			return ;
 		}
 		case(Float):
