@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:28:44 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/19 12:49:08 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/02/19 21:02:33 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ class	ScalarConverter
 		~ScalarConverter();
 		ScalarConverter(const ScalarConverter &obj);
 		ScalarConverter	&operator=(const ScalarConverter &obj);
-		
+
 		static char	toChar(std::string arg);
 		static void	printChar(std::string arg, e_types type);
 		

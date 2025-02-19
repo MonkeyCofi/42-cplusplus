@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 15:33:26 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/19 18:34:25 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/19 21:05:56 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,20 @@ Span::Span(unsigned int N)
 int	Span::shortestSpan()
 {
 	std::vector<int>	copy(this->numbers);
+	std::vector<int>	differences;
 
 	if (numbers.empty())
 		throw(Span::NoElementsException());
 	if (numbers.size() == 1)
 		throw (Span::OneElementException());
-	std::sort(copy.begin(), copy.end());	// sort a copy of the vector
-	
-	return (1);
+	std::sort(copy.begin(), copy.end());
+	for (std::vector<int>::iterator it = copy.begin(); it != copy.end(); it++)
+	{
+		if (it + 1 == copy.end())
+			break ;
+		differences.push_back(*(it + 1) - (*it));
+	}
+	return (*std::min_element(differences.begin(), differences.end()));
 }
 
 int	Span::longestSpan()
@@ -75,7 +81,6 @@ void	Span::addNumber(std::vector<int>::iterator pos, std::vector<int>::iterator 
 	if (numbers.size() == N)
 		throw (Span::VectorFullException());
 	this->numbers.insert(pos, _begin, _end);
-	//numbers.insert()
 }
 
 void	Span::printElements()
