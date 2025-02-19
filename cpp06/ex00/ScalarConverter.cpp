@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 11:17:37 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/18 20:07:50 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:41:25 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,32 @@ ScalarConverter	&ScalarConverter::operator=(const ScalarConverter& obj)
 
 static bool	isFloat(std::string arg)
 {
-	float	resFloat = std::atof(arg.c_str());
-	double	resDouble = std::atof(arg.c_str());
-	if (std::fabs(resDouble - resFloat) < std::numeric_limits<float>::epsilon())
+	if (arg.find_first_of('.') == std::string::npos || arg.find_first_of('.') != arg.find_last_of('.'))
 		return (false);
+	if (arg.find_first_not_of("0123456789.") != std::string::npos)
+	{
+		if ((*(arg.end() - 1)) == 'f')
+			return (true);
+		return (false);
+	}
 	return (true);
 }
 
 static bool	isDouble(std::string arg)
 {
+	float	fl_arg;
+	double	dbl_arg;
+	const double	epsilon = 0.00001;
+
 	if (isFloat(arg) == true)
-		return (false);
-	return (true);
+	{
+		fl_arg = std::atof(arg.c_str());
+		dbl_arg = std::atof(arg.c_str());
+		if (std::fabs(fl_arg - dbl_arg) > epsilon)
+			return (false);
+		return (true);
+	}
+	return (false);
 };
 
 static bool	isInt(std::string arg)
@@ -81,46 +95,92 @@ char	ScalarConverter::toChar(std::string arg)
 
 std::string	getType(std::string arg)
 {
-	if (isChar(arg)) return ("Char");
 	if (isInt(arg)) return ("Int");
+	if (isFloat(arg)) return ("Float");
 	if (isDouble(arg)) return ("Double");
-	return ("Float");
+	if (isChar(arg)) return ("Char");
+	return ("Invalid");
 }
 
-void	ScalarConverter::printChar(char c) const
+void	ScalarConverter::printChar(std::string arg, ScalarConverter::e_types type)
 {
+	char	c;
+
+	if (type != Char)
+		c = static_cast<char>(std::atoi(arg.c_str()));
+	else
+		c = arg.at(0);
 	if (c <= 31)
+	{
+		std::cout << "Char: " << "Non-printable\n";
 		return ;
-	std::cout << 
+	}
+	std::cout << "Char: " << c << "\n"; 
 }
 
 void	ScalarConverter::convert(std::string arg)
 {
-	const std::string	types[4] = {"Char", "Int", "Float", "Double"};
+	const std::string	types[5] = {"Char", "Int", "Float", "Double", "Invalid"};
 	std::string	type = getType(arg);
 	int	t = 0;
-	for (; t < 4; t++)
+	for (; t < 5; t++)
 	{
 		if (type == types[t])
 			break ;
 	}
+	std::cout << "Type: " << types[t] << "\n";
 	switch(t)
 	{
 		case(Char):
 		{
-			std::cout << "Char: " << arg << "\n";
-			std::cout << "Int: " << static_cast<int>(arg.at(0)) << "\n";
-			std::cout << "Float: " << static_cast<float>(arg.at(0)) << "\n";
-			std::cout << "Float: " << static_cast<double>(arg.at(0)) << "\n";
+			char	c = arg.at(0);
+			// printChar(arg, static_cast<e_types>(t));
+			std::cout << "Char: ";
+			if (c <= 31)
+				std::cout << "Non-printable\n";
+			else
+				std::cout << c << "\n";
+			std::cout << "Int: " << static_cast<int>(c) << "\n";
+			std::cout << "Float: " << static_cast<float>(c) << "f" << "\n";
+			std::cout << "Double: " << static_cast<double>(c) << "\n";
 			return ;
 		}
 		case(Int):
 		{
-			std::cout << "Char: " << static_cast<unsigned char>(std::atoi(arg.c_str())) << "\n";
-			std::cout << "Int: " << std::atoi(arg.c_str()) << "\n";
-			std::cout << "Float: " << static_cast<float>(std::atoi(arg.c_str())) << "\n";
-			std::cout << "Double: " << static_cast<double>(std::atoi(arg.c_str())) << "\n";
+			const int	res = std::atoi(arg.c_str());
+
+			printChar(arg, static_cast<e_types>(t));
+			std::cout << "Int: " << res << "\n";
+			std::cout << "Float: " << static_cast<float>(res) << "f" << "\n";
+			std::cout << "Double: " << static_cast<double>(res) << "\n";
 			return ;
+		}
+		case(Float):
+		{
+			const float	res = std::atof(arg.c_str());
+
+			printChar(arg, static_cast<e_types>(t));
+			std::cout << "Int: " << static_cast<int>(res) << "\n";
+			std::cout << "Float: " << res << "f" << "\n";
+			std::cout << "Double: " << static_cast<double>(res) << "\n";
+			return ;
+		}
+		case(Double):
+		{
+			const double	res = std::atof(arg.c_str());
+
+			printChar(arg, static_cast<e_types>(t));
+			std::cout << "Int: " << static_cast<int>(res) << "\n";
+			std::cout << "Float: " << static_cast<float>(res) << "f" << "\n";
+			std::cout << "Double: " << res << "\n";
+			return ;
+		}
+		case(Invalid):
+		{
+			std::cout << "Char: " << "impossible\n";
+			std::cout << "Int: " << "impossible\n";
+			std::cout << "Float: " << "nanf\n";
+			std::cout << "Double: " << "nan\n";
 		}
 	}
 }
