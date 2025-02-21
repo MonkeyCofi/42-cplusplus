@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 11:17:37 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/19 17:32:21 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/21 17:29:02 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ ScalarConverter::ScalarConverter()
 
 ScalarConverter::~ScalarConverter()
 {
-
-};
+	;
+}
 
 ScalarConverter::ScalarConverter(const ScalarConverter& obj)
 {
@@ -33,24 +33,26 @@ ScalarConverter	&ScalarConverter::operator=(const ScalarConverter& obj)
 	return (*this);
 }
 
-static bool	isFloat(std::string arg)
+bool	ScalarConverter::isFloat(std::string arg)
 {
-	bool	negative = arg.find_first_of('-') != std::string::npos;
+	const bool	negative = arg.find_first_of('-') != std::string::npos;
+	const bool	has_digit = arg.find_first_of("0123456789");
+	const bool	has_f = (*(arg.end() - 1) == 'f');
 
-	if (arg.find_first_of('.') == std::string::npos || arg.find_first_of('.') != arg.find_last_of('.') \
+	if (arg.find_first_of('.') != arg.find_last_of('.') \
 		|| (negative && (arg.find_first_of('-') != arg.find_last_of('-'))) || (negative && \
 			arg.find('-') != 0))
-		return (false);
+				return (false);
 	if (arg.find_first_not_of("0123456789.") != std::string::npos)
 	{
-		if ((*(arg.end() - 1)) == 'f')
+		if (has_f)
 			return (true);
 		return (negative ? true : false);
 	}
-	return (true);
+	return (has_f == true ? true : arg.find_first_of('.') != std::string::npos);
 }
 
-static bool	isDouble(std::string arg)
+bool	ScalarConverter::isDouble(std::string arg)
 {
 	float	fl_arg;
 	double	dbl_arg;
@@ -67,7 +69,7 @@ static bool	isDouble(std::string arg)
 	return (false);
 };
 
-static bool	isInt(std::string arg)
+bool	ScalarConverter::isInt(std::string arg)
 {
 	int i = 0;
 	if (arg[i] == '-')
@@ -80,7 +82,7 @@ static bool	isInt(std::string arg)
 	return (true);
 }
 
-static bool	isChar(std::string arg)
+bool	ScalarConverter::isChar(std::string arg)
 {
 	if (arg.length() == 1)
 	{
@@ -97,12 +99,12 @@ char	ScalarConverter::toChar(std::string arg)
 	return (c);
 }
 
-std::string	getType(std::string arg)
+std::string	ScalarConverter::getType(std::string arg)
 {
-	if (isInt(arg)) return ("Int");
-	if (isFloat(arg)) return ("Float");
-	if (isDouble(arg)) return ("Double");
-	if (isChar(arg)) return ("Char");
+	if (ScalarConverter::isInt(arg)) return ("Int");
+	if (ScalarConverter::isFloat(arg)) return ("Float");
+	if (ScalarConverter::isDouble(arg)) return ("Double");
+	if (ScalarConverter::isChar(arg)) return ("Char");
 	return ("Invalid");
 }
 
