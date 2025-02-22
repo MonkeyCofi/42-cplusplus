@@ -6,20 +6,26 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:34:18 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/21 18:12:16 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:54:31 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <stack>
-#include <list>
-
 #ifndef MUTANTSTACK_HPP
 # define MUTANTSTACK_HPP
-class	MutantStack
+
+# include <iostream>
+# include <stack>
+# include <list>
+# include <deque>
+# include <vector>
+
+template <typename T, typename Container = std::deque>
+class	MutantStack: public std::vector<T>
 {
-	
+	private:
+		
+	public:
+
 };
 
 #endif
-sed -e "s/MutantStack/Test2/g" -e "s/MUTANTSTACK/TEST2/g" MutantStack.hpp > test.hpp
