@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 17:34:18 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/22 17:54:31 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:46:26 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,21 @@
 
 # include <iostream>
 # include <stack>
-# include <list>
-# include <deque>
-# include <vector>
 
-template <typename T, typename Container = std::deque>
-class	MutantStack: public std::vector<T>
+template <typename T>
+class	MutantStack: public std::stack<T>
 {
-	private:
-		
 	public:
-
+		typedef typename std::stack<T>::container_type::iterator iterator;
+		
+		typename std::stack<T>::container_type::iterator	begin()
+		{
+			return (this->c.begin());
+		}
+		typename std::stack<T>::container_type::iterator	end()
+		{
+			return (this->c.end());
+		}
 };
 
 #endif

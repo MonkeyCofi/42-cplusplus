@@ -1,24 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   easyfind.hpp                                       :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/07 13:41:19 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/23 15:13:39 by pipolint         ###   ########.fr       */
+/*   Created: 2025/02/23 19:57:22 by pipolint          #+#    #+#             */
+/*   Updated: 2025/02/23 20:24:17 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EASYFIND_HPP
-# define EASYFIND_HPP
+#include "BitCoinExchange.hpp"
 
-# include <vector>
-# include <iostream>
-# include <algorithm>
-# include <list>
-
-template <class T> 
-typename T::iterator	easyfind(T& container, int to_find);
-
-#endif
+int main(int ac, char **av)
+{
+	if (ac != 2)
+	{
+		std::cerr << "Usage: ./btc <database file>\n";
+		return (1);
+	}
+	BTC	btc;
+	
+	try
+	{
+		btc.open_btc_database();
+		btc.open_input_database(av[1]);
+	}
+	catch (BTC::InputDataBaseException& e)
+	{
+		std::cerr << e.what() << "\n";
+	}
+	catch (BTC::BtcDataBaseException& e)
+	{
+		std::cerr << e.what() << "\n";
+	}
+	
+}

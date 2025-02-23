@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 13:48:57 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/09 14:59:01 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/23 15:34:09 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ template <class T>
 typename T::iterator	easyfind(T& container, int to_find)
 {
 	typename T::iterator res = std::find(container.begin(), container.end(), to_find);
+
 	if (res == container.end())
-	{
 		throw (std::invalid_argument("Parameter not found"));
-	}
 	return (res);
 }
 

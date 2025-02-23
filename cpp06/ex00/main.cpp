@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:28:22 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/19 14:32:40 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/02/23 19:49:46 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,5 @@ int main(int ac, char **av)
 		return (1);
 	} 
 	ScalarConverter::convert(av[1]);
+	INFINITY
 }

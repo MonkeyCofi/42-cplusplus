@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 11:17:37 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/21 17:29:02 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/23 19:55:06 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ ScalarConverter	&ScalarConverter::operator=(const ScalarConverter& obj)
 bool	ScalarConverter::isFloat(std::string arg)
 {
 	const bool	negative = arg.find_first_of('-') != std::string::npos;
-	const bool	has_digit = arg.find_first_of("0123456789");
+	const bool	has_digit = arg.find_first_of("0123456789") != std::string::npos;
 	const bool	has_f = (*(arg.end() - 1) == 'f');
 
 	if (arg.find_first_of('.') != arg.find_last_of('.') \
 		|| (negative && (arg.find_first_of('-') != arg.find_last_of('-'))) || (negative && \
-			arg.find('-') != 0))
+			arg.find('-') != 0) || !has_digit)
 				return (false);
 	if (arg.find_first_not_of("0123456789.") != std::string::npos)
 	{
@@ -56,7 +56,7 @@ bool	ScalarConverter::isDouble(std::string arg)
 {
 	float	fl_arg;
 	double	dbl_arg;
-	const double	epsilon = 0.00001;
+	const double	epsilon = 0.0001;
 
 	if (isFloat(arg) == true)
 	{
