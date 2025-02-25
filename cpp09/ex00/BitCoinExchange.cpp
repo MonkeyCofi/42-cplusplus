@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitCoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:21 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/23 20:23:07 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/25 13:11:35 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,21 @@ void	BTC::open_btc_database()
 	if (this->database_file.is_open() == false)
 	{
 		throw (BTC::BtcDataBaseException());
+	}
+}
+
+void	BTC::fillDatabase()
+{
+	std::string	line;
+	
+	while (std::getline(this->database_file, line))
+	{
+		if (line == "date,exhange_rate" || line.empty())
+			continue ;
+		std::string	key = line.substr(0, line.find_first_of(','));
+		double		value = static_cast<double>(std::atof(line.substr(line.find_first_of(',') + 1, std::string::npos).c_str()));
+		std::pair<std::string, double>	key_value;
+		this->database.insert(key_value);
 	}
 }
 

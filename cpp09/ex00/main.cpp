@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:57:22 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/23 20:24:17 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:23:22 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,5 @@ int main(int ac, char **av)
 	{
 		std::cerr << e.what() << "\n";
 	}
-	
+	btc.fillDatabase();
 }

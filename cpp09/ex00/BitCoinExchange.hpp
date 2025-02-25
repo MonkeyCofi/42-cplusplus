@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitCoinExchange.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:58:33 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/23 20:22:39 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/25 13:01:01 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 
 # include <iostream>
 # include <fstream>
+# include <map>
+# include <sstream>
+# include <cstdlib>
 
 class	BTC
 {
 	private:
-		std::ifstream	input_file;
-		std::ifstream	database_file;
+		std::ifstream					input_file;
+		std::ifstream					database_file;
+		std::map<std::string, double>	database;
 	public:
 		BTC();
 		~BTC();
@@ -29,6 +33,7 @@ class	BTC
 		
 		void	open_btc_database();
 		void	open_input_database(const char* const cl_arg);
+		void	fillDatabase();
 		
 		class	BtcDataBaseException
 		{
