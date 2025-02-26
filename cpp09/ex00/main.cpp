@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:57:22 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/25 11:23:22 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:53:00 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,20 @@ int main(int ac, char **av)
 		std::cerr << "Usage: ./btc <database file>\n";
 		return (1);
 	}
-	BTC	btc;
-	
+	BTC			btc;
+	std::string	err_str;
+
 	try
 	{
 		btc.open_btc_database();
-		btc.open_input_database(av[1]);
-	}
-	catch (BTC::InputDataBaseException& e)
-	{
-		std::cerr << e.what() << "\n";
 	}
 	catch (BTC::BtcDataBaseException& e)
 	{
 		std::cerr << e.what() << "\n";
 	}
-	btc.fillDatabase();
+	if (btc.open_input_database(av[1], err_str) == false)
+	{
+		std::cout << err_str << "\n";
+		return (1);
+	};
 }
