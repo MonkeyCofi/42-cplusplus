@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:57:22 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/26 15:53:00 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:31:33 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ int main(int ac, char **av)
 	{
 		std::cout << err_str << "\n";
 		return (1);
-	};
+	}
+	btc.returnDatabaseFromInput();
 }
