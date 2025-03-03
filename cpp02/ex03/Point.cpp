@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:08:02 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/25 21:14:27 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/03/02 17:58:16 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ Point::Point() : x(0), y(0)
 	;
 }
 
-Point::Point(const float x, const float y) : x(x), y(y)
+Point::Point(const float x, const float y): x(x), y(y)
 {
 	;
 };

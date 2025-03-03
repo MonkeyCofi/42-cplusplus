@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:21 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/27 16:46:15 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/03/03 13:57:14 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,15 +103,17 @@ void	BTC::fillDatabase()
 	}
 }
 
-bool	BTC::open_input_database(const char *const cl_arg, std::string& err_str)
+bool	BTC::open_input_database(const char *const cl_arg, std::string &errStr)
 {
 	this->input_file.open(cl_arg, std::ifstream::in);
 	if (this->input_file.is_open() == false)
 	{
-		throw (BTC::InputDataBaseException());
+		BTC::e_varTypes	argTypes[1] = {string};
+		errStr = setErrorString(errStr, 1, argTypes, "Database file: Couldn't open input database");
+		return (false);
 	}
 	this->fillDatabase();
-	return (this->validateInputDatabase(err_str));
+	return (this->validateInputDatabase(errStr));
 }
 
 std::string	BTC::setErrorString(std::string& errString, unsigned int argCount, BTC::e_varTypes *varTypes, ...) const
@@ -157,10 +159,11 @@ std::string	BTC::getValue(std::string line) const
 
 bool	BTC::validateInputDatabase(std::string& err_str)
 {
-	std::string	line;
-	std::string	year;
-	std::string	value;
-	int			line_count; 
+	std::string		line;
+	std::string		year;
+	std::string		value;
+	std::streampos	file_begin;
+	int				line_count; 
 
 	std::getline(this->input_file, line);
 	line_count = line == "date | value";
@@ -170,6 +173,7 @@ bool	BTC::validateInputDatabase(std::string& err_str)
 		err_str = setErrorString(err_str, 1, varTypes, "Error: Table has wrong header fields");
 		return (false);
 	}
+	file_begin = this->input_file.tellg();	// save the beginning position of the file
 	line_count++;
 	while (std::getline(this->input_file, line))
 	{
@@ -200,7 +204,13 @@ bool	BTC::validateInputDatabase(std::string& err_str)
 			return (false);
 		}
 	}
-	this->input_file.clear();
+	if (this->input_file.eof() == true)
+	{
+		this->input_file.clear();
+		this->input_file.seekg(file_begin);
+	}
+	//std::getline(this->input_file, line);
+	//std::cout << "line: " << line << "\n";
 	return (true);
 }
 
@@ -208,15 +218,25 @@ void	BTC::returnDatabaseFromInput()
 {
 	std::string	line;
 	std::string	year;
+	std::string	database_val;
 	double		value;
 
-	std::getline(this->database_file, line);
+	std::getline(this->input_file, line);
 	while (std::getline(this->input_file, line))
 	{
-		std::cout << "line: " << line << "\n";
+		//std::cout << "line: " << line << "\n";
 		year = this->getYear(line);
 		value = std::atof(this->getValue(line).c_str());
-		std::cout << "csv val: " << this->database.at(year);
+		std::cout << "Year: " << year << "Value: " << value << "\n";
+		try
+		{
+			database_val = this->database.at(year);
+		}
+		catch (std::out_of_range)
+		{
+			std::map<std::string, double>::iterator it = database.lower_bound(year);
+		}
+		//std::cout << "csv val: " << this->database.at(year);
 	}
 }
 

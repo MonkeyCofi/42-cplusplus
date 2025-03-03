@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:58:33 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/27 16:22:25 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/03/02 18:20:11 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ class	BTC
 		BTC	&operator=(const BTC& obj);
 		
 		void	open_btc_database();
-		bool	open_input_database(const char *const cl_arg, std::string& err_str);
+		bool	open_input_database(const char *const cl_arg, std::string &errStr);
 		bool	validateInputDatabase(std::string& err_str);
 		void	returnDatabaseFromInput();
 
