@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitCoinExchange.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 19:58:33 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/02 18:20:11 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/03/04 17:40:10 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ class	BTC
 
 		void		fillDatabase();
 		bool		isValidYear(std::string year) const;	// will be used to check the years in the input file
-		bool		isValidValue(std::string value) const;
-		std::string	setErrorString(std::string& errString, unsigned int argCount, BTC::e_varTypes *varTypes, ...) const;
+		bool		isValidValue(double value) const;
 		std::string	getYear(std::string line) const;
 		std::string	getValue(std::string line) const;
 	public:
@@ -46,10 +45,10 @@ class	BTC
 		BTC(const BTC& obj);
 		BTC	&operator=(const BTC& obj);
 		
-		void	open_btc_database();
-		bool	open_input_database(const char *const cl_arg, std::string &errStr);
-		bool	validateInputDatabase(std::string& err_str);
-		void	returnDatabaseFromInput();
+		void		open_btc_database();
+		void		open_input_database(const char *const cl_arg);
+		std::string	validateLine(std::string& line);
+		void		returnDatabaseFromInput();
 
 		class	BtcDataBaseException
 		{
@@ -62,6 +61,11 @@ class	BTC
 				const char*	what();
 		};
 		class	InvalidDatabaseHeader
+		{
+			public:
+				const char*	what();
+		};
+		class	BadInputException
 		{
 			public:
 				const char*	what();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitCoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:21 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/04 15:26:29 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/03/04 20:41:07 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,37 +52,34 @@ bool	BTC::isValidYear(std::string year) const
 	yyyy = year.substr(0, year.find_first_of('-'));
 	if (yyyy.length() != 4)
 	{
-		std::cout << "Invalid year\n";
+		std::cout << "Error: bad input => " << year << "\n";
 		return (false);
 	}
 	mm = year.substr(year.find_first_of('-') + 1, (year.find_last_of('-') - year.find_first_of('-')) - 1);
 	if (mm.length() != 2 || std::atoi(mm.c_str()) > 12)
 	{
-		std::cout << "Invalid month\n";
+		std::cout << "Error: bad input => " << year << "\n";
 		return (false);
 	}
 	dd = year.substr(year.find_last_of('-') + 1, std::string::npos);
 	if (dd.length() != 2 || std::atoi(dd.c_str()) > 31)
 	{
-		std::cout << "Invalid day\n";
+		std::cout << "Error: bad input => " << year << "\n";
 		return (false);
 	}
 	return (year.find_first_not_of("0123456789-") == std::string::npos);
 }
 
-bool	BTC::isValidValue(std::string value) const
+bool	BTC::isValidValue(double value) const
 {
-	const size_t				hyphen_pos = value.find_first_of('-');
-	const std::string::iterator	start = value.begin();
-	const std::string::iterator	end = value.end();
-
-	if (value.find_first_not_of("-0123456789.") != std::string::npos || \
-		std::count(start, end, '.') > 1 || std::count(start, end, '-') > 1 \
-		|| (hyphen_pos != std::string::npos && hyphen_pos > value.find_first_of("0123456789")))
-			return (false);
-	if (std::atof(value.c_str()) > 1000)
+	if (value < 0)
 	{
-		std::cout << "Value can only be between 0 and 1000\n";
+		std::cout << "Error: not a positive number\n";
+		return (false);
+	}
+	if (value > 1000)
+	{
+		std::cout << "Error: value too large\n";
 		return (false);
 	}
 	return (true);
@@ -103,45 +100,12 @@ void	BTC::fillDatabase()
 	}
 }
 
-bool	BTC::open_input_database(const char *const cl_arg, std::string &errStr)
+void	BTC::open_input_database(const char *const cl_arg)
 {
 	this->input_file.open(cl_arg, std::ifstream::in);
 	if (this->input_file.is_open() == false)
-	{
-		BTC::e_varTypes	argTypes[1] = {string};
-		errStr = setErrorString(errStr, 1, argTypes, "Database file: Couldn't open input database");
-		return (false);
-	}
+		throw (InputDataBaseException());
 	this->fillDatabase();
-	return (this->validateInputDatabase(errStr));
-}
-
-std::string	BTC::setErrorString(std::string& errString, unsigned int argCount, BTC::e_varTypes *varTypes, ...) const
-{
-	std::ostringstream	stream(errString);
-	va_list				args;
-	va_start(args, varTypes);
-
-	for (unsigned int i = 0; i < argCount; i++)
-	{
-		switch(varTypes[i])
-		{
-			case(integer):
-			{
-				int	i = va_arg(args, int);
-				stream << i;
-				break ;
-			}
-			case(string):
-			{
-				char*	arg = va_arg(args, char *);
-				stream << std::string(arg);
-				break ;
-			}
-		}
-	}
-	va_end(args);
-	return (stream.str());
 }
 
 std::string	BTC::getYear(std::string line) const
@@ -157,61 +121,21 @@ std::string	BTC::getValue(std::string line) const
 	return (value.substr(value.find_first_not_of("| \t"), std::string::npos));
 }
 
-bool	BTC::validateInputDatabase(std::string& err_str)
+std::string	BTC::validateLine(std::string& line)
 {
-	std::string		line;
 	std::string		year;
-	std::string		value;
-	std::streampos	file_begin;
-	int				line_count; 
+	std::string		value; 
 
-	std::getline(this->input_file, line);
-	line_count = line == "date | value";
-	if (line != "date | value")
-	{
-		BTC::e_varTypes	varTypes[1] = {string};
-		err_str = setErrorString(err_str, 1, varTypes, "Error: Table has wrong header fields");
-		return (false);
-	}
-	file_begin = this->input_file.tellg();	// save the beginning position of the file
-	line_count++;
-	while (std::getline(this->input_file, line))
-	{
-		// no need to parse the input; just throw exception
-		// catch out of range exception
-		if (line.find_first_not_of("0123456789-|. \t") != std::string::npos || line.find_first_of('|') == std::string::npos)	// these are the only valid characters
-		{
-			BTC::e_varTypes	varTypes[4] = {string, integer, string, string};
-			err_str = setErrorString(err_str, 4, varTypes, "Error at line: ", line_count, "\nLine: ", line.c_str());
-			return (false);
-		}
-		if (line.empty())
-			continue ;
-		if (line.find_first_of(" \t") < line.find_first_not_of(" \t"))
-			line.erase(line.find_first_of(" \t"), line.find_first_not_of(" \t"));
-		year = line.substr(0, line.find_first_of(' '));
-		value = line.substr(line.find_first_of("|"), std::string::npos);
-		if (value.find_first_not_of("| \t") == std::string::npos)
-		{
-			BTC::e_varTypes	varTypes[4] = {string, integer, string, string};
-			err_str = setErrorString(err_str, 4, varTypes, "Error at line: ", line_count, "\nLine: ", line.c_str());
-			return (false);
-		}
-		value = value.substr(value.find_first_not_of("| \t"), std::string::npos);
-		line_count++;
-		//if (!isValidYear(year) || !isValidValue(value))
-		//{
-		//	BTC::e_varTypes	varTypes[4] = {string, integer, string, string};
-		//	err_str = setErrorString(err_str, 4, varTypes, "Error at line: ", line_count, "\nLine: ", line.c_str());
-		//	return (false);
-		//}
-	}
-	if (this->input_file.eof() == true)
-	{
-		this->input_file.clear();
-		this->input_file.seekg(file_begin);
-	}
-	return (true);
+	if (line.find_first_not_of("0123456789-|. \t") != std::string::npos || line.find_first_of('|') == std::string::npos)	// these are the only valid characters
+		return ("Error: bad input => " + line);
+	if (line.find_first_of(" \t") < line.find_first_not_of(" \t"))
+		line.erase(line.find_first_of(" \t"), line.find_first_not_of(" \t"));
+	year = line.substr(0, line.find_first_of(' '));
+	value = line.substr(line.find_first_of("|"), std::string::npos);
+	if (value.find_first_not_of("| \t") == std::string::npos)
+		return ("Error: bad input => " + line);
+	value = value.substr(value.find_first_not_of("| \t"), std::string::npos);
+	return ("");
 }
 
 void	BTC::returnDatabaseFromInput()
@@ -219,19 +143,27 @@ void	BTC::returnDatabaseFromInput()
 	std::string	line;
 	std::string	year;
 	std::map<std::string, double>::iterator	it;
+	std::string	err;
 	double		value;
 
+	std::getline(this->input_file, line);
+	if (line != "date | value")
+	{
+		std::cerr << "Error: Table has wrong header fields\n";
+		return ;
+	}
 	while (std::getline(this->input_file, line))
 	{
+		err = validateLine(line);
+		if (err != "")
+		{
+			std::cout << err << "\n";
+			continue ; 
+		}
 		year = this->getYear(line);
 		value = std::atof(this->getValue(line).c_str());
-		if (!isValidYear(year))
-		{
-			std::cout << "Error: bad input\n";
+		if (!isValidYear(year) || !isValidValue(value))
 			continue ;
-		}
-		if (value < 0)
-			std::cout << "Error: not a positive number\n";
 		it = this->database.find(year);
 		if (it == this->database.end())
 			it = --this->database.lower_bound(year);\
@@ -252,4 +184,9 @@ const char*	BTC::BtcDataBaseException::what()
 const char*	BTC::InvalidDatabaseHeader::what()
 {
 	return ("The input database has invalid header fields");
+}
+
+const char*	BTC::BadInputException::what()
+{
+	return ("Error: bad input");
 }
