@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:21 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/03 13:57:14 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/03/04 15:26:29 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,8 @@ bool	BTC::validateInputDatabase(std::string& err_str)
 	line_count++;
 	while (std::getline(this->input_file, line))
 	{
+		// no need to parse the input; just throw exception
+		// catch out of range exception
 		if (line.find_first_not_of("0123456789-|. \t") != std::string::npos || line.find_first_of('|') == std::string::npos)	// these are the only valid characters
 		{
 			BTC::e_varTypes	varTypes[4] = {string, integer, string, string};
@@ -197,20 +199,18 @@ bool	BTC::validateInputDatabase(std::string& err_str)
 		}
 		value = value.substr(value.find_first_not_of("| \t"), std::string::npos);
 		line_count++;
-		if (!isValidYear(year) || !isValidValue(value))
-		{
-			BTC::e_varTypes	varTypes[4] = {string, integer, string, string};
-			err_str = setErrorString(err_str, 4, varTypes, "Error at line: ", line_count, "\nLine: ", line.c_str());
-			return (false);
-		}
+		//if (!isValidYear(year) || !isValidValue(value))
+		//{
+		//	BTC::e_varTypes	varTypes[4] = {string, integer, string, string};
+		//	err_str = setErrorString(err_str, 4, varTypes, "Error at line: ", line_count, "\nLine: ", line.c_str());
+		//	return (false);
+		//}
 	}
 	if (this->input_file.eof() == true)
 	{
 		this->input_file.clear();
 		this->input_file.seekg(file_begin);
 	}
-	//std::getline(this->input_file, line);
-	//std::cout << "line: " << line << "\n";
 	return (true);
 }
 
@@ -218,25 +218,24 @@ void	BTC::returnDatabaseFromInput()
 {
 	std::string	line;
 	std::string	year;
-	std::string	database_val;
+	std::map<std::string, double>::iterator	it;
 	double		value;
 
-	std::getline(this->input_file, line);
 	while (std::getline(this->input_file, line))
 	{
-		//std::cout << "line: " << line << "\n";
 		year = this->getYear(line);
 		value = std::atof(this->getValue(line).c_str());
-		std::cout << "Year: " << year << "Value: " << value << "\n";
-		try
+		if (!isValidYear(year))
 		{
-			database_val = this->database.at(year);
+			std::cout << "Error: bad input\n";
+			continue ;
 		}
-		catch (std::out_of_range)
-		{
-			std::map<std::string, double>::iterator it = database.lower_bound(year);
-		}
-		//std::cout << "csv val: " << this->database.at(year);
+		if (value < 0)
+			std::cout << "Error: not a positive number\n";
+		it = this->database.find(year);
+		if (it == this->database.end())
+			it = --this->database.lower_bound(year);\
+		std::cout << year << " => " << value << " = " << it->second * value << "\n";
 	}
 }
 
