@@ -1,6 +1,6 @@
-NAME = btc
+NAME = RPN
 
-SRCS = BitCoinExchange.cpp main.cpp
+SRCS = RPN.cpp main.cpp
 
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g3 -fsanitize=address
 
