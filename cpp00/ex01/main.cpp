@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 20:40:14 by pipolint          #+#    #+#             */
-/*   Updated: 2024/09/24 11:54:09 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:44:56 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ int main(void)
 			 	return (1);
 		}
 		else if (input == "EXIT")
+		{
+			std::cout << "\e[0;34m" << "THANK YOU FOR USOING MY PHONEBOOK" << "\x1b[0m" << std::endl;
 			return (0);
+		}
 		if (current == 8)
 		{
 			current = 0;

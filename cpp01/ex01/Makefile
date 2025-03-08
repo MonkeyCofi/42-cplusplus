@@ -2,9 +2,9 @@ NAME = horde
 
 CXX = c++
 
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 #-fsanitize=address -g3
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRCS = Zombie.cpp zombieHorde.cpp main.cpp
+SRCS = Zombie.cpp main.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
