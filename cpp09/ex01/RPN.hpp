@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:53:14 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/08 18:23:22 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/03/09 15:25:56 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,23 @@
 
 class	RPN
 {
+	private:
+		enum	operators
+		{
+			unknown = -1,
+			add,
+			subtract,
+			multiply,
+			divide
+		};
 	public:
 		RPN();
 		~RPN();
 		RPN(const RPN& obj);
 		RPN	&operator=(const RPN& obj);
-		static void	fillStack(char *s);
+		static RPN::operators	returnOperation(char c);
+		static double			calculate(char *s);
+		
 };
 
 #endif

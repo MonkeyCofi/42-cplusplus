@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 17:39:33 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/08 18:25:32 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/03/09 15:57:19 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,71 @@ RPN	&RPN::operator=(const RPN& obj)
 	return (*this);
 }
 
-void	RPN::fillStack(char *s)
+RPN::operators	RPN::returnOperation(char c)
+{
+	if (c == '+')	return (add);
+	if (c == '-')	return (subtract);
+	if (c == '*')	return (multiply);
+	if (c == '/')	return (divide);
+	return (unknown);
+}
+
+double	RPN::calculate(char *s)
 {
 	std::string			input;
-	std::stack<char>	stack;
+	std::stack<double>	stack;
+	const std::string	whitespaces = " \t";
+	const std::string	operators = "+-*/";
+	const std::string	numbers = "0123456789";
 
 	input = s;
-	if (input.find_first_not_of("0123456789 \t*+-/") != std::string::npos)
+	if (input.find_first_not_of(whitespaces + operators + numbers) != std::string::npos)
 		throw (std::invalid_argument("Error: Invalid character used in expresion"));
 	for (std::string::iterator it = input.begin(); it != input.end(); it++)
 	{
+		if ((*it) == '\t' || (*it) == ' ')
+			continue ;
 		if ((*it) >= '0' && (*it) <= '9')
 		{
 			if ((it != input.end()) && (*(it + 1) >= '0' && *(it + 1) <= '9'))
 				throw (std::invalid_argument("Error: Numbers cannot be greater than 10"));
-			stack.push((*it));
+			stack.push(std::atof(&(*it)));
 		}
-		else	// then operator
+		else
 		{
-			
+			double	operand1 = stack.top();
+			stack.pop();
+			double	operand2 = stack.top();
+			stack.pop();
+			RPN::operators	op = returnOperation((*it));
+			switch(op)
+			{
+				case(add):
+				{
+					stack.push(operand2 + operand1);
+					break ;
+				};
+				case(subtract):
+				{
+					stack.push(operand2 - operand1);
+					break ;
+				}
+				case(multiply):
+				{
+					stack.push(operand2 * operand1);
+					break ;
+				}
+				case(divide):
+				{
+					stack.push(operand2 / operand1);
+					break ;
+				}
+				case(unknown):
+				{
+					break ;
+				}
+			}
 		}
 	}
+	return (stack.top());
 }
