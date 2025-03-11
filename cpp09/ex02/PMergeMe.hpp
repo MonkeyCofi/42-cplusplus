@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:44:26 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/11 17:45:15 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/03/11 17:48:59 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ class	PMergeMe
 		~PMergeMe();
 		PMergeMe(const PMergeMe& obj);
 		PMergeMe	&operator=(const PMergeMe& obj);
-}
+};
 
 #endif
