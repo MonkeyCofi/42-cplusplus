@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 17:39:33 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/11 16:30:59 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/03/11 17:41:41 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ double	RPN::calculate(char *s)
 		else
 		{
 			double	operand1 = stack.top();
-			if (dynamic_cast<double>(stack.top() == NULL))
-
 			stack.pop();
+			if (stack.empty())
+				throw (std::invalid_argument("Error: Invalid expression"));
 			double	operand2 = stack.top();
 			stack.pop();
 			RPN::operators	op = returnOperation((*it));
