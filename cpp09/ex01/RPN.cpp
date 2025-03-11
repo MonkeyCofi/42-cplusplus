@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 17:39:33 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/09 15:57:19 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:30:59 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ double	RPN::calculate(char *s)
 		else
 		{
 			double	operand1 = stack.top();
+			if (dynamic_cast<double>(stack.top() == NULL))
+
 			stack.pop();
 			double	operand2 = stack.top();
 			stack.pop();
@@ -76,7 +78,7 @@ double	RPN::calculate(char *s)
 				{
 					stack.push(operand2 + operand1);
 					break ;
-				};
+				}
 				case(subtract):
 				{
 					stack.push(operand2 - operand1);
@@ -93,11 +95,13 @@ double	RPN::calculate(char *s)
 					break ;
 				}
 				case(unknown):
-				{
 					break ;
-				}
 			}
 		}
+	}
+	if (stack.size() > 1)
+	{
+		throw (std::invalid_argument("Error: Invalid expression"));
 	}
 	return (stack.top());
 }

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 20:11:21 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/05 12:51:15 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/03/11 15:42:25 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,15 @@ void	BTC::returnDatabaseFromInput()
 			continue ;
 		it = this->database.find(year);
 		if (it == this->database.end())
-			it = --this->database.lower_bound(year);\
+		{
+			it = this->database.lower_bound(year);
+			if (it == this->database.begin())
+			{
+				std::cerr << "Error: Year and its lower bound doesn't exist" << " => " << line << "\n";
+				continue ;
+			}
+			it--;
+		}
 		std::cout << year << " => " << value << " = " << it->second * value << "\n";
 	}
 }
