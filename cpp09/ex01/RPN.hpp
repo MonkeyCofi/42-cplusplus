@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:53:14 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/09 15:25:56 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:34:19 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include <stack>
+# include <cstdlib>
 
 class	RPN
 {
