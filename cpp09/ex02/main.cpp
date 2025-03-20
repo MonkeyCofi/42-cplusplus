@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:47:11 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/11 17:49:06 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:46:59 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,17 @@ int main(int ac, char **av)
 		std::cerr << "Usage: ./PMergeMe [Sequence of numbers]\n";
 		return (1);
 	}
+	PMergeMe	containers;
+	try
+	{
+		containers.fillContainers(const_cast<const char **>(av));
+	}
+	catch(std::invalid_argument& e)
+	{
+		std::cerr << e.what() << "\n";
+		return (1);
+	}
+	containers.sortVector();
+	containers.sortList();
 	(void)av;
 }

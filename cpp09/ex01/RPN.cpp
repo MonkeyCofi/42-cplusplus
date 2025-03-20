@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 17:39:33 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/11 17:41:41 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/03/12 12:26:56 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ RPN::operators	RPN::returnOperation(char c)
 	if (c == '*')	return (multiply);
 	if (c == '/')	return (divide);
 	return (unknown);
+}
+
+void	RPN::stackCheckAndPop(std::stack& stack)
+{
+	if (stack.empty())
+		throw ()
 }
 
 double	RPN::calculate(char *s)
@@ -100,8 +106,6 @@ double	RPN::calculate(char *s)
 		}
 	}
 	if (stack.size() > 1)
-	{
 		throw (std::invalid_argument("Error: Invalid expression"));
-	}
 	return (stack.top());
 }
