@@ -69,28 +69,38 @@ void	PMergeMe::printVector()
 	std::cout << "\n";
 }
 
+void	PMergeMe::printPairs(std::vector<int>::iterator begin, std::vector<int>::iterator end)
+{
+	for (; begin != end; begin++)
+	{
+		std::cout << *begin << " ";
+	}
+	std::cout << "\n";
+}
+
 /*
 	divide elements into pairs
 	with each recursive call, the size of the pairings increases by size*2
 	stop once the size of pairings is larger than number of elements
 */
 
-int call_level = 0;
 void	PMergeMe::recurseVector(int pairSize)
 {
-	call_level++;
 	if (static_cast<unsigned int>(pairSize) > this->vector.size())
 		return ;
 	const std::vector<int>::iterator begin = this->vector.begin();
-	unsigned int oddElemOut;
+
+	unsigned int	firstElem;
+	unsigned int	secondElem;
 	for (unsigned int i = 0, size = this->vector.size(); i < size; i += pairSize)
 	{
-		unsigned int firstElem = ((pairSize / 2) - 1) + i;
-		unsigned int secondElem = (pairSize - 1) + i;
+		firstElem = ((pairSize / 2) - 1) + i;
+		secondElem = (pairSize - 1) + i;
 		if (firstElem >= size || secondElem >= size)
-		continue ;
-		if (this->vector[firstElem] > this->vector[secondElem])	// swap ranges
-		std::swap_ranges(begin + i, begin + firstElem + 1, begin + firstElem + 1);	
+			continue ;
+		if (this->vector[firstElem] > this->vector[secondElem])
+			std::swap_ranges(begin + i, begin + firstElem + 1, begin + firstElem + 1);
 	}
+	// this->printVector();
 	recurseVector(pairSize * 2);
 }

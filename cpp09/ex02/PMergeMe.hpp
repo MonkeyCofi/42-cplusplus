@@ -36,6 +36,7 @@ class	PMergeMe
 		void	sortVector();
 		void	sortList();
 		void	printVector();
+		void	printPairs(std::vector<int>::iterator begin, std::vector<int>::iterator end);
 		
 		void	recurseVector(int pairSize);
 };
