@@ -32,11 +32,14 @@ class	PMergeMe
 		PMergeMe	&operator=(const PMergeMe& obj);
 		
 		void	fillContainers(const char** args);
+		int		size();
 		
-		void	sortVector();
-		void	sortList();
-		void	printVector();
-		void	printPairs(std::vector<int>::iterator begin, std::vector<int>::iterator end);
+		static int		calculateJacobsthal(int nthJacobsthal);
+		void			sortVector();
+		void			sortList();
+		void			printVector();
+		void			printPairs(std::vector<int>::iterator begin, std::vector<int>::iterator end);
+		unsigned int	binarySearchVector(unsigned int start, unsigned int middle, unsigned int end, int valToInsert);
 		
 		void	recurseVector(int pairSize);
 };

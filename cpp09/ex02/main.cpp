@@ -32,5 +32,6 @@ int main(int ac, char **av)
 	}
 	containers.sortVector();
 	containers.sortList();
+	std::cout << PMergeMe::calculateJacobsthal(11) << "\n";
 	(void)av;
 }

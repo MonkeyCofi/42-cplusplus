@@ -84,10 +84,33 @@ void	PMergeMe::printPairs(std::vector<int>::iterator begin, std::vector<int>::it
 	stop once the size of pairings is larger than number of elements
 */
 
-int call_num = 0;
+unsigned int	PMergeMe::binarySearchVector(unsigned int start, unsigned int middle, unsigned int end, int valToInsert)
+{
+	if (end - start == 0)
+		throw(std::invalid_argument("Element not found"));
+	if (valToInsert < this->vector[middle])
+		return (binarySearchVector(start, (middle + end) / 2, middle - 1, valToInsert));
+	else if (valToInsert > this->vector[middle])
+		return (binarySearchVector(middle + 1, (middle + end) / 2, end, valToInsert));
+	return (middle);
+}
+
+int	PMergeMe::size()
+{
+	return (this->vector.size());
+}
+
+int	PMergeMe::calculateJacobsthal(int nthJacobsthal)
+{
+	if (nthJacobsthal == 1)
+		return (0);
+	if (nthJacobsthal == 2 || nthJacobsthal == 3)
+		return (1);
+	return (calculateJacobsthal(nthJacobsthal - 1) + (calculateJacobsthal(nthJacobsthal - 2) * 2));
+}
+ 
 void	PMergeMe::recurseVector(int pairSize)
 {
-	std::cout << "Call number: " << ++call_num << "\n";
 	if (static_cast<unsigned int>(pairSize) > this->vector.size())
 		return ;
 
@@ -102,21 +125,24 @@ void	PMergeMe::recurseVector(int pairSize)
 	{
 		firstElem = ((pairSize / 2) - 1) + i;
 		secondElem = (pairSize - 1) + i;
-		if (firstElem > size || secondElem > size)
+		if (firstElem >= size || secondElem >= size)
 			continue ;
 		if (this->vector[firstElem] > this->vector[secondElem])
 			std::swap_ranges(begin + i, begin + firstElem + 1, begin + firstElem + 1);
 		pairElements.push_back(std::pair<int, int>(firstElem, secondElem));
 	}
-	if (firstElem < size)
+	if (firstElem < size && secondElem >= size)
 		pairElements.push_back(std::pair<int, int>(firstElem, -1));
-	// printVector();
-	for (unsigned int i = 0; i < pairElements.size(); i++)
-	{
-		std::cout << "First element: " << vector[pairElements[i].first] << "[" << pairElements[i].first << "] " << " Second element: " << (pairElements[i].second == -1 ? -1 : vector[pairElements[i].second]) << "[" << pairElements[i].second << "] " << "\n";
-		// std::cout << "First element: " << pairElements[i].first << " element: " << pairElements[i].second << "\n";
-	}
+	// for (unsigned int i = 0; i < pairElements.size(); i++)
+	// {
+	// 	std::cout << "First element: " << vector[pairElements[i].first] << "[" << pairElements[i].first << "] " << " Second element: " << (pairElements[i].second == -1 ? -1 : vector[pairElements[i].second]) << "[" << pairElements[i].second << "] " << "\n";
+	// 	// std::cout << "First element: " << pairElements[i].first << " element: " << pairElements[i].second << "\n";
+	// }
 	recurseVector(pairSize * 2);
-	// create the main chain: b1, a1, a2....ax
+	std::cout << "\n";
+	for (i = 0; i < pairElements.size(); i++)
+		std::cout << "b" << i + 1 << ": " << pairElements[i].first << " a" << i + 1 << ": " << pairElements[i].second << "\n";
+	
+	// create the main chain: b1, a1, a2....ax: every odd element is a and every even element is b
 	// create the appendage chain b2, b3....bx
 }
