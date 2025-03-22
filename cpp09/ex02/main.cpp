@@ -6,7 +6,7 @@
 /*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:47:11 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/20 16:46:59 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:51:52 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int main(int ac, char **av)
 		std::cerr << "Usage: ./PMergeMe [Sequence of numbers]\n";
 		return (1);
 	}
+	std::cout << "There are " << ac - 1 << " elements\n";
 	PMergeMe	containers;
 	try
 	{

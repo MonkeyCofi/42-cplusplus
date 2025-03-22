@@ -6,7 +6,7 @@
 /*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:45:24 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/20 20:16:59 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/03/22 19:15:53 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,23 +84,39 @@ void	PMergeMe::printPairs(std::vector<int>::iterator begin, std::vector<int>::it
 	stop once the size of pairings is larger than number of elements
 */
 
+int call_num = 0;
 void	PMergeMe::recurseVector(int pairSize)
 {
+	std::cout << "Call number: " << ++call_num << "\n";
 	if (static_cast<unsigned int>(pairSize) > this->vector.size())
 		return ;
-	const std::vector<int>::iterator begin = this->vector.begin();
 
-	unsigned int	firstElem;
-	unsigned int	secondElem;
-	for (unsigned int i = 0, size = this->vector.size(); i < size; i += pairSize)
+	const std::vector<int>::iterator 	begin = this->vector.begin();
+	const unsigned int					size = 	this->vector.size();
+	std::vector< std::pair<int, int> >	pairElements;
+	unsigned int						firstElem;
+	unsigned int						secondElem;
+	unsigned int						i;
+
+	for (i = 0; i < size; i += pairSize)
 	{
 		firstElem = ((pairSize / 2) - 1) + i;
 		secondElem = (pairSize - 1) + i;
-		if (firstElem >= size || secondElem >= size)
+		if (firstElem > size || secondElem > size)
 			continue ;
 		if (this->vector[firstElem] > this->vector[secondElem])
 			std::swap_ranges(begin + i, begin + firstElem + 1, begin + firstElem + 1);
+		pairElements.push_back(std::pair<int, int>(firstElem, secondElem));
 	}
-	// this->printVector();
+	if (firstElem < size)
+		pairElements.push_back(std::pair<int, int>(firstElem, -1));
+	// printVector();
+	for (unsigned int i = 0; i < pairElements.size(); i++)
+	{
+		std::cout << "First element: " << vector[pairElements[i].first] << "[" << pairElements[i].first << "] " << " Second element: " << (pairElements[i].second == -1 ? -1 : vector[pairElements[i].second]) << "[" << pairElements[i].second << "] " << "\n";
+		// std::cout << "First element: " << pairElements[i].first << " element: " << pairElements[i].second << "\n";
+	}
 	recurseVector(pairSize * 2);
+	// create the main chain: b1, a1, a2....ax
+	// create the appendage chain b2, b3....bx
 }
