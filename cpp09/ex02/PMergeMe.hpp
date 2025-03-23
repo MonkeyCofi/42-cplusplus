@@ -41,8 +41,11 @@ class	PMergeMe
 		void			printVector(std::vector<int>& _vector);
 		void			printPairs(std::vector<int>::iterator begin, std::vector<int>::iterator end);
 		unsigned int	binarySearchVector(unsigned int start, unsigned int middle, unsigned int end, int valToInsert);
-		
-		void	recurseVector(int pairSize);
+
+		void			jacobsthalInsert(int jacobsthalNumber, unsigned int& appendageCount, std::vector<int>& mainChain, std::vector< std::pair<int,int> >& pairElements);
+		void			binaryInsert(std::vector<int>& mainChain, std::vector< std::pair<int,int> >& pairElements);
+
+		void			recurseVector(int pairSize);
 };
 
 #endif

@@ -12,6 +12,8 @@
 
 #include "PMergeMe.hpp"
 
+int comparisonCount = 0;
+
 PMergeMe::PMergeMe()
 {
 	
@@ -96,9 +98,15 @@ unsigned int	PMergeMe::binarySearchVector(unsigned int start, unsigned int middl
 	if (end - start == 0)
 		throw(std::invalid_argument("Element not found"));
 	if (valToInsert < this->vector[middle])
+	{
+		comparisonCount++;
 		return (binarySearchVector(start, (middle + end) / 2, middle - 1, valToInsert));
+	}
 	else if (valToInsert > this->vector[middle])
+	{
+		comparisonCount++;
 		return (binarySearchVector(middle + 1, (middle + end) / 2, end, valToInsert));
+	}
 	return (middle);
 }
 
@@ -114,6 +122,29 @@ int	PMergeMe::calculateJacobsthal(int nthJacobsthal)
 	if (nthJacobsthal == 2 || nthJacobsthal == 3)
 		return (1);
 	return (calculateJacobsthal(nthJacobsthal - 1) + (calculateJacobsthal(nthJacobsthal - 2) * 2));
+}
+
+void	PMergeMe::jacobsthalInsert(int jacobsthalNumber, unsigned int& appendageCount, std::vector<int>& mainChain, std::vector< std::pair<int,int> >& pairElements)
+{
+	while (appendageCount > 0)
+	{
+		// insert this->vector[pairElement[appendageCount - 1].first] into the main chain
+		// use binarySearch to figure out where to append in the main chain
+		// call: binarySearch(0, pairElement[appendageCount - 1] / 2, pairElement[appendageCount - 1], this->vector[pairElement[appendageCount - 1].first]);
+		// decrement appendageCount
+		unsigned int	insertIndex = binarySearchVector(0, pairElements[appendageCount - 1].second / 2, \
+				pairElements[appendageCount - 1].second, mainChain[pairElements[appendageCount - 1].first]);
+		appendageCount--;
+		(void)insertIndex;
+	}
+	(void)mainChain;
+}
+
+void	PMergeMe::binaryInsert(std::vector<int>& mainChain, std::vector< std::pair<int,int> >& pairElements)
+{
+	(void)mainChain;
+	(void)pairElements;
+	return ;
 }
 
 void	PMergeMe::recurseVector(int pairSize)
@@ -136,38 +167,35 @@ void	PMergeMe::recurseVector(int pairSize)
 		if (firstElem >= size || secondElem >= size)
 			continue ;
 		if (this->vector[firstElem] > this->vector[secondElem])
+		{
+			comparisonCount++;
 			std::swap_ranges(begin + i, begin + firstElem + 1, begin + firstElem + 1);
+		}
 		pairElements.push_back(std::pair<int, int>(firstElem, secondElem));
 	}
 	if (firstElem < size && secondElem >= size)
 		pairElements.push_back(std::pair<int, int>(firstElem, -1));
-	// for (unsigned int i = 0; i < pairElements.size(); i++)
-	// {
-	// 	std::cout << "First element: " << vector[pairElements[i].first] << "[" << pairElements[i].first << "] " << " Second element: " << (pairElements[i].second == -1 ? -1 : vector[pairElements[i].second]) << "[" << pairElements[i].second << "] " << "\n";
-	// 	// std::cout << "First element: " << pairElements[i].first << " element: " << pairElements[i].second << "\n";
-	// }
-	recurseVector(pairSize * 2);
-	// std::cout << "\n";
-	// for (i = 0; i < pairElements.size(); i++)
-	// 	std::cout << "Index b" << i + 1 << ": " << pairElements[i].first << " Index a" << i + 1 << ": " << (pairElements[i].second == -1 ? -1 : vector[pairElements[i].second]) << "\n";
 
-	/*
-		create the main chain: b1, a1, a2....ax: pairElements[n].first is b, pairElements[n].second is a
-		create the appendage chain b2, b3....bx
-		the first pairSize - 1 elements in the vector will already be b1 a1
-		the pairElements vector will consist of bn, an elements
-		if the b element is appended to main chain, set first in pairElements[i] to -1
-		if pairElements[i].first is -1, it means its respective b element has been placed
-		// if the b element is 
-	*/
-	int	currentJacobsthal = 4;
+	recurseVector(pairSize * 2);
+
 	mainChain.insert(mainChain.begin(), this->vector.begin(), this->vector.begin() + pairSize);
+	// insert elements into the main chain
 	for (std::vector< std::pair<int, int> >::iterator it = pairElements.begin() + 1; it != pairElements.end(); it++)
 	{
 		if ((*it).second == -1)
 			continue ;
-		mainChain.insert(mainChain.end(), vector.begin() + (*it).first + 1, vector.begin() + (*it).second + 1);
+		mainChain.insert(mainChain.end(), begin + (*it).first + 1, begin + (*it).second + 1);
 	}
-	std::cout << "Main chain: ";
-	printVector(mainChain);
+	std::cout << comparisonCount << " comparisons so far\n";
+	int	jacobsthal = 4;
+	unsigned int	appendageCount = calculateJacobsthal(jacobsthal) - calculateJacobsthal(jacobsthal - 1);
+	while (appendageCount < pairElements.size())	// loop to append b elements to main chain which contains b1 a1....an
+	{
+		if (appendageCount < pairElements.size())
+			jacobsthalInsert(jacobsthalNumber, appendageCount, mainChain, pairElements);
+		else
+			binaryInsert(mainChain, pairElements);
+		jacobsthal++;
+		appendageCount = calculateJacobsthal(jacobsthal) - calculateJacobsthal(jacobsthal - 1);
+	}
 }
