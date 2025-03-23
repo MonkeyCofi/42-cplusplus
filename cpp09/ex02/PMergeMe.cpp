@@ -126,8 +126,9 @@ int	PMergeMe::calculateJacobsthal(int nthJacobsthal)
 
 void	PMergeMe::jacobsthalInsert(int jacobsthalNumber, unsigned int& appendageCount, std::vector<int>& mainChain, std::vector< std::pair<int,int> >& pairElements)
 {
-	while (appendageCount > 0)
+	while (appendageCount < appendageCount > 0)
 	{
+		// insert b[jacobsthalNumber] element in reverse order while appendage count is greater than 0
 		// insert this->vector[pairElement[appendageCount - 1].first] into the main chain
 		// use binarySearch to figure out where to append in the main chain
 		// call: binarySearch(0, pairElement[appendageCount - 1] / 2, pairElement[appendageCount - 1], this->vector[pairElement[appendageCount - 1].first]);
@@ -189,10 +190,10 @@ void	PMergeMe::recurseVector(int pairSize)
 	std::cout << comparisonCount << " comparisons so far\n";
 	int	jacobsthal = 4;
 	unsigned int	appendageCount = calculateJacobsthal(jacobsthal) - calculateJacobsthal(jacobsthal - 1);
-	while (appendageCount < pairElements.size())	// loop to append b elements to main chain which contains b1 a1....an
+	while (1)	// loop to append b elements to main chain which contains b1 a1....an
 	{
 		if (appendageCount < pairElements.size())
-			jacobsthalInsert(jacobsthalNumber, appendageCount, mainChain, pairElements);
+			jacobsthalInsert(jacobsthal, appendageCount, mainChain, pairElements);
 		else
 			binaryInsert(mainChain, pairElements);
 		jacobsthal++;
