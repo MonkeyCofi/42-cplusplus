@@ -69,6 +69,13 @@ void	PMergeMe::printVector()
 	std::cout << "\n";
 }
 
+void	PMergeMe::printVector(std::vector<int>& _vector)
+{
+	for (std::vector<int>::iterator it = _vector.begin(); it != _vector.end(); it++)
+		std::cout << (*it) << " ";
+	std::cout << "\n";
+}
+
 void	PMergeMe::printPairs(std::vector<int>::iterator begin, std::vector<int>::iterator end)
 {
 	for (; begin != end; begin++)
@@ -108,7 +115,7 @@ int	PMergeMe::calculateJacobsthal(int nthJacobsthal)
 		return (1);
 	return (calculateJacobsthal(nthJacobsthal - 1) + (calculateJacobsthal(nthJacobsthal - 2) * 2));
 }
- 
+
 void	PMergeMe::recurseVector(int pairSize)
 {
 	if (static_cast<unsigned int>(pairSize) > this->vector.size())
@@ -117,6 +124,7 @@ void	PMergeMe::recurseVector(int pairSize)
 	const std::vector<int>::iterator 	begin = this->vector.begin();
 	const unsigned int					size = 	this->vector.size();
 	std::vector< std::pair<int, int> >	pairElements;
+	std::vector<int>					mainChain;
 	unsigned int						firstElem;
 	unsigned int						secondElem;
 	unsigned int						i;
@@ -139,10 +147,27 @@ void	PMergeMe::recurseVector(int pairSize)
 	// 	// std::cout << "First element: " << pairElements[i].first << " element: " << pairElements[i].second << "\n";
 	// }
 	recurseVector(pairSize * 2);
-	std::cout << "\n";
-	for (i = 0; i < pairElements.size(); i++)
-		std::cout << "b" << i + 1 << ": " << pairElements[i].first << " a" << i + 1 << ": " << pairElements[i].second << "\n";
-	
-	// create the main chain: b1, a1, a2....ax: every odd element is a and every even element is b
-	// create the appendage chain b2, b3....bx
+	// std::cout << "\n";
+	// for (i = 0; i < pairElements.size(); i++)
+	// 	std::cout << "Index b" << i + 1 << ": " << pairElements[i].first << " Index a" << i + 1 << ": " << (pairElements[i].second == -1 ? -1 : vector[pairElements[i].second]) << "\n";
+
+	/*
+		create the main chain: b1, a1, a2....ax: pairElements[n].first is b, pairElements[n].second is a
+		create the appendage chain b2, b3....bx
+		the first pairSize - 1 elements in the vector will already be b1 a1
+		the pairElements vector will consist of bn, an elements
+		if the b element is appended to main chain, set first in pairElements[i] to -1
+		if pairElements[i].first is -1, it means its respective b element has been placed
+		// if the b element is 
+	*/
+	int	currentJacobsthal = 4;
+	mainChain.insert(mainChain.begin(), this->vector.begin(), this->vector.begin() + pairSize);
+	for (std::vector< std::pair<int, int> >::iterator it = pairElements.begin() + 1; it != pairElements.end(); it++)
+	{
+		if ((*it).second == -1)
+			continue ;
+		mainChain.insert(mainChain.end(), vector.begin() + (*it).first + 1, vector.begin() + (*it).second + 1);
+	}
+	std::cout << "Main chain: ";
+	printVector(mainChain);
 }

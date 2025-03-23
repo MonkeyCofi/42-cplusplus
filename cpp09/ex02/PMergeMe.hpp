@@ -38,6 +38,7 @@ class	PMergeMe
 		void			sortVector();
 		void			sortList();
 		void			printVector();
+		void			printVector(std::vector<int>& _vector);
 		void			printPairs(std::vector<int>::iterator begin, std::vector<int>::iterator end);
 		unsigned int	binarySearchVector(unsigned int start, unsigned int middle, unsigned int end, int valToInsert);
 		
