@@ -6,7 +6,7 @@
 /*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:44:26 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/20 19:51:28 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:12:00 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ class	PMergeMe
 		void			printVector();
 		void			printVector(std::vector<int>& _vector);
 		void			printPairs(std::vector<int>::iterator begin, std::vector<int>::iterator end);
-		unsigned int	binarySearchVector(unsigned int start, unsigned int middle, unsigned int end, int valToInsert);
+		// unsigned int	binarySearchVector(unsigned int start, unsigned int middle, unsigned int end, int valToInsert);
+		unsigned int	binarySearchVector(std::vector<int>& _vector, unsigned int low, unsigned int high, int valToInsert);
 
 		void			jacobsthalInsert(int jacobsthalNumber, unsigned int& appendageCount, std::vector<int>& mainChain, std::vector< std::pair<int,int> >& pairElements);
 		void			binaryInsert(std::vector<int>& mainChain, std::vector< std::pair<int,int> >& pairElements);

@@ -6,7 +6,7 @@
 /*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:45:24 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/22 19:15:53 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/03/24 21:13:29 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,21 +93,37 @@ void	PMergeMe::printPairs(std::vector<int>::iterator begin, std::vector<int>::it
 	stop once the size of pairings is larger than number of elements
 */
 
-unsigned int	PMergeMe::binarySearchVector(unsigned int start, unsigned int middle, unsigned int end, int valToInsert)
+// unsigned int	PMergeMe::binarySearchVector(unsigned int start, unsigned int middle, unsigned int end, int valToInsert)
+// {
+// 	if (end - start == 0)
+// 		throw(std::invalid_argument("Element not found"));
+// 	if (valToInsert < this->vector[middle])
+// 	{
+// 		comparisonCount++;
+// 		return (binarySearchVector(start, (middle + end) / 2, middle - 1, valToInsert));
+// 	}
+// 	else if (valToInsert > this->vector[middle])
+// 	{
+// 		comparisonCount++;
+// 		return (binarySearchVector(middle + 1, (middle + end) / 2, end, valToInsert));
+// 	}
+// 	return (middle);
+// }
+
+unsigned int	PMergeMe::binarySearchVector(std::vector<int>& _vector, unsigned int low, unsigned int high, int valToInsert)
 {
-	if (end - start == 0)
-		throw(std::invalid_argument("Element not found"));
-	if (valToInsert < this->vector[middle])
+	unsigned int	middle;
+
+	while (low < high)
 	{
+		middle = (high + low) / 2;
+		if (_vector[middle] < valToInsert)
+			low = middle + 1;
+		else
+			high = middle - 1;
 		comparisonCount++;
-		return (binarySearchVector(start, (middle + end) / 2, middle - 1, valToInsert));
 	}
-	else if (valToInsert > this->vector[middle])
-	{
-		comparisonCount++;
-		return (binarySearchVector(middle + 1, (middle + end) / 2, end, valToInsert));
-	}
-	return (middle);
+	return (low);
 }
 
 int	PMergeMe::size()
@@ -126,18 +142,19 @@ int	PMergeMe::calculateJacobsthal(int nthJacobsthal)
 
 void	PMergeMe::jacobsthalInsert(int jacobsthalNumber, unsigned int& appendageCount, std::vector<int>& mainChain, std::vector< std::pair<int,int> >& pairElements)
 {
-	while (appendageCount < appendageCount > 0)
+	while (appendageCount < pairElements.size() &&  appendageCount > 0)
 	{
-		// insert b[jacobsthalNumber] element in reverse order while appendage count is greater than 0
+		// insert b[jacobsthalNumber - 1] element in reverse order while appendage count is greater than 0
 		// insert this->vector[pairElement[appendageCount - 1].first] into the main chain
 		// use binarySearch to figure out where to append in the main chain
 		// call: binarySearch(0, pairElement[appendageCount - 1] / 2, pairElement[appendageCount - 1], this->vector[pairElement[appendageCount - 1].first]);
 		// decrement appendageCount
-		unsigned int	insertIndex = binarySearchVector(0, pairElements[appendageCount - 1].second / 2, \
+		unsigned int	insertIndex = binarySearchVector(mainChain, pairElements[appendageCount - 1].second / 2, \
 				pairElements[appendageCount - 1].second, mainChain[pairElements[appendageCount - 1].first]);
 		appendageCount--;
 		(void)insertIndex;
 	}
+	(void)jacobsthalNumber;
 	(void)mainChain;
 }
 
@@ -155,8 +172,11 @@ void	PMergeMe::recurseVector(int pairSize)
 
 	const std::vector<int>::iterator 	begin = this->vector.begin();
 	const unsigned int					size = 	this->vector.size();
+	const unsigned int					elemSize = pairSize / 2;
+	bool								hasOdd = false;
 	std::vector< std::pair<int, int> >	pairElements;
 	std::vector<int>					mainChain;
+	std::vector<int>					appendChain;
 	unsigned int						firstElem;
 	unsigned int						secondElem;
 	unsigned int						i;
@@ -175,28 +195,52 @@ void	PMergeMe::recurseVector(int pairSize)
 		pairElements.push_back(std::pair<int, int>(firstElem, secondElem));
 	}
 	if (firstElem < size && secondElem >= size)
+	{
+		hasOdd = true;	
 		pairElements.push_back(std::pair<int, int>(firstElem, -1));
+	}
 
 	recurseVector(pairSize * 2);
 
-	mainChain.insert(mainChain.begin(), this->vector.begin(), this->vector.begin() + pairSize);
-	// insert elements into the main chain
-	for (std::vector< std::pair<int, int> >::iterator it = pairElements.begin() + 1; it != pairElements.end(); it++)
+	mainChain.insert(mainChain.begin(), this->vector.begin(), this->vector.begin() + pairSize);	// inserts b1 a1 into the main chain
+	// insert elements into the main and append chain
+	for (std::vector< std::pair<int, int> >::iterator it = pairElements.begin() + 1, end = pairElements.end(); it != end; it++)
 	{
-		if ((*it).second == -1)
-			continue ;
+		if ((*it).second == -1)	// odd element gets inserted to pend
+		{
+			appendChain.insert(appendChain.end(), begin + (*(it - 1)).second + 1, begin + (*it).first + 1);
+			break ;
+		}
 		mainChain.insert(mainChain.end(), begin + (*it).first + 1, begin + (*it).second + 1);
+		appendChain.insert(appendChain.end(), begin + (*(it - 1)).second + 1, begin + (*it).first + 1);
 	}
-	std::cout << comparisonCount << " comparisons so far\n";
-	int	jacobsthal = 4;
-	unsigned int	appendageCount = calculateJacobsthal(jacobsthal) - calculateJacobsthal(jacobsthal - 1);
-	while (1)	// loop to append b elements to main chain which contains b1 a1....an
+	// std::cout << comparisonCount << " comparisons so far\n";
+	std::cout << "Main chain: ";
+	printVector(mainChain);
+	std::cout << "Pend chain: ";
+	printVector(appendChain);
+	int	nthJacobsthal = 4;
+	unsigned int	appendageCount = calculateJacobsthal(nthJacobsthal) - calculateJacobsthal(nthJacobsthal - 1);
+	std::cout << pairElements.size() << "\n";
+	if (appendageCount < pairElements.size())
 	{
-		if (appendageCount < pairElements.size())
-			jacobsthalInsert(jacobsthal, appendageCount, mainChain, pairElements);
-		else
-			binaryInsert(mainChain, pairElements);
-		jacobsthal++;
-		appendageCount = calculateJacobsthal(jacobsthal) - calculateJacobsthal(jacobsthal - 1);
+		std::cout << "Val: " << appendChain.at((elemSize * appendageCount) - 1);
+		unsigned int idx = binarySearchVector(mainChain, 0, pairElements.at(appendageCount - 1).second, appendChain[(elemSize * appendageCount) - 1]);
+		std::cout << "index to insert: " << idx - (elemSize + 1) << "\n";
 	}
+	// std::cout << "val: " << this->vector[pairElements[appendageCount - 1].first] << "\n";
+	// while (1)	// loop to append b elements to main chain which contains b1 a1....an
+	// {
+		// 	if (appendageCount < pairElements.size())
+		// 		jacobsthalInsert(jacobsthal, appendageCount, mainChain, pairElements);
+		// 	else
+		// 		binaryInsert(mainChain, pairElements);
+		// 	jacobsthal++;
+		// 	appendageCount = calculateJacobsthal(jacobsthal) - calculateJacobsthal(jacobsthal - 1);
+		// 	if (appendageCount > pairElements.size())
+		// 		break ;
+		// }
+	std::cout << "\n";
+	(void)elemSize;
+	(void)hasOdd;
 }
