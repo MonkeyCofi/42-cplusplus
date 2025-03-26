@@ -6,7 +6,7 @@
 /*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:45:24 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/24 21:13:29 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/03/25 01:07:45 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,13 +173,13 @@ void	PMergeMe::recurseVector(int pairSize)
 	const std::vector<int>::iterator 	begin = this->vector.begin();
 	const unsigned int					size = 	this->vector.size();
 	const unsigned int					elemSize = pairSize / 2;
-	bool								hasOdd = false;
 	std::vector< std::pair<int, int> >	pairElements;
 	std::vector<int>					mainChain;
 	std::vector<int>					appendChain;
 	unsigned int						firstElem;
 	unsigned int						secondElem;
 	unsigned int						i;
+	bool								hasOdd = false;
 
 	for (i = 0; i < size; i += pairSize)
 	{
@@ -222,11 +222,14 @@ void	PMergeMe::recurseVector(int pairSize)
 	int	nthJacobsthal = 4;
 	unsigned int	appendageCount = calculateJacobsthal(nthJacobsthal) - calculateJacobsthal(nthJacobsthal - 1);
 	std::cout << pairElements.size() << "\n";
+	std::cout << pairElements.at(pairElements.size() - 1).second << "\n";
 	if (appendageCount < pairElements.size())
 	{
 		std::cout << "Val: " << appendChain.at((elemSize * appendageCount) - 1);
-		unsigned int idx = binarySearchVector(mainChain, 0, pairElements.at(appendageCount - 1).second, appendChain[(elemSize * appendageCount) - 1]);
-		std::cout << "index to insert: " << idx - (elemSize + 1) << "\n";
+		unsigned int idx = binarySearchVector(mainChain, 0, \
+			(pairElements.at(appendageCount - 1).second != -1 ? pairElements.at(appendageCount - 1).second : mainChain.size()),\
+				appendChain[(elemSize * appendageCount) - 1]);
+		std::cout << "\nindex to insert: " << idx - (elemSize + 1) << " Val at index: " << mainChain[idx - (elemSize + 1)] << "\n";
 	}
 	// std::cout << "val: " << this->vector[pairElements[appendageCount - 1].first] << "\n";
 	// while (1)	// loop to append b elements to main chain which contains b1 a1....an
@@ -239,7 +242,7 @@ void	PMergeMe::recurseVector(int pairSize)
 		// 	appendageCount = calculateJacobsthal(jacobsthal) - calculateJacobsthal(jacobsthal - 1);
 		// 	if (appendageCount > pairElements.size())
 		// 		break ;
-		// }
+	// }
 	std::cout << "\n";
 	(void)elemSize;
 	(void)hasOdd;
