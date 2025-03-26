@@ -196,7 +196,7 @@ void	PMergeMe::recurseVector(int pairSize)
 	}
 	if (firstElem < size && secondElem >= size)
 	{
-		hasOdd = true;	
+		hasOdd = true;
 		pairElements.push_back(std::pair<int, int>(firstElem, -1));
 	}
 
@@ -214,22 +214,34 @@ void	PMergeMe::recurseVector(int pairSize)
 		mainChain.insert(mainChain.end(), begin + (*it).first + 1, begin + (*it).second + 1);
 		appendChain.insert(appendChain.end(), begin + (*(it - 1)).second + 1, begin + (*it).first + 1);
 	}
-	// std::cout << comparisonCount << " comparisons so far\n";
-	std::cout << "Main chain: ";
-	printVector(mainChain);
-	std::cout << "Pend chain: ";
+	if (pairElements.at(pairElements.size() - 1).second == -1)
+		std::cout << "Odd amount of elements at: " << pairElements.size() << " elements with the last one lacking an a element\n";
+	else
+		std::cout << "Even number of elements at: " << pairElements.size() << "\n";
+	std::cout << "Pair size: " << pairSize << "\n";
+	std::cout << "Pair elem size: " << elemSize << "\n";
+	// this->vector contains original vector at start of recursive call
+	std::cout << "main vector: ";
+	printVector();
+	// appendChain contains all b2 and further elements aka smaller elements in each pairing
+	std::cout << "append chain: ";
 	printVector(appendChain);
+	// mainChain contains b1 and the rest of the a elements
+	std::cout << "main chain: ";
+	printVector(mainChain);
 	int	nthJacobsthal = 4;
+	int	current = calculateJacobsthal(nthJacobsthal);
+	std::cout << "Current jacobsthal number: " << current << "\n";
 	unsigned int	appendageCount = calculateJacobsthal(nthJacobsthal) - calculateJacobsthal(nthJacobsthal - 1);
-	std::cout << pairElements.size() << "\n";
-	std::cout << pairElements.at(pairElements.size() - 1).second << "\n";
 	if (appendageCount < pairElements.size())
 	{
-		std::cout << "Val: " << appendChain.at((elemSize * appendageCount) - 1);
-		unsigned int idx = binarySearchVector(mainChain, 0, \
-			(pairElements.at(appendageCount - 1).second != -1 ? pairElements.at(appendageCount - 1).second : mainChain.size()),\
-				appendChain[(elemSize * appendageCount) - 1]);
-		std::cout << "\nindex to insert: " << idx - (elemSize + 1) << " Val at index: " << mainChain[idx - (elemSize + 1)] << "\n";
+		// std::cout << "Pair elements size: " << pairElements.size() << "\n";
+		// std::cout << "Current jacobsthal: " << current << "\n";
+		std::cout << "Element to insert to main: " << this->vector.at(pairElements.at(current - 1).first);
+		// unsigned int high = pairElements.at(current - 1).second == -1 ? mainChain.size() : // if odd element, use the size of the vector as the high, else use the a element as the high
+		unsigned int high = mainChain.size();
+		unsigned int index = binarySearchVector(mainChain, 0, high, this->vector.at(pairElements.at(current - 1).first));
+		mainChain.insert(begin + index + 1, begin + pairElements.at(current - 1).first - elemSize, begin + pairElements.at(current - 1).first);
 	}
 	// std::cout << "val: " << this->vector[pairElements[appendageCount - 1].first] << "\n";
 	// while (1)	// loop to append b elements to main chain which contains b1 a1....an
