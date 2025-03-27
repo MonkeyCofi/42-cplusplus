@@ -18,6 +18,7 @@
 # include <list>
 # include <cstdlib>
 # include <string>
+# include <iterator>
 # include <algorithm>
 
 class	PMergeMe

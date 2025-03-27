@@ -165,6 +165,17 @@ void	PMergeMe::binaryInsert(std::vector<int>& mainChain, std::vector< std::pair<
 	return ;
 }
 
+unsigned int	comp(int val, int iteratorPoint)
+{
+	comparisonCount++;
+	return (val < iteratorPoint);
+}
+
+void	printElems(int& x)
+{
+	std::cout << x << " ";
+}
+
 void	PMergeMe::recurseVector(int pairSize)
 {
 	if (static_cast<unsigned int>(pairSize) > this->vector.size())
@@ -202,6 +213,8 @@ void	PMergeMe::recurseVector(int pairSize)
 
 	recurseVector(pairSize * 2);
 
+	std::cout << "Element size: " << elemSize << "\n";
+
 	mainChain.insert(mainChain.begin(), this->vector.begin(), this->vector.begin() + pairSize);	// inserts b1 a1 into the main chain
 	// insert elements into the main and append chain
 	for (std::vector< std::pair<int, int> >::iterator it = pairElements.begin() + 1, end = pairElements.end(); it != end; it++)
@@ -214,46 +227,52 @@ void	PMergeMe::recurseVector(int pairSize)
 		mainChain.insert(mainChain.end(), begin + (*it).first + 1, begin + (*it).second + 1);
 		appendChain.insert(appendChain.end(), begin + (*(it - 1)).second + 1, begin + (*it).first + 1);
 	}
-	if (pairElements.at(pairElements.size() - 1).second == -1)
-		std::cout << "Odd amount of elements at: " << pairElements.size() << " elements with the last one lacking an a element\n";
-	else
-		std::cout << "Even number of elements at: " << pairElements.size() << "\n";
-	std::cout << "Pair size: " << pairSize << "\n";
-	std::cout << "Pair elem size: " << elemSize << "\n";
-	// this->vector contains original vector at start of recursive call
-	std::cout << "main vector: ";
-	printVector();
-	// appendChain contains all b2 and further elements aka smaller elements in each pairing
-	std::cout << "append chain: ";
-	printVector(appendChain);
-	// mainChain contains b1 and the rest of the a elements
-	std::cout << "main chain: ";
-	printVector(mainChain);
+
 	int	nthJacobsthal = 4;
 	int	current = calculateJacobsthal(nthJacobsthal);
 	std::cout << "Current jacobsthal number: " << current << "\n";
-	unsigned int	appendageCount = calculateJacobsthal(nthJacobsthal) - calculateJacobsthal(nthJacobsthal - 1);
-	if (appendageCount < pairElements.size())
+	while (1)
 	{
-		// std::cout << "Pair elements size: " << pairElements.size() << "\n";
-		// std::cout << "Current jacobsthal: " << current << "\n";
-		std::cout << "Element to insert to main: " << this->vector.at(pairElements.at(current - 1).first);
-		// unsigned int high = pairElements.at(current - 1).second == -1 ? mainChain.size() : // if odd element, use the size of the vector as the high, else use the a element as the high
-		unsigned int high = mainChain.size();
-		unsigned int index = binarySearchVector(mainChain, 0, high, this->vector.at(pairElements.at(current - 1).first));
-		mainChain.insert(begin + index + 1, begin + pairElements.at(current - 1).first - elemSize, begin + pairElements.at(current - 1).first);
+		unsigned int	appendageCount = calculateJacobsthal(nthJacobsthal) - calculateJacobsthal(nthJacobsthal - 1);
+		if (appendageCount > pairElements.size())
+			break ;
+		std::vector<int>::iterator mainChainBound;
+		if (pairElements.at(current - 1).second != -1)
+			mainChainBound = mainChain.begin() + ((elemSize * 2) - 1) * (current -1 ) + 1;
+		else
+			mainChainBound = mainChain.end();
+
+		std::vector<int>::iterator	upperBound = std::upper_bound(mainChain.begin(), mainChainBound, \
+			this->vector.at(pairElements.at(current - 1).first));
+
+		std::vector<int>::iterator pos = upperBound - elemSize + 1;
+		std::vector<int>::iterator start = begin + pairElements.at(current - 1).first - elemSize + 1;
+		std::vector<int>::iterator finish = begin + pairElements.at(current - 1).first + 1;
+		std::cout << "inserting elements: ";
+		std::for_each(start, finish, printElems);
+		std::cout << "\n";
+		std::cout << "Upper bound for element " << this->vector.at(pairElements.at(current - 1).first) << ": " << *upperBound << "\n";
+		mainChain.insert(pos, start, finish);
 	}
-	// std::cout << "val: " << this->vector[pairElements[appendageCount - 1].first] << "\n";
-	// while (1)	// loop to append b elements to main chain which contains b1 a1....an
+	// if (appendageCount < pairElements.size())
 	// {
-		// 	if (appendageCount < pairElements.size())
-		// 		jacobsthalInsert(jacobsthal, appendageCount, mainChain, pairElements);
-		// 	else
-		// 		binaryInsert(mainChain, pairElements);
-		// 	jacobsthal++;
-		// 	appendageCount = calculateJacobsthal(jacobsthal) - calculateJacobsthal(jacobsthal - 1);
-		// 	if (appendageCount > pairElements.size())
-		// 		break ;
+	// 	std::vector<int>::iterator mainChainBound = mainChain.end();
+	// 	// find out where value at vector.at(pairElements(current - 1).second) rests in the mainChain
+	// 	if (pairElements.at(current - 1).second != -1)
+	// 		mainChainBound = mainChain.begin() + ((elemSize * 2) - 1) * (current -1 ) + 1;
+
+	// 	std::vector<int>::iterator	upperBound = std::upper_bound(mainChain.begin(), mainChainBound, this->vector.at(pairElements.at(current - 1).first));
+
+	// 	std::vector<int>::iterator pos = upperBound - elemSize + 1;
+	// 	std::vector<int>::iterator start = begin + pairElements.at(current - 1).first - elemSize + 1;
+	// 	std::vector<int>::iterator finish = begin + pairElements.at(current - 1).first + 1;
+	// 	std::cout << "inserting elements: ";
+	// 	std::for_each(start, finish, printElems);
+	// 	std::cout << "\n";
+	// 	std::cout << "Upper bound for element " << this->vector.at(pairElements.at(current - 1).first) << ": " << *upperBound << "\n";
+	// 	mainChain.insert(pos, start, finish);
+	// 	std::cout << "new main chain: ";
+	// 	printVector(mainChain);
 	// }
 	std::cout << "\n";
 	(void)elemSize;
