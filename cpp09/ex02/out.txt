@@ -1,0 +1,108 @@
+There are 22 elements
+Element size: 8
+main chain: 6 15 8 16 2 11 0 17 9 18 14 19 3 10 1 21 
+append chain: 
+copy: 6 15 8 16 2 11 0 17 9 18 14 19 3 10 1 21 5 12 4 20 7 13 
+
+comparisons: 11
+Element size: 4
+main chain: 6 15 8 16 2 11 0 17 3 10 1 21 
+append chain: 9 18 14 19 5 12 4 20 
+Bound element: 21
+inserting elements: 5 12 4 20 
+Upper bound for element 20: 21
+new main chain: 6 15 8 16 2 11 0 17 5 12 4 20 3 10 1 21 
+bound idx: 15
+Bound element: 21
+inserting elements: 9 18 14 19 
+Upper bound for element 19: 20
+new main chain: 6 15 8 16 2 11 0 17 9 18 14 19 5 12 4 20 3 10 1 21 
+copy: 6 15 8 16 2 11 0 17 9 18 14 19 5 12 4 20 3 10 1 21 7 13 
+
+comparisons: 18
+Element size: 2
+main chain: 6 15 8 16 0 17 14 19 4 20 1 21 
+append chain: 2 11 9 18 5 12 3 10 7 13 
+bound idx: 7
+Bound element: 19
+inserting elements: 9 18 
+Upper bound for element 18: 19
+new main chain: 6 15 8 16 0 17 9 18 14 19 4 20 1 21 
+bound idx: 7
+Bound element: 18
+inserting elements: 2 11 
+Upper bound for element 11: 15
+new main chain: 2 11 6 15 8 16 0 17 9 18 14 19 4 20 1 21 
+elems inserted: 2
+bound idx: 13
+Bound element: 20
+inserting elements: 3 10 
+Upper bound for element 10: 18
+new main chain: 2 11 6 15 8 16 0 17 3 10 9 18 14 19 4 20 1 21 
+bound idx: 13
+Bound element: 19
+inserting elements: 5 12 
+Upper bound for element 12: 18
+new main chain: 2 11 6 15 8 16 0 17 3 10 5 12 9 18 14 19 4 20 1 21 
+elems inserted: 4
+copy: 2 11 6 15 8 16 0 17 3 10 5 12 9 18 14 19 4 20 1 21 7 13 
+
+comparisons: 32
+Element size: 1
+main chain: 2 11 15 16 17 10 12 18 19 20 21 13 
+append chain: 6 8 0 3 5 9 14 4 1 7 
+bound idx: 3
+Bound element: 16
+inserting elements: 8 
+Upper bound for element 8: 11
+new main chain: 2 8 11 15 16 17 10 12 18 19 20 21 13 
+bound idx: 3
+Bound element: 15
+inserting elements: 6 
+Upper bound for element 6: 8
+new main chain: 2 6 8 11 15 16 17 10 12 18 19 20 21 13 
+elems inserted: 2
+bound idx: 5
+Bound element: 16
+inserting elements: 3 
+Upper bound for element 3: 6
+new main chain: 2 3 6 8 11 15 16 17 10 12 18 19 20 21 13 
+bound idx: 5
+Bound element: 15
+inserting elements: 0 
+Upper bound for element 0: 2
+new main chain: 0 2 3 6 8 11 15 16 17 10 12 18 19 20 21 13 
+elems inserted: 4
+bound idx: 11
+Bound element: 18
+inserting elements: 7 
+Upper bound for element 7: 8
+new main chain: 0 2 3 6 7 8 11 15 16 17 10 12 18 19 20 21 13 
+bound idx: 11
+Bound element: 12
+inserting elements: 1 
+Upper bound for element 1: 2
+new main chain: 0 1 2 3 6 7 8 11 15 16 17 10 12 18 19 20 21 13 
+bound idx: 11
+Bound element: 10
+inserting elements: 4 
+Upper bound for element 4: 6
+new main chain: 0 1 2 3 4 6 7 8 11 15 16 17 10 12 18 19 20 21 13 
+bound idx: 11
+Bound element: 17
+inserting elements: 14 
+Upper bound for element 14: 15
+new main chain: 0 1 2 3 4 6 7 8 11 14 15 16 17 10 12 18 19 20 21 13 
+bound idx: 11
+Bound element: 16
+inserting elements: 9 
+Upper bound for element 9: 11
+new main chain: 0 1 2 3 4 6 7 8 9 11 14 15 16 17 10 12 18 19 20 21 13 
+bound idx: 11
+Bound element: 15
+inserting elements: 5 
+Upper bound for element 5: 6
+new main chain: 0 1 2 3 4 5 6 7 8 9 11 14 15 16 17 10 12 18 19 20 21 13 
+copy: 0 1 2 3 4 5 6 7 8 9 11 14 15 16 17 10 12 18 19 20 21 13 
+
+comparisons: 64

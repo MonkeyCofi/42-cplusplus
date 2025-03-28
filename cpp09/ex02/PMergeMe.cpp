@@ -228,31 +228,58 @@ void	PMergeMe::recurseVector(int pairSize)
 		appendChain.insert(appendChain.end(), begin + (*(it - 1)).second + 1, begin + (*it).first + 1);
 	}
 
+	std::cout << "main chain: ";
+	printVector(mainChain);
+	std::cout << "append chain: ";
+	printVector(appendChain);
+
 	int	nthJacobsthal = 4;
-	int	current = calculateJacobsthal(nthJacobsthal);
-	std::cout << "Current jacobsthal number: " << current << "\n";
-	while (1)
+	int	currentJacobsthal = calculateJacobsthal(nthJacobsthal);
+	unsigned int	appendageCount = calculateJacobsthal(nthJacobsthal) - calculateJacobsthal(nthJacobsthal - 1);
+	unsigned int	nPairs = pairElements.size();
+	unsigned int	elemsInserted = 0;
+	// pairElements.size() represents the amount of b and a elements there are
+	(void)nPairs;
+	while (appendageCount > 0)
 	{
-		unsigned int	appendageCount = calculateJacobsthal(nthJacobsthal) - calculateJacobsthal(nthJacobsthal - 1);
-		if (appendageCount > pairElements.size())
+		if (currentJacobsthal > static_cast<int>(nPairs))
+			break;
+		if (appendageCount > nPairs)
 			break ;
 		std::vector<int>::iterator mainChainBound;
-		if (pairElements.at(current - 1).second != -1)
-			mainChainBound = mainChain.begin() + ((elemSize * 2) - 1) * (current -1 ) + 1;
+		if (pairElements.at(currentJacobsthal - 1).second != -1)
+		{
+			// std::cout << "test: " << ((elemSize * 2) - 1) * (currentJacobsthal - 1) + 1 << "\n";
+			std::cout << "bound idx: " << ((elemSize * 2) - 1) * (calculateJacobsthal(nthJacobsthal) - 1) + 1 << "\n";
+			// mainChainBound = mainChain.begin() + ((elemSize * 2) - 1) * (currentJacobsthal  - 1) + 1;
+			mainChainBound = mainChain.begin() + ((elemSize * 2) - 1) * (calculateJacobsthal(nthJacobsthal)  - 1) + 1;
+		}
 		else
-			mainChainBound = mainChain.end();
-
-		std::vector<int>::iterator	upperBound = std::upper_bound(mainChain.begin(), mainChainBound, \
-			this->vector.at(pairElements.at(current - 1).first));
+			mainChainBound = mainChain.end() - 1;
+		std::vector<int>::iterator upperBound = std::upper_bound(mainChain.begin(), mainChainBound, \
+		this->vector.at(pairElements.at(currentJacobsthal - 1).first), comp);
+			std::cout << "Bound element: " << *mainChainBound << "\n";
 
 		std::vector<int>::iterator pos = upperBound - elemSize + 1;
-		std::vector<int>::iterator start = begin + pairElements.at(current - 1).first - elemSize + 1;
-		std::vector<int>::iterator finish = begin + pairElements.at(current - 1).first + 1;
+		std::vector<int>::iterator start = begin + pairElements.at(currentJacobsthal - 1).first - elemSize + 1;
+		std::vector<int>::iterator finish = begin + pairElements.at(currentJacobsthal - 1).first + 1;
 		std::cout << "inserting elements: ";
 		std::for_each(start, finish, printElems);
 		std::cout << "\n";
-		std::cout << "Upper bound for element " << this->vector.at(pairElements.at(current - 1).first) << ": " << *upperBound << "\n";
+		std::cout << "Upper bound for element " << this->vector.at(pairElements.at(currentJacobsthal - 1).first) << ": " << *upperBound << "\n";
 		mainChain.insert(pos, start, finish);
+		appendageCount--;
+		currentJacobsthal--;
+		std::cout << "new main chain: ";
+		printVector(mainChain);
+		elemsInserted++;
+		if (appendageCount == 0 && elemsInserted < nPairs - 1)
+		{
+			std::cout << "elems inserted: " << elemsInserted << "\n";
+			nthJacobsthal++;
+			currentJacobsthal = calculateJacobsthal(nthJacobsthal);
+			appendageCount = currentJacobsthal - calculateJacobsthal(nthJacobsthal - 1);
+		}
 	}
 	// if (appendageCount < pairElements.size())
 	// {
@@ -274,7 +301,14 @@ void	PMergeMe::recurseVector(int pairSize)
 	// 	std::cout << "new main chain: ";
 	// 	printVector(mainChain);
 	// }
+	std::vector<int> copy = mainChain;
+	for (i = mainChain.size(); i < this->vector.size(); i++)
+		copy.push_back(this->vector[i]);
+	std::cout << "copy: ";
+	printVector(copy);
 	std::cout << "\n";
+	this->vector = copy;
 	(void)elemSize;
 	(void)hasOdd;
+	std::cout << "comparisons: " << comparisonCount << "\n";
 }
