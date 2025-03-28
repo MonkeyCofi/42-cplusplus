@@ -250,12 +250,15 @@ void	PMergeMe::recurseVector(int pairSize)
 		if (pairElements.at(currentJacobsthal - 1).second != -1)
 		{
 			// std::cout << "test: " << ((elemSize * 2) - 1) * (currentJacobsthal - 1) + 1 << "\n";
-			std::cout << "bound idx: " << ((elemSize * 2) - 1) * (calculateJacobsthal(nthJacobsthal) - 1) + 1 << "\n";
+			std::cout << "bound idx: " << ((elemSize * 2) - 1) * (calculateJacobsthal(nthJacobsthal) - 1) + 1 << " ";
 			// mainChainBound = mainChain.begin() + ((elemSize * 2) - 1) * (currentJacobsthal  - 1) + 1;
 			mainChainBound = mainChain.begin() + ((elemSize * 2) - 1) * (calculateJacobsthal(nthJacobsthal)  - 1) + 1;
 		}
 		else
+		{
+			std::cout << "No corresponding a element for bound\n";
 			mainChainBound = mainChain.end() - 1;
+		}
 		std::vector<int>::iterator upperBound = std::upper_bound(mainChain.begin(), mainChainBound, \
 		this->vector.at(pairElements.at(currentJacobsthal - 1).first), comp);
 			std::cout << "Bound element: " << *mainChainBound << "\n";
