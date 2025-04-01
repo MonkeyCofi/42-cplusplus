@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PMergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:45:24 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/31 23:21:41 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/04/01 20:30:30 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,9 +243,15 @@ void	PMergeMe::recurseVector(int pairSize)
 	while (appendageCount > 0)
 	{
 		if (currentJacobsthal > static_cast<int>(nPairs))
+		{
+			std::cout << "Breaking in first if\n";
 			break;
+		}
 		if (appendageCount > nPairs)
+		{
+			std::cout << "Breaking in second if\n";
 			break ;
+		}
 		std::vector<int>::iterator mainChainBound;
 		if (pairElements.at(currentJacobsthal - 1).second != -1)
 		{
@@ -284,6 +290,11 @@ void	PMergeMe::recurseVector(int pairSize)
 			appendageCount = currentJacobsthal - calculateJacobsthal(nthJacobsthal - 1);
 		}
 	}
+	// insert the rest of the elements in the append chain from the end up until the last inserted index
+	insertRemaining(mainChain, appendChain, lastInsertedIndex);
+	//std::vector<int>::iterator appendStart = appendChain.end() - 1;
+
+	//std::cout << "Element: " << *appendStart << "\n";
 	// if (appendageCount < pairElements.size())
 	// {
 	// 	std::vector<int>::iterator mainChainBound = mainChain.end();
