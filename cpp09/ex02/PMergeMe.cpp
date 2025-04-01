@@ -6,7 +6,7 @@
 /*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:45:24 by pipolint          #+#    #+#             */
-/*   Updated: 2025/03/25 01:07:45 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/03/31 23:21:41 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ void	PMergeMe::recurseVector(int pairSize)
 	printVector(mainChain);
 	std::cout << "append chain: ";
 	printVector(appendChain);
-
+	std::cout << "\n";
 	int	nthJacobsthal = 4;
 	int	currentJacobsthal = calculateJacobsthal(nthJacobsthal);
 	unsigned int	appendageCount = calculateJacobsthal(nthJacobsthal) - calculateJacobsthal(nthJacobsthal - 1);
