@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:45:24 by pipolint          #+#    #+#             */
-/*   Updated: 2025/04/01 20:30:30 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:29:29 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,13 @@ void	printElems(int& x)
 	std::cout << x << " ";
 }
 
+void	PMergeMe::insertRemaining(std::vector<int>& mainChain, std::vector<int>& appendChain, unsigned int lastInsertedIndex)
+{
+	(void)mainChain;
+	(void)appendChain;
+	(void)lastInsertedIndex;
+}
+
 void	PMergeMe::recurseVector(int pairSize)
 {
 	if (static_cast<unsigned int>(pairSize) > this->vector.size())
@@ -255,9 +262,6 @@ void	PMergeMe::recurseVector(int pairSize)
 		std::vector<int>::iterator mainChainBound;
 		if (pairElements.at(currentJacobsthal - 1).second != -1)
 		{
-			// std::cout << "test: " << ((elemSize * 2) - 1) * (currentJacobsthal - 1) + 1 << "\n";
-			std::cout << "bound idx: " << ((elemSize * 2) - 1) * (calculateJacobsthal(nthJacobsthal) - 1) + 1 << " ";
-			// mainChainBound = mainChain.begin() + ((elemSize * 2) - 1) * (currentJacobsthal  - 1) + 1;
 			mainChainBound = mainChain.begin() + ((elemSize * 2) - 1) * (calculateJacobsthal(nthJacobsthal)  - 1) + 1;
 		}
 		else
@@ -265,6 +269,7 @@ void	PMergeMe::recurseVector(int pairSize)
 			std::cout << "No corresponding a element for bound\n";
 			mainChainBound = mainChain.end() - 1;
 		}
+		
 		std::vector<int>::iterator upperBound = std::upper_bound(mainChain.begin(), mainChainBound, \
 		this->vector.at(pairElements.at(currentJacobsthal - 1).first), comp);
 			std::cout << "Bound element: " << *mainChainBound << "\n";
@@ -291,7 +296,7 @@ void	PMergeMe::recurseVector(int pairSize)
 		}
 	}
 	// insert the rest of the elements in the append chain from the end up until the last inserted index
-	insertRemaining(mainChain, appendChain, lastInsertedIndex);
+	insertRemaining(mainChain, appendChain, 0);
 	//std::vector<int>::iterator appendStart = appendChain.end() - 1;
 
 	//std::cout << "Element: " << *appendStart << "\n";
@@ -324,5 +329,6 @@ void	PMergeMe::recurseVector(int pairSize)
 	this->vector = copy;
 	(void)elemSize;
 	(void)hasOdd;
+	std::cout << "Elements inserted: " << elemsInserted << "\n";
 	std::cout << "comparisons: " << comparisonCount << "\n";
 }

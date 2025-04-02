@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 17:21:00 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/26 18:16:26 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/04/02 15:45:31 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ class	Data
 		~Data();
 		Data(const Data& obj);
 		Data	&operator=(const Data& obj);
-		int	getNum() const;
+		int		getNum() const;
 };
 
 #endif
