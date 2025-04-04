@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:45:24 by pipolint          #+#    #+#             */
-/*   Updated: 2025/04/02 17:29:29 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/04/04 20:35:16 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,12 +199,14 @@ void	PMergeMe::recurseVector(int pairSize)
 	unsigned int						i;
 	bool								hasOdd = false;
 
+	std::cout << "Pair size: " << pairSize << "\n";
 	for (i = 0; i < size; i += pairSize)
 	{
 		firstElem = ((pairSize / 2) - 1) + i;
 		secondElem = (pairSize - 1) + i;
 		if (firstElem >= size || secondElem >= size)
 			continue ;
+		std::cout << "First element: " << vector[firstElem] << " Second element: " << vector[secondElem] << "\n";
 		if (this->vector[firstElem] > this->vector[secondElem])
 		{
 			comparisonCount++;
@@ -217,6 +219,8 @@ void	PMergeMe::recurseVector(int pairSize)
 		hasOdd = true;
 		pairElements.push_back(std::pair<int, int>(firstElem, -1));
 	}
+	std::cout << "Sorted pairs: ";
+	printVector();
 
 	recurseVector(pairSize * 2);
 
@@ -249,7 +253,7 @@ void	PMergeMe::recurseVector(int pairSize)
 	(void)nPairs;
 	while (appendageCount > 0)
 	{
-		if (currentJacobsthal > static_cast<int>(nPairs))
+		if (currentJacobsthal > static_cast<int>(nPairs))	// means there aren't any jacobsthal elements to append so just append the rest in reverse order
 		{
 			std::cout << "Breaking in first if\n";
 			break;
