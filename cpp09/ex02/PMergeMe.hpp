@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:44:26 by pipolint          #+#    #+#             */
-/*   Updated: 2025/04/02 13:19:39 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/04/06 02:48:33 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,17 @@ class	PMergeMe
 		// unsigned int	binarySearchVector(unsigned int start, unsigned int middle, unsigned int end, int valToInsert);
 		unsigned int	binarySearchVector(std::vector<int>& _vector, unsigned int low, unsigned int high, int valToInsert);
 		void			insertRemaining(std::vector<int>& mainChain, std::vector<int>& appendChain, unsigned int lastInsertedIndex);
-
+		
 		void			jacobsthalInsert(int jacobsthalNumber, unsigned int& appendageCount, std::vector<int>& mainChain, std::vector< std::pair<int,int> >& pairElements);
 		void			binaryInsert(std::vector<int>& mainChain, std::vector< std::pair<int,int> >& pairElements);
-
+		
 		void			recurseVector(int pairSize);
+		
+		void				sortVector(std::vector<int>& _vec);
+		void				mergeInsertionSort(std::vector<int>& _winners, std::vector<int>& _losers);
+		std::vector<int>	swapPairs(std::vector<int>& to_sort);
+		std::vector<int>	returnWinners(std::vector<int>& _vec);
+		std::vector<int>	returnLosers(std::vector<int>& _vec);
 };
 
 #endif

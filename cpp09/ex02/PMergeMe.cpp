@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:45:24 by pipolint          #+#    #+#             */
-/*   Updated: 2025/04/04 20:35:16 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/04/06 02:58:46 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ PMergeMe	&PMergeMe::operator=(const PMergeMe& obj)
 	return (*this);
 }
 
+unsigned int	comp(int val, int iteratorPoint)
+{
+	comparisonCount++;
+	return (val < iteratorPoint);
+}
+
 void	PMergeMe::fillContainers(const char** args)
 {
 	for (int i = 1; args[i]; i++)
@@ -49,11 +55,99 @@ void	PMergeMe::fillContainers(const char** args)
 	}
 }
 
+std::vector<int>	PMergeMe::swapPairs(std::vector<int>& to_sort)
+{
+	for (std::vector<int>::iterator it = to_sort.begin(); it != to_sort.end(); it += 2)
+	{
+		if (it + 1 == to_sort.end())
+			break ;
+		if ((*it) > *(it + 1))
+		{
+			std::swap(*it, *(it + 1));
+			comparisonCount++;
+		}
+	}
+	return (to_sort);
+}
+
+std::vector<int>	PMergeMe::returnWinners(std::vector<int>& _vec)
+{
+	std::vector<int>	ret;
+	for (std::vector<int>::iterator it = _vec.begin() + 1; it != _vec.end(); it = std::next(it, 2))
+	{
+		ret.push_back(*it);
+		if (it + 1 == _vec.end())
+			break ;
+	}
+	return (ret);
+}
+
+std::vector<int>	PMergeMe::returnLosers(std::vector<int>& _vec)
+{
+	std::vector<int>	ret;
+	for (std::vector<int>::iterator it = _vec.begin(); it != _vec.end(); it = std::next(it, 2))
+	{
+		ret.push_back(*it);
+		if (it + 1 == _vec.end())
+			break ;
+	}
+	return (ret);
+}
+
+void	PMergeMe::mergeInsertionSort(std::vector<int>& _winners, std::vector<int>& _losers)
+{
+	std::vector<int>	mainChain;
+	std::vector<int>	pendChain;
+	int					nthJacobsthal;
+	int					current;
+	int					previous;
+	int					elemCount;
+	
+	mainChain = _winners;
+	pendChain = _losers;
+	while (1)
+	{
+		nthJacobsthal = 1;
+		current = calculateJacobsthal(nthJacobsthal);
+		previous = calculateJacobsthal(nthJacobsthal - 1);
+		elemCount = current - previous;
+	}
+}
+
+void	PMergeMe::sortVector(std::vector<int>& _vec)
+{
+	if (_vec.size() == 1)
+		return ;
+	
+	std::vector<int>	swapped;
+	std::vector<int>	winners;
+	std::vector<int>	losers;
+	
+	swapped = swapPairs(_vec);
+	winners = returnWinners(swapped);
+	losers = returnLosers(swapped);
+	std::cout << "winners: ";
+	printVector(winners);
+	std::cout << "losers: ";
+	printVector(losers);
+	sortVector(winners);
+	mergeInsertionSort(winners, losers);
+}
+
 void	PMergeMe::sortVector()
 {
-	// for (std::vector<int>::iterator it = this->vector.begin(); it != this->vector.end(); it++)
-	// 	std::cout << "Vector: " << (*it) << "\n";
-	recurseVector(2);
+	std::vector<int>	swapped;
+	std::vector<int>	winners;
+	std::vector<int>	losers;
+
+	swapped = swapPairs(this->vector);
+	winners = returnWinners(swapped);
+	losers = returnLosers(swapped);
+	std::cout << "winners: ";
+	printVector(winners);
+	std::cout << "losers: ";
+	printVector(losers);
+	sortVector(winners);
 }
 
 void	PMergeMe::sortList()
@@ -75,15 +169,6 @@ void	PMergeMe::printVector(std::vector<int>& _vector)
 {
 	for (std::vector<int>::iterator it = _vector.begin(); it != _vector.end(); it++)
 		std::cout << (*it) << " ";
-	std::cout << "\n";
-}
-
-void	PMergeMe::printPairs(std::vector<int>::iterator begin, std::vector<int>::iterator end)
-{
-	for (; begin != end; begin++)
-	{
-		std::cout << *begin << " ";
-	}
 	std::cout << "\n";
 }
 
@@ -126,11 +211,6 @@ unsigned int	PMergeMe::binarySearchVector(std::vector<int>& _vector, unsigned in
 	return (low);
 }
 
-int	PMergeMe::size()
-{
-	return (this->vector.size());
-}
-
 int	PMergeMe::calculateJacobsthal(int nthJacobsthal)
 {
 	if (nthJacobsthal == 1)
@@ -138,201 +218,4 @@ int	PMergeMe::calculateJacobsthal(int nthJacobsthal)
 	if (nthJacobsthal == 2 || nthJacobsthal == 3)
 		return (1);
 	return (calculateJacobsthal(nthJacobsthal - 1) + (calculateJacobsthal(nthJacobsthal - 2) * 2));
-}
-
-void	PMergeMe::jacobsthalInsert(int jacobsthalNumber, unsigned int& appendageCount, std::vector<int>& mainChain, std::vector< std::pair<int,int> >& pairElements)
-{
-	while (appendageCount < pairElements.size() &&  appendageCount > 0)
-	{
-		// insert b[jacobsthalNumber - 1] element in reverse order while appendage count is greater than 0
-		// insert this->vector[pairElement[appendageCount - 1].first] into the main chain
-		// use binarySearch to figure out where to append in the main chain
-		// call: binarySearch(0, pairElement[appendageCount - 1] / 2, pairElement[appendageCount - 1], this->vector[pairElement[appendageCount - 1].first]);
-		// decrement appendageCount
-		unsigned int	insertIndex = binarySearchVector(mainChain, pairElements[appendageCount - 1].second / 2, \
-				pairElements[appendageCount - 1].second, mainChain[pairElements[appendageCount - 1].first]);
-		appendageCount--;
-		(void)insertIndex;
-	}
-	(void)jacobsthalNumber;
-	(void)mainChain;
-}
-
-void	PMergeMe::binaryInsert(std::vector<int>& mainChain, std::vector< std::pair<int,int> >& pairElements)
-{
-	(void)mainChain;
-	(void)pairElements;
-	return ;
-}
-
-unsigned int	comp(int val, int iteratorPoint)
-{
-	comparisonCount++;
-	return (val < iteratorPoint);
-}
-
-void	printElems(int& x)
-{
-	std::cout << x << " ";
-}
-
-void	PMergeMe::insertRemaining(std::vector<int>& mainChain, std::vector<int>& appendChain, unsigned int lastInsertedIndex)
-{
-	(void)mainChain;
-	(void)appendChain;
-	(void)lastInsertedIndex;
-}
-
-void	PMergeMe::recurseVector(int pairSize)
-{
-	if (static_cast<unsigned int>(pairSize) > this->vector.size())
-		return ;
-
-	const std::vector<int>::iterator 	begin = this->vector.begin();
-	const unsigned int					size = 	this->vector.size();
-	const unsigned int					elemSize = pairSize / 2;
-	std::vector< std::pair<int, int> >	pairElements;
-	std::vector<int>					mainChain;
-	std::vector<int>					appendChain;
-	unsigned int						firstElem;
-	unsigned int						secondElem;
-	unsigned int						i;
-	bool								hasOdd = false;
-
-	std::cout << "Pair size: " << pairSize << "\n";
-	for (i = 0; i < size; i += pairSize)
-	{
-		firstElem = ((pairSize / 2) - 1) + i;
-		secondElem = (pairSize - 1) + i;
-		if (firstElem >= size || secondElem >= size)
-			continue ;
-		std::cout << "First element: " << vector[firstElem] << " Second element: " << vector[secondElem] << "\n";
-		if (this->vector[firstElem] > this->vector[secondElem])
-		{
-			comparisonCount++;
-			std::swap_ranges(begin + i, begin + firstElem + 1, begin + firstElem + 1);
-		}
-		pairElements.push_back(std::pair<int, int>(firstElem, secondElem));
-	}
-	if (firstElem < size && secondElem >= size)
-	{
-		hasOdd = true;
-		pairElements.push_back(std::pair<int, int>(firstElem, -1));
-	}
-	std::cout << "Sorted pairs: ";
-	printVector();
-
-	recurseVector(pairSize * 2);
-
-	std::cout << "Element size: " << elemSize << "\n";
-
-	mainChain.insert(mainChain.begin(), this->vector.begin(), this->vector.begin() + pairSize);	// inserts b1 a1 into the main chain
-	// insert elements into the main and append chain
-	for (std::vector< std::pair<int, int> >::iterator it = pairElements.begin() + 1, end = pairElements.end(); it != end; it++)
-	{
-		if ((*it).second == -1)	// odd element gets inserted to pend
-		{
-			appendChain.insert(appendChain.end(), begin + (*(it - 1)).second + 1, begin + (*it).first + 1);
-			break ;
-		}
-		mainChain.insert(mainChain.end(), begin + (*it).first + 1, begin + (*it).second + 1);
-		appendChain.insert(appendChain.end(), begin + (*(it - 1)).second + 1, begin + (*it).first + 1);
-	}
-
-	std::cout << "main chain: ";
-	printVector(mainChain);
-	std::cout << "append chain: ";
-	printVector(appendChain);
-	std::cout << "\n";
-	int	nthJacobsthal = 4;
-	int	currentJacobsthal = calculateJacobsthal(nthJacobsthal);
-	unsigned int	appendageCount = calculateJacobsthal(nthJacobsthal) - calculateJacobsthal(nthJacobsthal - 1);
-	unsigned int	nPairs = pairElements.size();
-	unsigned int	elemsInserted = 0;
-	// pairElements.size() represents the amount of b and a elements there are
-	(void)nPairs;
-	while (appendageCount > 0)
-	{
-		if (currentJacobsthal > static_cast<int>(nPairs))	// means there aren't any jacobsthal elements to append so just append the rest in reverse order
-		{
-			std::cout << "Breaking in first if\n";
-			break;
-		}
-		if (appendageCount > nPairs)
-		{
-			std::cout << "Breaking in second if\n";
-			break ;
-		}
-		std::vector<int>::iterator mainChainBound;
-		if (pairElements.at(currentJacobsthal - 1).second != -1)
-		{
-			mainChainBound = mainChain.begin() + ((elemSize * 2) - 1) * (calculateJacobsthal(nthJacobsthal)  - 1) + 1;
-		}
-		else
-		{
-			std::cout << "No corresponding a element for bound\n";
-			mainChainBound = mainChain.end() - 1;
-		}
-		
-		std::vector<int>::iterator upperBound = std::upper_bound(mainChain.begin(), mainChainBound, \
-		this->vector.at(pairElements.at(currentJacobsthal - 1).first), comp);
-			std::cout << "Bound element: " << *mainChainBound << "\n";
-
-		std::vector<int>::iterator pos = upperBound - elemSize + 1;
-		std::vector<int>::iterator start = begin + pairElements.at(currentJacobsthal - 1).first - elemSize + 1;
-		std::vector<int>::iterator finish = begin + pairElements.at(currentJacobsthal - 1).first + 1;
-		std::cout << "inserting elements: ";
-		std::for_each(start, finish, printElems);
-		std::cout << "\n";
-		std::cout << "Upper bound for element " << this->vector.at(pairElements.at(currentJacobsthal - 1).first) << ": " << *upperBound << "\n";
-		mainChain.insert(pos, start, finish);
-		appendageCount--;
-		currentJacobsthal--;
-		std::cout << "new main chain: ";
-		printVector(mainChain);
-		elemsInserted++;
-		if (appendageCount == 0 && elemsInserted < nPairs - 1)
-		{
-			std::cout << "elems inserted: " << elemsInserted << "\n";
-			nthJacobsthal++;
-			currentJacobsthal = calculateJacobsthal(nthJacobsthal);
-			appendageCount = currentJacobsthal - calculateJacobsthal(nthJacobsthal - 1);
-		}
-	}
-	// insert the rest of the elements in the append chain from the end up until the last inserted index
-	insertRemaining(mainChain, appendChain, 0);
-	//std::vector<int>::iterator appendStart = appendChain.end() - 1;
-
-	//std::cout << "Element: " << *appendStart << "\n";
-	// if (appendageCount < pairElements.size())
-	// {
-	// 	std::vector<int>::iterator mainChainBound = mainChain.end();
-	// 	// find out where value at vector.at(pairElements(current - 1).second) rests in the mainChain
-	// 	if (pairElements.at(current - 1).second != -1)
-	// 		mainChainBound = mainChain.begin() + ((elemSize * 2) - 1) * (current -1 ) + 1;
-
-	// 	std::vector<int>::iterator	upperBound = std::upper_bound(mainChain.begin(), mainChainBound, this->vector.at(pairElements.at(current - 1).first));
-
-	// 	std::vector<int>::iterator pos = upperBound - elemSize + 1;
-	// 	std::vector<int>::iterator start = begin + pairElements.at(current - 1).first - elemSize + 1;
-	// 	std::vector<int>::iterator finish = begin + pairElements.at(current - 1).first + 1;
-	// 	std::cout << "inserting elements: ";
-	// 	std::for_each(start, finish, printElems);
-	// 	std::cout << "\n";
-	// 	std::cout << "Upper bound for element " << this->vector.at(pairElements.at(current - 1).first) << ": " << *upperBound << "\n";
-	// 	mainChain.insert(pos, start, finish);
-	// 	std::cout << "new main chain: ";
-	// 	printVector(mainChain);
-	// }
-	std::vector<int> copy = mainChain;
-	for (i = mainChain.size(); i < this->vector.size(); i++)
-		copy.push_back(this->vector[i]);
-	std::cout << "copy: ";
-	printVector(copy);
-	std::cout << "\n";
-	this->vector = copy;
-	(void)elemSize;
-	(void)hasOdd;
-	std::cout << "Elements inserted: " << elemsInserted << "\n";
-	std::cout << "comparisons: " << comparisonCount << "\n";
 }
