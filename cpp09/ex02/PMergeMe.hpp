@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:44:26 by pipolint          #+#    #+#             */
-/*   Updated: 2025/04/06 02:48:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:10:21 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,15 @@ class	PMergeMe
 		void	fillContainers(const char** args);
 		int		size();
 		
-		static int		calculateJacobsthal(int nthJacobsthal);
+		static int			calculateJacobsthal(int nthJacobsthal);
+		static unsigned int	binarySearchVector(std::vector<int>& _vector, unsigned int low, unsigned int high, int valToInsert);
+
 		void			sortVector();
 		void			sortList();
 		void			printVector();
 		void			printVector(std::vector<int>& _vector);
 		void			printPairs(std::vector<int>::iterator begin, std::vector<int>::iterator end);
 		// unsigned int	binarySearchVector(unsigned int start, unsigned int middle, unsigned int end, int valToInsert);
-		unsigned int	binarySearchVector(std::vector<int>& _vector, unsigned int low, unsigned int high, int valToInsert);
 		void			insertRemaining(std::vector<int>& mainChain, std::vector<int>& appendChain, unsigned int lastInsertedIndex);
 		
 		void			jacobsthalInsert(int jacobsthalNumber, unsigned int& appendageCount, std::vector<int>& mainChain, std::vector< std::pair<int,int> >& pairElements);

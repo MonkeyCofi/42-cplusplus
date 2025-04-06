@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:45:24 by pipolint          #+#    #+#             */
-/*   Updated: 2025/04/06 02:58:46 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/04/06 19:44:23 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,17 @@ void	PMergeMe::mergeInsertionSort(std::vector<int>& _winners, std::vector<int>& 
 	
 	mainChain = _winners;
 	pendChain = _losers;
+	nthJacobsthal = 0;
 	while (1)
 	{
-		nthJacobsthal = 1;
+		nthJacobsthal++;
 		current = calculateJacobsthal(nthJacobsthal);
 		previous = calculateJacobsthal(nthJacobsthal - 1);
 		elemCount = current - previous;
+		while (elemCount >= 0)
+		{
+			
+		}
 	}
 }
 
@@ -202,6 +207,9 @@ unsigned int	PMergeMe::binarySearchVector(std::vector<int>& _vector, unsigned in
 	while (low < high)
 	{
 		middle = (high + low) / 2;
+		std::cout << "low: " << low << " middle: " << middle << " high: " << high << "\n";
+		if (low == middle)
+			return (_vector[low] < valToInsert ? high : low);
 		if (_vector[middle] < valToInsert)
 			low = middle + 1;
 		else
