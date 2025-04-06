@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 06:13:54 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/18 12:42:34 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/04/06 20:09:21 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,17 @@ class	Bureaucrat
 		int			getGrade() const;
 		void		incrementGrade();
 		void		decrementGrade();
-		class	GradeTooHighException
+
+		class	GradeTooHighException: public std::exception
 		{
 			public:
-				const char* what();
+				const char* what() const throw();
 		};
 		
-		class	GradeTooLowException
+		class	GradeTooLowException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
 };
 

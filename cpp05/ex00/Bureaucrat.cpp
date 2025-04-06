@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 06:22:48 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/19 16:14:01 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/04/06 20:09:27 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ int	Bureaucrat::getGrade() const
 	return (this->m_grade);
 };
 
-const char*	Bureaucrat::GradeTooHighException::what()
+const char*	Bureaucrat::GradeTooHighException::what() const throw()
 {
 	return "Grade too high\n";
 }
 
-const char*	Bureaucrat::GradeTooLowException::what()
+const char*	Bureaucrat::GradeTooLowException::what() const throw()
 {
 	return "Grade too low\n";
 }

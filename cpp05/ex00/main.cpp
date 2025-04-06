@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:00:41 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/22 19:19:53 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/04/06 20:10:26 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int main(void)
 		}
 		catch (Bureaucrat::GradeTooHighException& e)
 		{
-			std::cout << e.what();
+			std::cerr << e.what();
 		}
 		catch (Bureaucrat::GradeTooLowException& e)
 		{
-			std::cout << e.what();
+			std::cerr << e.what();
 		}
 	}
 	std::cout << "\n";
@@ -38,11 +38,11 @@ int main(void)
 		}
 		catch (Bureaucrat::GradeTooHighException& e)
 		{
-			std::cout << e.what();
+			std::cerr << e.what();
 		}
 		catch (Bureaucrat::GradeTooLowException& e)
 		{
-			std::cout << e.what();
+			std::cerr << e.what();
 		}
 
 	}
@@ -56,11 +56,11 @@ int main(void)
 		}
 		catch (Bureaucrat::GradeTooHighException& e)
 		{
-			std::cout << e.what();
+			std::cerr << e.what();
 		}
 		catch (Bureaucrat::GradeTooLowException& e)
 		{
-			std::cout << e.what();
+			std::cerr << e.what();
 		}
 
 	}
@@ -73,11 +73,11 @@ int main(void)
 		}
 		catch (Bureaucrat::GradeTooHighException& e)
 		{
-			std::cout << e.what();
+			std::cerr << e.what();
 		}
 		catch (Bureaucrat::GradeTooLowException& e)
 		{
-			std::cout << e.what();
+			std::cerr << e.what();
 		}
 
 	}
@@ -90,11 +90,11 @@ int main(void)
 	}
 	catch (Bureaucrat::GradeTooHighException& e)
 	{
-		std::cout << e.what();
+		std::cerr << e.what();
 	}
 	catch (Bureaucrat::GradeTooLowException& e)
 	{
-		std::cout << e.what();
+		std::cerr << e.what();
 	}
 	std::cout << "\n";
 	try
@@ -105,11 +105,11 @@ int main(void)
 	}
 	catch (Bureaucrat::GradeTooHighException& e)
 	{
-		std::cout << e.what();
+		std::cerr << e.what();
 	}
 	catch (Bureaucrat::GradeTooLowException& e)
 	{
-		std::cout << e.what();
+		std::cerr << e.what();
 	}
 
 	return (0);
