@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:45:24 by pipolint          #+#    #+#             */
-/*   Updated: 2025/04/06 19:44:23 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:11:25 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,14 @@ PMergeMe::~PMergeMe()
 
 PMergeMe::PMergeMe(const PMergeMe& obj)
 {
-	(void)obj;
+	this->vector = obj.vector;
+	this->list = obj.list;
 };
 
 PMergeMe	&PMergeMe::operator=(const PMergeMe& obj)
 {
-	(void)obj;
+	this->vector = obj.vector;
+	this->list = obj.list;
 	return (*this);
 }
 
@@ -114,7 +116,7 @@ void	PMergeMe::mergeInsertionSort(std::vector<int>& _winners, std::vector<int>& 
 		elemCount = current - previous;
 		while (elemCount >= 0)
 		{
-			
+			elemCount--;
 		}
 	}
 }
@@ -127,15 +129,19 @@ void	PMergeMe::sortVector(std::vector<int>& _vec)
 	std::vector<int>	swapped;
 	std::vector<int>	winners;
 	std::vector<int>	losers;
+	std::vector<int>	_main;
+	std::vector<int>	_pend;
 	
 	swapped = swapPairs(_vec);
 	winners = returnWinners(swapped);
 	losers = returnLosers(swapped);
-	std::cout << "winners: ";
-	printVector(winners);
-	std::cout << "losers: ";
-	printVector(losers);
+	_main = winners;
 	sortVector(winners);
+	_pend = losers;
+	std::cout << "main chain: ";
+	printVector(_main);
+	std::cout << "pend chain: ";
+	printVector(_pend);
 	mergeInsertionSort(winners, losers);
 }
 
@@ -144,14 +150,18 @@ void	PMergeMe::sortVector()
 	std::vector<int>	swapped;
 	std::vector<int>	winners;
 	std::vector<int>	losers;
+	std::vector<int>	_main;
+	std::vector<int>	_pend;
 
 	swapped = swapPairs(this->vector);
 	winners = returnWinners(swapped);
 	losers = returnLosers(swapped);
-	std::cout << "winners: ";
-	printVector(winners);
-	std::cout << "losers: ";
-	printVector(losers);
+	_main = winners;
+	_pend = losers;
+	std::cout << "main: ";
+	printVector(_main);
+	std::cout << "pend: ";
+	printVector(_pend);
 	sortVector(winners);
 }
 
@@ -221,7 +231,7 @@ unsigned int	PMergeMe::binarySearchVector(std::vector<int>& _vector, unsigned in
 
 int	PMergeMe::calculateJacobsthal(int nthJacobsthal)
 {
-	if (nthJacobsthal == 1)
+	if (nthJacobsthal == 0 || nthJacobsthal == 1)
 		return (0);
 	if (nthJacobsthal == 2 || nthJacobsthal == 3)
 		return (1);
