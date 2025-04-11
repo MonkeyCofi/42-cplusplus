@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:34:59 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/22 15:30:10 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:10:13 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,22 @@ class	AForm
 		void				execute(Bureaucrat const& executor) const;
 		virtual void		actualExecute(const Bureaucrat& executor) = 0;
 		
-		class	GradeTooHighException
+		class	GradeTooHighException: public std::exception
 		{
 			public:
 				const char*	what();
 		};
-		class	GradeTooLowException
+		class	GradeTooLowException: public std::exception
 		{
 			public:
 				const char*	what();
 		};
-		class	UnsignedFormException
+		class	UnsignedFormException: public std::exception
 		{
 			public:
 				const char*	what();
 		};
-		class	GradeTooLowExecException
+		class	GradeTooLowExecException: public std::exception
 		{
 			public:
 				const char*	what();

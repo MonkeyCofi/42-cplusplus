@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:40:58 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/19 15:23:24 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:10:04 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ void	Form::beSigned(Bureaucrat& b)
 	this->m_signed = true;
 }
 
-const char*	Form::GradeTooHighException::what()
+const char*	Form::GradeTooHighException::what() const throw()
 {
 	return "Form: Grade too high\n";
 }
 
-const char*	Form::GradeTooLowException::what()
+const char*	Form::GradeTooLowException::what() const throw()
 {
 	return "Form: Grade too low\n";
 }

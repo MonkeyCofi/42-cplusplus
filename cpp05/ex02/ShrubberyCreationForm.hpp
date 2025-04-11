@@ -27,10 +27,10 @@ class	ShrubberyCreationForm: public AForm
 		
 		ShrubberyCreationForm(std::string target);
 		void	actualExecute(Bureaucrat const& executor);
-		class	FileOpenException
+		class	FileOpenException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
 };
 

@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:34:59 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/19 16:03:33 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:10:35 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,15 @@ class	Form
 
 		void				beSigned(Bureaucrat& b);
 		
-		class	GradeTooHighException
+		class	GradeTooHighException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
-		class	GradeTooLowException
+		class	GradeTooLowException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
 };
 
