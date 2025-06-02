@@ -17,6 +17,10 @@
 # include <exception>
 # include "Bureaucrat.hpp"
 
+# define RED "\033[31m"
+# define RESET "\033[0m"
+# define GREEN "\033[32m"
+
 class	AForm
 {
 	private:
@@ -41,26 +45,27 @@ class	AForm
 		virtual void		beSigned(Bureaucrat& b);
 		void				execute(Bureaucrat const& executor) const;
 		virtual void		actualExecute(const Bureaucrat& executor) = 0;
-		
+
+
 		class	GradeTooHighException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
 		class	GradeTooLowException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
 		class	UnsignedFormException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
 		class	GradeTooLowExecException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
 };
 

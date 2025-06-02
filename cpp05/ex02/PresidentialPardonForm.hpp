@@ -18,8 +18,9 @@
 
 class	PresidentialPardonForm: public AForm
 {
-	public:
+	private:
 		PresidentialPardonForm();
+	public:
 		~PresidentialPardonForm();
 		PresidentialPardonForm(const PresidentialPardonForm& obj);
 		PresidentialPardonForm&	operator=(const PresidentialPardonForm& obj);

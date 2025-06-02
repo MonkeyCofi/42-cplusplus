@@ -30,11 +30,17 @@ Bureaucrat::Bureaucrat(std::string name, int grade) : m_name(name)
 
 Bureaucrat::~Bureaucrat()
 {
-	std::cout << "\033[31mDestructor for Bureaucrat " << this->m_name << " was called\033[0m\n";
+	std::cout << RED"Destructor for Bureaucrat " << this->m_name << " was called" << RESET << "\n";
 };
 
+// copy constructor
 Bureaucrat::Bureaucrat(const Bureaucrat &obj) : m_name(obj.m_name)
 {
+	if (obj.m_grade < 1)
+		throw (Bureaucrat::GradeTooHighException());
+	if (obj.m_grade > 150)
+		throw (Bureaucrat::GradeTooLowException());
+	std::cout << "Copy constructor for Bureaucrat was called\n";
 	this->m_grade = obj.m_grade;
 };
 
@@ -54,28 +60,32 @@ int	Bureaucrat::getGrade() const
 	return (this->m_grade);
 };
 
-const char*	Bureaucrat::GradeTooHighException::what()
+const char*	Bureaucrat::GradeTooHighException::what() const throw()
 {
 	return "Grade too high\n";
 }
 
-const char*	Bureaucrat::GradeTooLowException::what()
+const char*	Bureaucrat::GradeTooLowException::what() const throw()
 {
 	return "Grade too low\n";
 }
 
 void		Bureaucrat::incrementGrade()
 {
+	std::cout << "Attempting to increment " << this->m_name << "'s grade from " << this->m_grade << " to " << this->m_grade - 1 << "\n";
 	if (this->m_grade - 1 < 1)
 		throw GradeTooHighException();
+	std::cout << "Successfully incremented " << this->m_name << "'s grade\n";
 	this->m_grade--;
 }
 
 void		Bureaucrat::decrementGrade()
 {
+	std::cout << "Attempting to decrement " << this->m_name << "'s grade from " << this->m_grade << " to " << this->m_grade + 1 << "\n";
 	if (this->m_grade + 1 > 150)
 		throw GradeTooLowException();
 	this->m_grade++;
+	std::cout << "Successfully decremented " << this->m_name << "'s grade\n";
 };
 
 void	Bureaucrat::signForm(AForm& form)
@@ -83,23 +93,13 @@ void	Bureaucrat::signForm(AForm& form)
 	try
 	{
 		form.beSigned(*this);
-		std::cout << "\033[32m" << this->m_name << " signed " << form.getName() << "\033[0m\n";
 	}
-	catch(AForm::GradeTooLowException& e)
+	catch (std::exception& e)
 	{
-		e.what();
-		std::cout << "\033[31m" << this->m_name << " couldn't sign the form '" << form.getName() << "' because" \
-			<< (this->m_grade < 1 ? " their grade is too high\n" : " their grade is too low\n") << "\033[0m";
+		std::cerr << RED"Bureaucrat " << this->m_name << " couldn't sign form " << form.getName() << RESET << "\n";
+		throw (AForm::GradeTooLowException());
 	}
-	//if (form.getSigned() == true)
-	//{
-	//	std::cout << "\033[32m" << this->m_name << " signed " << form.getName() << "\033[0m\n";
-	//}
-	//else
-	//{
-	//	std::cout << "\033[31m" << this->m_name << " couldn't sign the form " << form.getName() << " because " \
-	//		<< (this->m_grade < 1 ? " their grade is too high\n" : " their grade is too low\n") << "\033[0m";
-	//}
+	// if this function throws, catch it and print an erro message and then throw its exception again
 }
 
 void		Bureaucrat::executeForm(AForm& form)
@@ -107,25 +107,28 @@ void		Bureaucrat::executeForm(AForm& form)
 	try
 	{
 		form.actualExecute(*this);
-		std::cout << this->m_name << " executed " << form.getName() + "\n";
+		std::cout << this->m_name << " executed " << form.getName() << "\n";
 	}
 	catch(ShrubberyCreationForm::FileOpenException& e)
 	{
-		e.what();
+		// std::cerr << e.what();
 		std::cout << "\033[31m" << this->m_name << " couldn't execute form " << form.getName()\
 			<< " because the Shrubbery file couldn't be opened\n" << "\033[0m";
+		throw (e);
 	}
 	catch(AForm::UnsignedFormException& e)
 	{
-		e.what();
+		// std::cerr << e.what();
 		std::cout << "\033[31m" << this->m_name << " couldn't execute form " << form.getName()\
 			<< " because the form is unsigned\n" << "\033[0m";
+		throw (e);
 	}
 	catch(AForm::GradeTooLowExecException& e)
 	{
-		e.what();
+		// std::cerr << e.what();
 		std::cout << "\033[31m" << this->m_name << " couldn't execute form " << form.getName()\
 			<< " because their grade is too low\n" << "\033[0m";
+		throw (e);
 	}
 }
 

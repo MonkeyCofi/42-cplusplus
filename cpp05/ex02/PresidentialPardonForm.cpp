@@ -12,32 +12,35 @@
 
 #include "PresidentialPardonForm.hpp"
 
+// base constructor
 PresidentialPardonForm::PresidentialPardonForm(): AForm("PresidentialPardonForm", "None", 25, 5)
 {
-	;
+
 }
 
+// destructor
 PresidentialPardonForm::~PresidentialPardonForm()
 {
-	std::cout << "\033[31mDestructor for PresidentialPardonForm " \
-		<< this->getName() << " was called\n\033[0m";
+	std::cout << "\033[31mDestructor for PresidentialPardonForm" << " was called\n\033[0m";
 }
 
-
+// copy constructor
 PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm& obj): AForm(obj)
 {
 	;
 }
 
+// copy assignment operator
 PresidentialPardonForm&	PresidentialPardonForm::operator=(const PresidentialPardonForm& obj)
 {
 	(void)obj;
 	return (*this);
 }
 
+// parameterized constructor
 PresidentialPardonForm::PresidentialPardonForm(std::string target): AForm("PresidentialPardonForm", target, 25, 5)
 {
-	;
+	std::cout << GREEN << "PresidentialPardonForm: " << "Sign grade: " << 25 << " Exec grade: " << 5 << RESET << "\n";
 }
 
 void	PresidentialPardonForm::actualExecute(const Bureaucrat& executor)

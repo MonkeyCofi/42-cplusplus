@@ -18,8 +18,9 @@
 
 class	RobotomyRequestForm: public AForm
 {
-	public:
+	private:
 		RobotomyRequestForm();
+	public:
 		~RobotomyRequestForm();
 		RobotomyRequestForm(const RobotomyRequestForm& obj);
 		RobotomyRequestForm&	operator=(const RobotomyRequestForm& obj);

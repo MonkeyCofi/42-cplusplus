@@ -12,14 +12,16 @@
 
 #include "AForm.hpp"
 
+// base constructor
 AForm::AForm(): m_name("Form"), m_signed(false), m_sign_grade(0), m_exec_grade(0), m_target("None")
 {
 	;
 };
 
+// destructor
 AForm::~AForm()
 {
-	std::cout << "\033[31mDestructor for Form " << this->m_name << " was called\033[0m\n";
+	std::cout << RED"Base form destructor for " << this->m_name << " form was called\033[0m\n";
 };
 
 // copy constructor
@@ -65,25 +67,26 @@ void	AForm::beSigned(Bureaucrat& b)
 {
 	if (b.getGrade() > this->m_sign_grade)
 		throw AForm::GradeTooLowException();
+	std::cout << this->getName() << " has been signed by " << b.getName() << "\n";
 	this->m_signed = true;
 }
 
-const char*	AForm::GradeTooHighException::what()
+const char*	AForm::GradeTooHighException::what() const throw()
 {
 	return "Form: Grade too high\n";
 }
 
-const char*	AForm::GradeTooLowException::what()
+const char*	AForm::GradeTooLowException::what() const throw()
 {
 	return "Form: Grade too low\n";
 }
 
-const char*	AForm::UnsignedFormException::what()
+const char*	AForm::UnsignedFormException::what() const throw()
 {
 	return "Form: Form is unsigned\n";
 }
 
-const char*	AForm::GradeTooLowExecException::what()
+const char*	AForm::GradeTooLowExecException::what() const throw()
 {
 	return "Form: Form cannot be executed due to grade being too low\n";
 }
