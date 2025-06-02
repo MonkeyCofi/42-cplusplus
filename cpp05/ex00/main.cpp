@@ -15,6 +15,7 @@
 int main(void)
 {
 	{
+		std::cout << GREEN << "In first block" << RESET << "\n";
 		try
 		{
 			Bureaucrat Jim("Jim", 1);
@@ -29,28 +30,32 @@ int main(void)
 			std::cerr << e.what();
 		}
 	}
-	std::cout << "\n";
+
 	{
+		std::cout << GREEN << "In second block" << RESET << "\n";
+		const std::string name = "Joe";
 		try
 		{
-			Bureaucrat Joe("Joe", -3);
+			Bureaucrat Joe(name, -3);
 			std::cout << Joe;
 		}
 		catch (Bureaucrat::GradeTooHighException& e)
 		{
-			std::cerr << e.what();
+			std::cerr << e.what() ;
 		}
 		catch (Bureaucrat::GradeTooLowException& e)
 		{
-			std::cerr << e.what();
+			std::cerr << e.what() ;
 		}
 
 	}
-	std::cout << "\n";
+
 	{
+		std::cout << GREEN << "In third block" << RESET << "\n";
+		const std::string name = "Jack";
 		try
 		{
-			Bureaucrat Jack("Jack", 180);
+			Bureaucrat Jack(name, 180);
 			std::cout << Jack;
 			
 		}
@@ -64,12 +69,57 @@ int main(void)
 		}
 
 	}
-	std::cout << "\n";
+
 	{
+		std::cout << GREEN << "In fifth block" << RESET << "\n";
+		const std::string name = "Jonathan";
 		try
 		{
-			Bureaucrat Joseph("Joseph", 10);
-			std::cout << Joseph;
+			Bureaucrat Jonathan(name, 150);
+			std::cout << Jonathan;
+			Jonathan.decrementGrade();
+		}
+		catch (Bureaucrat::GradeTooHighException& e)
+		{
+			std::cerr << RED << e.what() << RESET;
+		}
+		catch (Bureaucrat::GradeTooLowException& e)
+		{
+			std::cerr << RED << e.what() << RESET;
+		}
+	}
+
+	{
+		std::cout << GREEN << "In sixth block" << RESET << "\n";
+		const std::string name = "Jess";
+		try
+		{
+			Bureaucrat Jess(name, 1);
+			std::cout << Jess;
+			Jess.incrementGrade();
+		}
+		catch (Bureaucrat::GradeTooHighException& e)
+		{
+			std::cerr << e.what();
+		}
+		catch (Bureaucrat::GradeTooLowException& e)
+		{
+			
+			std::cerr << e.what();
+		}
+	}
+
+	{
+		std::cout << GREEN << "In seventh block" << RESET << "\n";
+		const std::string name = "Jasper";
+		try
+		{
+			Bureaucrat Jasper(name, 5);
+			std::cout << Jasper;
+			Jasper.incrementGrade();
+			Jasper.decrementGrade();
+			while (1)
+				Jasper.incrementGrade();
 		}
 		catch (Bureaucrat::GradeTooHighException& e)
 		{
@@ -79,37 +129,25 @@ int main(void)
 		{
 			std::cerr << e.what();
 		}
+	}
 
-	}
-	std::cout << "\n";
-	try
 	{
-		Bureaucrat Jonathan("Jonathan", 150);
-		std::cout << Jonathan;
-		Jonathan.decrementGrade();
-	}
-	catch (Bureaucrat::GradeTooHighException& e)
-	{
-		std::cerr << e.what();
-	}
-	catch (Bureaucrat::GradeTooLowException& e)
-	{
-		std::cerr << e.what();
-	}
-	std::cout << "\n";
-	try
-	{
-		Bureaucrat Jess("Jess", 1);
-		std::cout << Jess;
-		Jess.incrementGrade();
-	}
-	catch (Bureaucrat::GradeTooHighException& e)
-	{
-		std::cerr << e.what();
-	}
-	catch (Bureaucrat::GradeTooLowException& e)
-	{
-		std::cerr << e.what();
+		std::cout << GREEN << "In eighth block" << RESET"\n";
+		const std::string b1 = "Taylor";
+		const std::string b2 = "Swift";
+		try
+		{
+			Bureaucrat Taylor(b1, 0);
+			Bureaucrat Swift(Taylor);
+		}
+		catch (Bureaucrat::GradeTooHighException& e)
+		{
+			std::cerr << e.what();
+		}
+		catch(Bureaucrat::GradeTooLowException& e)
+		{
+			std::cerr << e.what();
+		}
 	}
 
 	return (0);

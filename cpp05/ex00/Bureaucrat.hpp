@@ -16,6 +16,10 @@
 # include <iostream>
 # include <exception>
 
+# define RED "\033[31m"
+# define RESET "\033[0m"
+# define GREEN "\033[32m"
+
 class	Bureaucrat
 {
 	private:
@@ -30,10 +34,10 @@ class	Bureaucrat
 		Bureaucrat(const Bureaucrat &obj);
 		Bureaucrat &operator=(const Bureaucrat &obj);
 
-		std::string	getName() const;
-		int			getGrade() const;
-		void		incrementGrade();
-		void		decrementGrade();
+		const std::string	getName() const;
+		int					getGrade() const;
+		void				incrementGrade();
+		void				decrementGrade();
 
 		class	GradeTooHighException: public std::exception
 		{

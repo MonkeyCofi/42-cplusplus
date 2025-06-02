@@ -13,13 +13,8 @@
 #include "Bureaucrat.hpp"
 #include "Form.hpp"
 
-/*
-	* if the form can't be signed, throw a grade too low exception
-*/
-
 int main(void)
 {
-	std::cout << "\n";
 	{
 		try
 		{
@@ -38,7 +33,7 @@ int main(void)
 			std::cerr << e.what();
 		}
 	}
-	std::cout << "\n";
+
 	try
 	{
 		Bureaucrat Bob("Bob", 100);
@@ -55,7 +50,5 @@ int main(void)
 	{
 		std::cout << e.what();
 	}
-	std::cout << "\n";
-
 	return (0);
 }

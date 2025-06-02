@@ -24,15 +24,20 @@ Bureaucrat::Bureaucrat(std::string name, int grade) : m_name(name)
 	if (grade > 150)
 		throw Bureaucrat::GradeTooLowException();
 	this->m_grade = grade;
+	std::cout << GREEN"Successfully created Bureaucrat " << this->m_name << " with grade " << this->m_grade << RESET"\n";
 };
 
 Bureaucrat::~Bureaucrat()
 {
-	std::cout << "\033[31mDestructor for Bureaucrat " << this->m_name << " was called\033[0m\n";
+	std::cout << RED"Destructor for Bureaucrat " << this->m_name << " was called" << RESET << "\n";
 };
 
 Bureaucrat::Bureaucrat(const Bureaucrat &obj) : m_name(obj.m_name)
 {
+	if (obj.getGrade() < 1)
+		throw (Bureaucrat::GradeTooHighException());
+	if (obj.getGrade() > 150)
+		throw (Bureaucrat::GradeTooLowException());
 	this->m_grade = obj.m_grade;
 };
 
@@ -42,7 +47,7 @@ Bureaucrat	&Bureaucrat::operator=(const Bureaucrat &obj)
 	return (*this);
 };
 
-std::string	Bureaucrat::getName() const
+const std::string	Bureaucrat::getName() const
 {
 	return (this->m_name);
 };
@@ -64,15 +69,19 @@ const char*	Bureaucrat::GradeTooLowException::what() const throw()
 
 void		Bureaucrat::incrementGrade()
 {
+	std::cout << "Attempting to increment " << this->m_name << "'s grade from " << this->m_grade << " to " << this->m_grade - 1 << "\n";
 	if (this->m_grade - 1 < 1)
 		throw GradeTooHighException();
+	std::cout << "Successfully incremented " << this->m_name << "'s grade\n";
 	this->m_grade--;
 }
 
 void		Bureaucrat::decrementGrade()
 {
+	std::cout << "Attempting to decrement " << this->m_name << "'s grade from " << this->m_grade << " to " << this->m_grade + 1 << "\n";
 	if (this->m_grade + 1 > 150)
 		throw GradeTooLowException();
+	std::cout << "Successfully decremented " << this->m_name << "'s grade\n";
 	this->m_grade++;
 };
 

@@ -19,7 +19,7 @@ Form::Form(): m_name("Form"), m_signed(false), m_sign_grade(0), m_exec_grade(0)
 
 Form::~Form()
 {
-	std::cout << "\033[31mDestructor for Form " << this->m_name << " was called\033[0m\n";
+	std::cout << RED"Destructor for Form " << this->m_name << " was called\n" << RESET;
 };
 
 // copy constructor
@@ -36,8 +36,8 @@ Form	Form::operator=(const Form& obj)
 };
 
 // paramterized constructor
-Form::Form(std::string name, int sign_grade, int exec_grade) : m_name(name), \
-	m_signed(false), m_sign_grade(sign_grade), m_exec_grade(exec_grade)
+Form::Form(std::string name, int sign_grade, int exec_grade) : m_name(name), m_signed(false), 
+	m_sign_grade(sign_grade), m_exec_grade(exec_grade)
 {
 	;
 }
@@ -64,8 +64,12 @@ int		Form::getExecGrade() const
 
 void	Form::beSigned(Bureaucrat& b)
 {
+	std::cout << GREEN << "Attempting to sign form named " << this->m_name 
+		<< " with required sign grade " << this->m_sign_grade << " and required exec grade "
+			<< this->m_exec_grade << RESET << "\n";
 	if (b.getGrade() > this->m_sign_grade)
 		throw Form::GradeTooLowException();
+	std::cout << GREEN << "Succesfully signed form named " << this->m_name << RESET << "\n";
 	this->m_signed = true;
 }
 
