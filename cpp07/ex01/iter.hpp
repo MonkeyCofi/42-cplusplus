@@ -15,7 +15,7 @@
 
 # include <iostream>
 
-template<class T>
+template <class T>
 void	iter(T* array, int arr_len, void(*func)(T&));
 
 #endif

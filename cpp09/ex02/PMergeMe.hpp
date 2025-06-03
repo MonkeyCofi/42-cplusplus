@@ -30,7 +30,7 @@ class	PMergeMe
 		PMergeMe();
 		~PMergeMe();
 		PMergeMe(const PMergeMe& obj);
-		PMergeMe	&operator=(const PMergeMe& obj);
+		PMergeMe&	operator=(const PMergeMe& obj);
 		
 		void	fillContainers(const char** args);
 		int		size();

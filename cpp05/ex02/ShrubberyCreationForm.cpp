@@ -53,11 +53,14 @@ void	ShrubberyCreationForm::actualExecute(const Bureaucrat& executor)
 {
 	AForm::execute(executor);
 	std::ofstream	file;
-	file.open(this->m_target + "_shrubbery");
+	const std::string name = this->m_target + "_shrubbery";
+	file.open(name.c_str());
 	if (file.is_open() == false)
 	{
 		throw ShrubberyCreationForm::FileOpenException();
 	}
+
+	// printing the trees
 	file << "               ,@@@@@@@,\n\
        ,,,.   ,@@@@@@/@@,  .oo8888o.\n\
     ,&%%&%&&%,@@@@@/@@@@@@,8888\\88/8o\n\

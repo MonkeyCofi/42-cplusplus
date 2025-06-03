@@ -18,6 +18,12 @@ void	print_elem(T& elem)
 	std::cout << elem << "\n";
 }
 
+// template <class T>
+// void	print_elem(const T& elem)
+// {
+// 	std::cout << elem << "\n";
+// }
+
 template<class T>
 void	increment_elem(T& elem)
 {
@@ -37,42 +43,79 @@ void	iter(T* array, int arr_len, void(*func)(T&))
 		func(array[i]);
 }
 
-int main(void)
+// int main(void)
+// {
+// 	{
+// 		std::cout << "\n";
+// 		std::cout << "\033[2;34mIntegers\n\033[0m";
+// 		const int arr[5] = {1, 2, 3, 4, 5};
+// 		iter(arr, 5, print_elem);
+// 		std::cout << "Incrementing all elements of the array now\n";
+// 		iter(arr, 5, increment_elem);
+// 		iter(arr, 5, print_elem);
+// 		std::cout << "\n";
+// 	}
+// 	{
+// 		std::cout << "\n";
+// 		std::cout << "\033[2;34mCharacters\n\033[0m";
+// 		char char_arr[4] = {'d', 'l', '`', 'c'};
+// 		iter(char_arr, 4, print_elem);
+// 		iter(char_arr, 4, increment_elem);
+// 		std::cout << "Now the array spells: " << "\n";
+// 		iter(char_arr, 4, print_elem);
+// 		std::cout << "\n";
+// 	}
+// 	{
+// 		std::cout << "\n";
+// 		std::cout << "\033[2;34mDoubles and integers\n\033[0m";
+// 		double	arr1[4] = {1.2, 2.4, 3.6, 4.8};
+// 		iter(arr1, 4, print_elem);
+// 		std::cout << "Halving all arr1 values\n";
+// 		iter(arr1, 4, half_elem);
+// 		iter(arr1, 4, print_elem);
+// 		std::cout << "\n";
+// 		int arr2[4] = {1, 3, 5, 7};
+// 		iter(arr2, 4, print_elem);
+// 		std::cout << "Halving all arr2 values\n";
+// 		iter(arr2, 4, half_elem);
+// 		iter(arr2, 4, print_elem);
+// 		std::cout << "\n";
+// 	}
+
+// }
+
+class Awesome
 {
-	{
-		std::cout << "\n";
-		std::cout << "\033[2;34mIntegers\n\033[0m";
-		int arr[5] = {1, 2, 3, 4, 5};
-		iter(arr, 5, print_elem);
-		std::cout << "Incrementing all elements of the array now\n";
-		iter(arr, 5, increment_elem);
-		iter(arr, 5, print_elem);
-		std::cout << "\n";
-	}
-	{
-		std::cout << "\n";
-		std::cout << "\033[2;34mCharacters\n\033[0m";
-		char char_arr[4] = {'d', 'l', '`', 'c'};
-		iter(char_arr, 4, print_elem);
-		iter(char_arr, 4, increment_elem);
-		std::cout << "Now the array spells: " << "\n";
-		iter(char_arr, 4, print_elem);
-		std::cout << "\n";
-	}
-	{
-		std::cout << "\n";
-		std::cout << "\033[2;34mDoubles and integers\n\033[0m";
-		double	arr1[4] = {1.2, 2.4, 3.6, 4.8};
-		iter(arr1, 4, print_elem);
-		std::cout << "Halving all arr1 values\n";
-		iter(arr1, 4, half_elem);
-		iter(arr1, 4, print_elem);
-		std::cout << "\n";
-		int arr2[4] = {1, 3, 5, 7};
-		iter(arr2, 4, print_elem);
-		std::cout << "Halving all arr2 values\n";
-		iter(arr2, 4, half_elem);
-		iter(arr2, 4, print_elem);
-		std::cout << "\n";
-	}
+	private:
+    	int _n;
+	public:
+		Awesome(void) : _n(42)
+		{
+			return ;
+		}
+		int get(void) const
+		{ 
+			return this->_n;
+		}
+};
+
+std::ostream & operator<<(std::ostream & o, Awesome const & rhs)
+{
+    o << rhs.get(); return o;
+}
+
+template<typename T>
+void print(T const & x)
+{
+    std::cout << x << std::endl; return;
+}
+
+int main() {
+    const int tab[] = { 0, 1, 2, 3, 4 }; // <--- I never understood why you can't write int[] tab. Wouldn't that make more sense?
+    Awesome tab2[5];
+
+    iter(tab, 5, print);
+    iter(tab2, 5, print);
+
+    return 0;
 }

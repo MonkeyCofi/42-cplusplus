@@ -13,8 +13,9 @@
 #ifndef ROBOTOMYREQUESTFORM_HPP
 # define ROBOTOMYREQUESTFORM_HPP
 
-#include "AForm.hpp"
-//#include 
+# include "AForm.hpp"
+# include <ctime>
+# include <random>
 
 class	RobotomyRequestForm: public AForm
 {

@@ -14,9 +14,8 @@ $(NAME): $(SRCS)
 	$(CXX) $(CXXFLAGS) $(SRCS) -o $(NAME)
 
 clean:
-
-fclean:
 	rm -f $(NAME)
-	rm -f *_shrubbery
 
-re: fclean all
+fclean: clean
+
+re: clean all

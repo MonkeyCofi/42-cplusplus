@@ -46,7 +46,10 @@ RobotomyRequestForm::RobotomyRequestForm(std::string target): AForm("RobotmyRequ
 
 void	RobotomyRequestForm::actualExecute(const Bureaucrat& executor)
 {
+	time_t	thyme;
+	srand(time(&thyme));
+	bool pass = rand() % 2;
 	AForm::execute(executor);
 	std::cout << "\033[3m*drilling noises*\033[0m\n";
-	std::cout << this->getTarget() << " has been successfully robotomized\n";
+	std::cout << this->getTarget()  << (pass ? " has been successfully robotomized" : " could not be robotomized") << "\n";
 }

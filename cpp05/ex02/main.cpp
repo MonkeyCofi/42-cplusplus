@@ -18,70 +18,77 @@
 
 int main(void)
 {
-	std::cout << GREEN"In first test block\n" << RESET;
-	try
-	{
-		PresidentialPardonForm pardonForm("Emad Hammoude");
-		Bureaucrat bureaucrat("Sean", 1);
+	// std::cout << GREEN"In first test block\n" << RESET;
+	// try
+	// {
+	// 	PresidentialPardonForm pardonForm("Emad Hammoude");
+	// 	Bureaucrat bureaucrat("Sean", 1);
 
-		bureaucrat.signForm(pardonForm);
-		bureaucrat.executeForm(pardonForm);
-	}
-	catch (std::exception& e)
-	{
-		std::cerr << e.what();
-	}
+	// 	bureaucrat.signForm(pardonForm);
+	// 	bureaucrat.executeForm(pardonForm);
+	// }
+	// catch (std::exception& e)
+	// {
+	// 	std::cerr << e.what();
+	// }
 
-	std::cout << GREEN"In second test block\n" << RESET;
-	try
-	{
-		Bureaucrat evilMan("Ahmed Aarij", 130);
-		RobotomyRequestForm robotomyForm("Abdullah Sayed");
+	// std::cout << GREEN"In second test block\n" << RESET;
+	// try
+	// {
+	// 	Bureaucrat evilMan("Ahmed Aarij", 130);
+	// 	RobotomyRequestForm robotomyForm("Abdullah Sayed");
 
-		evilMan.signForm(robotomyForm);
-		evilMan.executeForm(robotomyForm);
-	}
-	catch (std::exception& e)
-	{
-		std::cerr << e.what();
-	}
+	// 	evilMan.signForm(robotomyForm);
+	// 	evilMan.executeForm(robotomyForm);
+	// }
+	// catch (std::exception& e)
+	// {
+	// 	std::cerr << e.what();
+	// }
 
-	std::cout << GREEN"In third test block\n" << RESET;
-	ShrubberyCreationForm shrubberyForm("Fujairah");
-	Bureaucrat piolo("Piolo", 139);
-	try
-	{
+	// std::cout << GREEN"In third test block\n" << RESET;
+	// ShrubberyCreationForm shrubberyForm("Fujairah");
+	// Bureaucrat piolo("Piolo", 139);
+	// try
+	// {
 
-		piolo.incrementGrade();
-		piolo.signForm(shrubberyForm);
-		piolo.executeForm(shrubberyForm);
-		piolo.incrementGrade();
-	}
-	catch (std::exception& e)
-	{
-		std::cerr << e.what();
-	}
+	// 	piolo.incrementGrade();
+	// 	piolo.signForm(shrubberyForm);
+	// 	piolo.executeForm(shrubberyForm);
+	// 	piolo.incrementGrade();
+	// }
+	// catch (std::exception& e)
+	// {
+	// 	std::cerr << e.what();
+	// }
 
-	std::cout << GREEN"In fourth test block\n" << RESET;
-	try
-	{
-		piolo.incrementGrade();
-		piolo.executeForm(shrubberyForm);
-	}
-	catch (std::exception& e)
-	{
-		std::cerr << e.what();
-	}
+	// std::cout << GREEN"In fourth test block\n" << RESET;
+	// try
+	// {
+	// 	piolo.incrementGrade();
+	// 	piolo.executeForm(shrubberyForm);
+	// }
+	// catch (std::exception& e)
+	// {
+	// 	std::cerr << e.what();
+	// }
 
-	std::cout << GREEN"In fifth test block\n" << RESET;
-	try
-	{
-		Bureaucrat bill("Bill", 149);
-		AForm* robotomizationForm = new RobotomyRequestForm("Jorjor Well");
-		bill.signForm(*robotomizationForm);
-	}
-	catch (std::exception& e)
-	{
-		std::cerr << e.what();
-	}
+	// std::cout << GREEN"In fifth test block\n" << RESET;
+	// AForm* robotomizationForm = new RobotomyRequestForm("Jorjor Well");
+	// try
+	// {
+	// 	Bureaucrat bill("Bill", 149);
+	// 	bill.signForm(*robotomizationForm);
+	// 	delete robotomizationForm;
+	// }
+	// catch (std::exception& e)
+	// {
+	// 	delete robotomizationForm;
+	// 	std::cerr << e.what();
+	// }
+
+	Bureaucrat T("Geralt of Rivia", 1);
+	RobotomyRequestForm robotomy("Yennefer of Vengerberg");
+	T.signForm(robotomy);
+	T.executeForm(robotomy);
 }

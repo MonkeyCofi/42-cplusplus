@@ -48,10 +48,10 @@ class	ScalarConverter
 		
 	public:
 		static void convert(std::string to_convert);
-		class	NonCharException
+		class	NonCharException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
 };
 

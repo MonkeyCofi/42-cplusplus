@@ -39,4 +39,31 @@ int main(void)
 	{
 		std::cerr << e.what();
 	}
+	delete pardon;
+
+	AForm* robotomization = poorGuy.makeForm("robotomy request", "JorJor Well");
+	Bureaucrat nietzsche("Friedrich Nietzsche", 1);
+	try
+	{
+		nietzsche.executeForm(*robotomization);
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << e.what();
+	}
+
+	try
+	{
+		nietzsche.signForm(*robotomization);
+		nietzsche.executeForm(*robotomization);
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << e.what();
+	}
+	delete robotomization;
+
+	AForm* nonexistent = poorGuy.makeForm("Destroy all Colleen Hoover books form", "Colleen Ballinger");
+	if (nonexistent)
+		delete nonexistent;
 }
