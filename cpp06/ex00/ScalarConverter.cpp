@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 11:17:37 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/23 19:55:06 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:13:11 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,13 @@ ScalarConverter	&ScalarConverter::operator=(const ScalarConverter& obj)
 
 bool	ScalarConverter::isFloat(std::string arg)
 {
+	if (arg == "inff" || arg == "-inff")	// for infinity
+		return (true);
+	const bool	has_f = (*(arg.end() - 1) == 'f');
+	if (!has_f)
+		return (false);
 	const bool	negative = arg.find_first_of('-') != std::string::npos;
 	const bool	has_digit = arg.find_first_of("0123456789") != std::string::npos;
-	const bool	has_f = (*(arg.end() - 1) == 'f');
 
 	if (arg.find_first_of('.') != arg.find_last_of('.') \
 		|| (negative && (arg.find_first_of('-') != arg.find_last_of('-'))) || (negative && \
@@ -54,20 +58,17 @@ bool	ScalarConverter::isFloat(std::string arg)
 
 bool	ScalarConverter::isDouble(std::string arg)
 {
-	float	fl_arg;
-	double	dbl_arg;
-	const double	epsilon = 0.0001;
-
-	if (isFloat(arg) == true)
-	{
-		fl_arg = std::atof(arg.c_str());
-		dbl_arg = std::atof(arg.c_str());
-		if (std::fabs(fl_arg - dbl_arg) > epsilon)
-			return (false);
+	if (arg == "inf" || arg == "-inf")
 		return (true);
-	}
-	return (false);
-};
+	const bool	negative = arg.find_first_of('-') != std::string::npos;
+	const bool	has_digit = arg.find_first_of("0123456789") != std::string::npos;
+
+	if (arg.find_first_of('.') != arg.find_last_of('.') \
+		|| (negative && (arg.find_first_of('-') != arg.find_last_of('-'))) || (negative && \
+			arg.find('-') != 0) || !has_digit)
+				return (false);
+	return (true);
+}
 
 bool	ScalarConverter::isInt(std::string arg)
 {
@@ -124,6 +125,11 @@ void	ScalarConverter::printChar(std::string arg, ScalarConverter::e_types type)
 	std::cout << "Char: " << c << "\n"; 
 }
 
+bool	ScalarConverter::checkDecimal(double arg)
+{
+	return ((int)arg - (double)arg);
+}
+
 void	ScalarConverter::convert(std::string arg)
 {
 	const std::string	types[5] = {"Char", "Int", "Float", "Double", "Invalid"};
@@ -160,21 +166,23 @@ void	ScalarConverter::convert(std::string arg)
 		case(Float):
 		{
 			const float	res = std::atof(arg.c_str());
-
+			bool hasDecimal = checkDecimal(res);
+			
 			printChar(arg, static_cast<e_types>(t));
 			std::cout << "Int: " << static_cast<int>(res) << "\n";
-			std::cout << "Float: " << res << "f" << "\n";
-			std::cout << "Double: " << static_cast<double>(res) << "\n";
+			std::cout << "Float: " << res << (hasDecimal ? "f" : ".0f") << "\n";
+			std::cout << "Double: " << static_cast<double>(res) << (hasDecimal ? "" : ".0") << "\n";
 			return ;
 		}
 		case(Double):
 		{
 			const double	res = std::atof(arg.c_str());
+			bool hasDecimal = checkDecimal(res);
 
 			printChar(arg, static_cast<e_types>(t));
 			std::cout << "Int: " << static_cast<int>(res) << "\n";
-			std::cout << "Float: " << static_cast<float>(res) << "f" << "\n";
-			std::cout << "Double: " << res << "\n";
+			std::cout << "Float: " << static_cast<float>(res) << (hasDecimal ? "f" : ".0f") << "\n";
+			std::cout << "Double: " << res << (hasDecimal ? "" : ".0") << "\n";
 			return ;
 		}
 		case(Invalid):

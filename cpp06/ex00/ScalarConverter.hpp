@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:28:44 by pipolint          #+#    #+#             */
-/*   Updated: 2025/02/21 15:27:46 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/06/04 02:06:24 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,13 @@ class	ScalarConverter
 		
 		static std::string	getType(std::string arg);
 
+		static bool			isValid(std::string arg);
 		static bool			isFloat(std::string arg);
 		static bool			isDouble(std::string arg);
 		static bool			isInt(std::string arg);
 		static bool			isChar(std::string arg);
 		
+		static bool			checkDecimal(double arg);
 	public:
 		static void convert(std::string to_convert);
 		class	NonCharException: public std::exception
