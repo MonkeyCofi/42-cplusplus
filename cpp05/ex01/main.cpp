@@ -20,15 +20,13 @@ int main(void)
 		{
 			Bureaucrat	Bill("Bill", 2);
 			std::cout << Bill;
-			Form		impeach("impeach", 1, 100);
-			std::cout << impeach;
-			Bill.signForm(impeach);
+
+			Form		swag("swagify", 1, 100);
+			std::cout << swag;
+
+			Bill.signForm(swag);
 		}
-		catch(Bureaucrat::GradeTooLowException& e)
-		{
-			std::cerr << e.what();
-		}
-		catch(Bureaucrat::GradeTooHighException& e)
+		catch (std::exception& e)
 		{
 			std::cerr << e.what();
 		}
@@ -42,13 +40,9 @@ int main(void)
 		std::cout << bob_for_president;
 		Bob.signForm(bob_for_president);
 	}
-	catch(Bureaucrat::GradeTooLowException& e)
+	catch (std::exception& e)
 	{
-		std::cout << e.what();
-	}
-	catch(Bureaucrat::GradeTooHighException& e)
-	{
-		std::cout << e.what();
+		std::cerr << e.what();
 	}
 	return (0);
 }

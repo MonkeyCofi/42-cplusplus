@@ -65,6 +65,9 @@ int		AForm::getExecGrade() const
 
 void	AForm::beSigned(Bureaucrat& b)
 {
+	std::cout << GREEN << b.getName() << " is attempting to sign form named " << this->m_name 
+		<< " with required sign grade " << this->m_sign_grade << " and required exec grade "
+			<< this->m_exec_grade << RESET"\n";
 	if (b.getGrade() > this->m_sign_grade)
 		throw AForm::GradeTooLowException();
 	std::cout << this->getName() << " has been signed by " << b.getName() << "\n";
@@ -101,11 +104,8 @@ std::ostream&	operator<<(std::ostream& os, const AForm& obj)
 
 void		AForm::execute(Bureaucrat const& executor) const
 {
-	if (this->m_signed == false)
+	if (this->m_signed == false)	// form is unsigned therefore unexecutable
 		throw AForm::UnsignedFormException();
-	if (executor.getGrade() > this->m_sign_grade)
-		throw AForm::GradeTooLowException();
-	if (executor.getGrade() > this->m_exec_grade)
+	if (executor.getGrade() > this->m_exec_grade)	// bureaucrat's grade is too low
 		throw AForm::GradeTooLowExecException();
 }
-

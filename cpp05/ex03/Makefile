@@ -1,12 +1,10 @@
 NAME = intern
 
-SRCS = Bureaucrat.cpp Form.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp ShrubberyCreationForm.cpp Intern.cpp main.cpp
-
-INC = Bureaucrat.hpp
+SRCS = Bureaucrat.cpp AForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp ShrubberyCreationForm.cpp main.cpp Intern.cpp
 
 CXX = c++
 
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I./ 
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I./
 
 all: $(NAME)
 

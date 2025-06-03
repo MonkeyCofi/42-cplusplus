@@ -10,27 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHRUBBERYCREATIONFORM
-# define SHRUBBERYCREATIONFORM
+#ifndef SHRUBBERYCREATIONFORM_HPP
+# define SHRUBBERYCREATIONFORM_HPP
 
-# include "Form.hpp"
+# include "AForm.hpp"
 # include "Bureaucrat.hpp"
 # include <fstream>
 
-class	ShrubberyCreationForm: public Form
+class	ShrubberyCreationForm: public AForm
 {
-	public:
+	private:
 		ShrubberyCreationForm();
+	public:
 		~ShrubberyCreationForm();
 		ShrubberyCreationForm(const ShrubberyCreationForm& obj);
 		ShrubberyCreationForm&	operator=(const ShrubberyCreationForm& obj);
 		
 		ShrubberyCreationForm(std::string target);
 		void	actualExecute(Bureaucrat const& executor);
-		class	FileOpenException
+		class	FileOpenException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
 };
 

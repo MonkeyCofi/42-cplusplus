@@ -6,7 +6,7 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 12:34:59 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/23 12:53:27 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:10:13 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 # include <iostream>
 # include <exception>
 # include "Bureaucrat.hpp"
+
+# define RED "\033[31m"
+# define RESET "\033[0m"
+# define GREEN "\033[32m"
 
 class	AForm
 {
@@ -30,7 +34,7 @@ class	AForm
 		AForm();
 		AForm(const AForm& form);
 		AForm(std::string name, std::string target, int sign_grade, int exec_grade);
-		virtual ~AForm();
+		virtual ~AForm() = 0;
 
 		const std::string	getName() const;
 		const std::string	getTarget() const;
@@ -41,26 +45,27 @@ class	AForm
 		virtual void		beSigned(Bureaucrat& b);
 		void				execute(Bureaucrat const& executor) const;
 		virtual void		actualExecute(const Bureaucrat& executor) = 0;
-		
-		class	GradeTooHighException
+
+
+		class	GradeTooHighException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
-		class	GradeTooLowException
+		class	GradeTooLowException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
-		class	UnsignedFormException
+		class	UnsignedFormException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
-		class	GradeTooLowExecException
+		class	GradeTooLowExecException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
 };
 

@@ -64,7 +64,7 @@ int		Form::getExecGrade() const
 
 void	Form::beSigned(Bureaucrat& b)
 {
-	std::cout << GREEN << "Attempting to sign form named " << this->m_name 
+	std::cout << GREEN << b.getName() << " is attempting to sign form named " << this->m_name 
 		<< " with required sign grade " << this->m_sign_grade << " and required exec grade "
 			<< this->m_exec_grade << RESET << "\n";
 	if (b.getGrade() > this->m_sign_grade)

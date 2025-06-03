@@ -16,25 +16,9 @@
 #include "PresidentialPardonForm.hpp"
 #include "ShrubberyCreationForm.hpp"
 
-// int main(void)
-// {
-// 	Bureaucrat Joe("Joe", 73);
-// 	Bureaucrat Joseline("Joseline", 5);
-// 	RobotomyRequestForm form("Joe");
-// 	Joe.signForm(form);
-// 	Joe.executeForm(form);
-// 	PresidentialPardonForm joePardon("Joe");
-// 	Joseline.executeForm(joePardon);
-// 	Joseline.signForm(joePardon);
-// 	Joseline.executeForm(joePardon);
-// 	ShrubberyCreationForm shrub("gardenia");
-// 	Joseline.signForm(shrub);
-// 	Joseline.executeForm(shrub);
-// 	return (0);
-// }
-
 int main(void)
 {
+	std::cout << GREEN"In first test block\n" << RESET;
 	try
 	{
 		PresidentialPardonForm pardonForm("Emad Hammoude");
@@ -48,10 +32,11 @@ int main(void)
 		std::cerr << e.what();
 	}
 
+	std::cout << GREEN"In second test block\n" << RESET;
 	try
 	{
-		RobotomyRequestForm robotomyForm("Abdullah Sayed");
 		Bureaucrat evilMan("Ahmed Aarij", 130);
+		RobotomyRequestForm robotomyForm("Abdullah Sayed");
 
 		evilMan.signForm(robotomyForm);
 		evilMan.executeForm(robotomyForm);
@@ -61,6 +46,7 @@ int main(void)
 		std::cerr << e.what();
 	}
 
+	std::cout << GREEN"In third test block\n" << RESET;
 	ShrubberyCreationForm shrubberyForm("Fujairah");
 	Bureaucrat piolo("Piolo", 139);
 	try
@@ -76,9 +62,9 @@ int main(void)
 		std::cerr << e.what();
 	}
 
+	std::cout << GREEN"In fourth test block\n" << RESET;
 	try
 	{
-		piolo.incrementGrade();
 		piolo.incrementGrade();
 		piolo.executeForm(shrubberyForm);
 	}
@@ -87,4 +73,15 @@ int main(void)
 		std::cerr << e.what();
 	}
 
+	std::cout << GREEN"In fifth test block\n" << RESET;
+	try
+	{
+		Bureaucrat bill("Bill", 149);
+		AForm* robotomizationForm = new RobotomyRequestForm("Jorjor Well");
+		bill.signForm(*robotomizationForm);
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << e.what();
+	}
 }

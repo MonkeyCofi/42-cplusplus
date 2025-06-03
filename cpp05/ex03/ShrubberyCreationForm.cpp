@@ -12,46 +12,48 @@
 
 #include "ShrubberyCreationForm.hpp"
 
-ShrubberyCreationForm::ShrubberyCreationForm(): Form("shrubbery creation", "None", 145, 137)
+// default constructor
+ShrubberyCreationForm::ShrubberyCreationForm(): AForm("ShrubberyCreationForm", "None", 145, 137)
 {
 	;
 }
 
+// destructor
 ShrubberyCreationForm::~ShrubberyCreationForm()
 {
 	std::cout << "\033[31mDestructor for ShrubberyCreationForm " \
 		<< this->getName() << " was called\n\033[0m";
 }
 
-
-ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& obj): Form(obj)
+// copy constructor
+ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& obj): AForm(obj)
 {
 	;
 }
 
+// copy assignment operator
 ShrubberyCreationForm&	ShrubberyCreationForm::operator=(const ShrubberyCreationForm& obj)
 {
 	(void)obj;
 	return (*this);
 }
 
-ShrubberyCreationForm::ShrubberyCreationForm(std::string target): Form("shrubbery creation", target, 145, 137)
+// parameterized constructor
+ShrubberyCreationForm::ShrubberyCreationForm(std::string target): AForm("ShrubberyCreationForm", target, 145, 137)
 {
-	;
+	std::cout << GREEN << "ShrubberyCreationForm: " << "Sign grade: " << 145 << " Exec grade: " << 137 << RESET << "\n";
 }
 
-const char*	ShrubberyCreationForm::FileOpenException::what()
+const char*	ShrubberyCreationForm::FileOpenException::what() const throw()
 {
 	return "ShrubberyCreationForm: Couldn't open file\n";
 }
 
 void	ShrubberyCreationForm::actualExecute(const Bureaucrat& executor)
 {
-	Form::execute(executor);
+	AForm::execute(executor);
 	std::ofstream	file;
-	std::string	fileName = this->m_target;
-	fileName.append("_shrubbery");
-	file.open(fileName.c_str());
+	file.open(this->m_target + "_shrubbery");
 	if (file.is_open() == false)
 	{
 		throw ShrubberyCreationForm::FileOpenException();

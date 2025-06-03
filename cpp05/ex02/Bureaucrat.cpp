@@ -26,6 +26,7 @@ Bureaucrat::Bureaucrat(std::string name, int grade) : m_name(name)
 	if (grade > 150)
 		throw Bureaucrat::GradeTooLowException();
 	this->m_grade = grade;
+	std::cout << GREEN"Bureaucrat " << this->m_name << " with grade " << this->m_grade << " has been summoned"<< RESET"\n";
 };
 
 Bureaucrat::~Bureaucrat()
@@ -94,40 +95,36 @@ void	Bureaucrat::signForm(AForm& form)
 	{
 		form.beSigned(*this);
 	}
-	catch (std::exception& e)
+	catch (AForm::GradeTooLowException& e)
 	{
 		std::cerr << RED"Bureaucrat " << this->m_name << " couldn't sign form " << form.getName() << RESET << "\n";
-		throw (AForm::GradeTooLowException());
+		throw (e);
 	}
-	// if this function throws, catch it and print an erro message and then throw its exception again
 }
 
 void		Bureaucrat::executeForm(AForm& form)
 {
 	try
 	{
-		form.actualExecute(*this);
+		form.actualExecute(*this);	// this function will call the AForm's execute function. that function throws
 		std::cout << this->m_name << " executed " << form.getName() << "\n";
 	}
 	catch(ShrubberyCreationForm::FileOpenException& e)
 	{
-		// std::cerr << e.what();
-		std::cout << "\033[31m" << this->m_name << " couldn't execute form " << form.getName()\
-			<< " because the Shrubbery file couldn't be opened\n" << "\033[0m";
+		std::cout << RED << this->m_name << " couldn't execute form " << form.getName() \
+			<< " because the Shrubbery file couldn't be opened" << RESET"\n";
 		throw (e);
 	}
 	catch(AForm::UnsignedFormException& e)
 	{
-		// std::cerr << e.what();
-		std::cout << "\033[31m" << this->m_name << " couldn't execute form " << form.getName()\
-			<< " because the form is unsigned\n" << "\033[0m";
+		std::cout << RED << this->m_name << " couldn't execute form " << form.getName()\
+			<< " because the form is unsigned" << RESET"\n";
 		throw (e);
 	}
 	catch(AForm::GradeTooLowExecException& e)
 	{
-		// std::cerr << e.what();
-		std::cout << "\033[31m" << this->m_name << " couldn't execute form " << form.getName()\
-			<< " because their grade is too low\n" << "\033[0m";
+		std::cout << RED << this->m_name << " couldn't execute form " << form.getName()\
+			<< " because their grade is too low" << RESET"\n";
 		throw (e);
 	}
 }

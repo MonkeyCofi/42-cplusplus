@@ -21,11 +21,7 @@ int main(void)
 			Bureaucrat Jim("Jim", 1);
 			std::cout << Jim;
 		}
-		catch (Bureaucrat::GradeTooHighException& e)
-		{
-			std::cerr << e.what();
-		}
-		catch (Bureaucrat::GradeTooLowException& e)
+		catch (std::exception& e)
 		{
 			std::cerr << e.what();
 		}
@@ -39,15 +35,10 @@ int main(void)
 			Bureaucrat Joe(name, -3);
 			std::cout << Joe;
 		}
-		catch (Bureaucrat::GradeTooHighException& e)
+		catch (std::exception& e)
 		{
-			std::cerr << e.what() ;
+			std::cerr << e.what();
 		}
-		catch (Bureaucrat::GradeTooLowException& e)
-		{
-			std::cerr << e.what() ;
-		}
-
 	}
 
 	{
@@ -59,19 +50,14 @@ int main(void)
 			std::cout << Jack;
 			
 		}
-		catch (Bureaucrat::GradeTooHighException& e)
+		catch (std::exception& e)
 		{
 			std::cerr << e.what();
 		}
-		catch (Bureaucrat::GradeTooLowException& e)
-		{
-			std::cerr << e.what();
-		}
-
 	}
 
 	{
-		std::cout << GREEN << "In fifth block" << RESET << "\n";
+		std::cout << GREEN << "In fourth block" << RESET << "\n";
 		const std::string name = "Jonathan";
 		try
 		{
@@ -79,18 +65,14 @@ int main(void)
 			std::cout << Jonathan;
 			Jonathan.decrementGrade();
 		}
-		catch (Bureaucrat::GradeTooHighException& e)
+		catch (std::exception& e)
 		{
-			std::cerr << RED << e.what() << RESET;
-		}
-		catch (Bureaucrat::GradeTooLowException& e)
-		{
-			std::cerr << RED << e.what() << RESET;
+			std::cerr << e.what();
 		}
 	}
 
 	{
-		std::cout << GREEN << "In sixth block" << RESET << "\n";
+		std::cout << GREEN << "In fifth block" << RESET << "\n";
 		const std::string name = "Jess";
 		try
 		{
@@ -98,19 +80,14 @@ int main(void)
 			std::cout << Jess;
 			Jess.incrementGrade();
 		}
-		catch (Bureaucrat::GradeTooHighException& e)
+		catch (std::exception& e)
 		{
-			std::cerr << e.what();
-		}
-		catch (Bureaucrat::GradeTooLowException& e)
-		{
-			
 			std::cerr << e.what();
 		}
 	}
 
 	{
-		std::cout << GREEN << "In seventh block" << RESET << "\n";
+		std::cout << GREEN << "In sixth block" << RESET << "\n";
 		const std::string name = "Jasper";
 		try
 		{
@@ -121,18 +98,14 @@ int main(void)
 			while (1)
 				Jasper.incrementGrade();
 		}
-		catch (Bureaucrat::GradeTooHighException& e)
-		{
-			std::cerr << e.what();
-		}
-		catch (Bureaucrat::GradeTooLowException& e)
+		catch (std::exception& e)
 		{
 			std::cerr << e.what();
 		}
 	}
 
 	{
-		std::cout << GREEN << "In eighth block" << RESET"\n";
+		std::cout << GREEN << "In seventh block" << RESET"\n";
 		const std::string b1 = "Taylor";
 		const std::string b2 = "Swift";
 		try
@@ -140,11 +113,7 @@ int main(void)
 			Bureaucrat Taylor(b1, 0);
 			Bureaucrat Swift(Taylor);
 		}
-		catch (Bureaucrat::GradeTooHighException& e)
-		{
-			std::cerr << e.what();
-		}
-		catch(Bureaucrat::GradeTooLowException& e)
+		catch (std::exception& e)
 		{
 			std::cerr << e.what();
 		}

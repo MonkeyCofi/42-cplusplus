@@ -6,42 +6,45 @@
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 15:32:11 by pipolint          #+#    #+#             */
-/*   Updated: 2024/12/23 18:55:02 by pipolint         ###   ########.fr       */
+/*   Updated: 2024/12/22 15:34:03 by pipolint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PresidentialPardonForm.hpp"
 
-PresidentialPardonForm::PresidentialPardonForm(): Form("presidential pardon", "None", 25, 5)
+// base constructor
+PresidentialPardonForm::PresidentialPardonForm(): AForm("PresidentialPardonForm", "None", 25, 5)
 {
-	;
+
 }
 
+// destructor
 PresidentialPardonForm::~PresidentialPardonForm()
 {
-	std::cout << "\033[31mDestructor for PresidentialPardonForm " \
-		<< this->getName() << " was called\n\033[0m";
+	std::cout << "\033[31mDestructor for PresidentialPardonForm" << " was called\n\033[0m";
 }
 
-
-PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm& obj): Form(obj)
+// copy constructor
+PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm& obj): AForm(obj)
 {
 	;
 }
 
+// copy assignment operator
 PresidentialPardonForm&	PresidentialPardonForm::operator=(const PresidentialPardonForm& obj)
 {
 	(void)obj;
 	return (*this);
 }
 
-PresidentialPardonForm::PresidentialPardonForm(std::string target): Form("presidential pardon", target, 25, 5)
+// parameterized constructor
+PresidentialPardonForm::PresidentialPardonForm(std::string target): AForm("PresidentialPardonForm", target, 25, 5)
 {
-	;
+	std::cout << GREEN << "PresidentialPardonForm: " << "Sign grade: " << 25 << " Exec grade: " << 5 << RESET << "\n";
 }
 
 void	PresidentialPardonForm::actualExecute(const Bureaucrat& executor)
 {
-	Form::execute(executor);
+	AForm::execute(executor);
 	std::cout << this->getTarget() << " has been pardoned by Zaphod Beeblebrox\n";
 }

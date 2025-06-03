@@ -24,7 +24,7 @@ Bureaucrat::Bureaucrat(std::string name, int grade) : m_name(name)
 	if (grade > 150)
 		throw Bureaucrat::GradeTooLowException();
 	this->m_grade = grade;
-	std::cout << GREEN"Successfully created Bureaucrat " << this->m_name << " with grade " << this->m_grade << RESET"\n";
+	std::cout << GREEN"Bureaucrat " << this->m_name << " with grade " << this->m_grade << " has been summoned"<< RESET"\n";
 };
 
 Bureaucrat::~Bureaucrat()

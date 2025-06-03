@@ -25,7 +25,7 @@ Bureaucrat::Bureaucrat(std::string name, int grade) : m_name(name)
 	if (grade > 150)
 		throw Bureaucrat::GradeTooLowException();
 	this->m_grade = grade;
-	std::cout << GREEN"Successfully created Bureaucrat " << this->m_name << " with grade " << this->m_grade << RESET"\n";
+	std::cout << GREEN"Bureaucrat " << this->m_name << " with grade " << this->m_grade << " has been summoned"<< RESET"\n";
 };
 
 Bureaucrat::~Bureaucrat()
@@ -95,19 +95,9 @@ void	Bureaucrat::signForm(Form& form)
 	}
 	catch(Form::GradeTooLowException& e)
 	{
-		e.what();
-		std::cout << "\033[31m" << this->m_name << " couldn't sign the form '" << form.getName() << "' because" \
-			<< (this->m_grade < 1 ? " their grade is too high\n" : " their grade is too low\n") << "\033[0m";
+		std::cerr << RED"Bureaucrat " << this->m_name << " couldn't sign form " << form.getName() << RESET << "\n";
+		throw (Form::GradeTooLowException());
 	}
-	//if (form.getSigned() == true)
-	//{
-	//	std::cout << "\033[32m" << this->m_name << " signed " << form.getName() << "\033[0m\n";
-	//}
-	//else
-	//{
-	//	std::cout << "\033[31m" << this->m_name << " couldn't sign the form " << form.getName() << " because " \
-	//		<< (this->m_grade < 1 ? " their grade is too high\n" : " their grade is too low\n") << "\033[0m";
-	//}
 }
 
 std::ostream&	operator<<(std::ostream& stream, const Bureaucrat& b)

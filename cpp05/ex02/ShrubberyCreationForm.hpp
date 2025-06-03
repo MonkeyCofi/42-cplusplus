@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHRUBBERYCREATIONFORM
-# define SHRUBBERYCREATIONFORM
+#ifndef SHRUBBERYCREATIONFORM_HPP
+# define SHRUBBERYCREATIONFORM_HPP
 
 # include "AForm.hpp"
 # include "Bureaucrat.hpp"
@@ -19,8 +19,9 @@
 
 class	ShrubberyCreationForm: public AForm
 {
-	public:
+	private:
 		ShrubberyCreationForm();
+	public:
 		~ShrubberyCreationForm();
 		ShrubberyCreationForm(const ShrubberyCreationForm& obj);
 		ShrubberyCreationForm&	operator=(const ShrubberyCreationForm& obj);

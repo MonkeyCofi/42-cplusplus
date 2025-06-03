@@ -14,8 +14,7 @@
 # define INTERN_HPP
 
 # include <iostream>
-# include "Form.hpp"
-//# include "AForm.hpp"
+# include "AForm.hpp"
 # include "PresidentialPardonForm.hpp"
 # include "ShrubberyCreationForm.hpp"
 # include "RobotomyRequestForm.hpp"
@@ -28,10 +27,10 @@ class Intern
 		Intern(const Intern& obj);
 		Intern&	operator=(const Intern& obj);
 
-		Form*	makeForm(std::string form_name, std::string form_target);
-		Form*	makePardonForm(std::string form_target);
-		Form*	makeRobotomyForm(std::string form_target);
-		Form*	makeShrubberyCreationForm(std::string form_target);
+		AForm*	makeForm(std::string form_name, std::string form_target);
+		AForm*	makePardonForm(std::string form_target);
+		AForm*	makeRobotomyForm(std::string form_target);
+		AForm*	makeShrubberyCreationForm(std::string form_target);
 };
 
 #endif
