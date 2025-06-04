@@ -37,35 +37,41 @@ bool	ScalarConverter::isFloat(std::string arg)
 {
 	if (arg == "inff" || arg == "-inff")	// for infinity
 		return (true);
+	if ((atof(arg.c_str()) == 0 && arg != "0"))
+		return (false);
 	const bool	has_f = (*(arg.end() - 1) == 'f');
 	if (!has_f)
 		return (false);
+
+	const bool	is_scientific = arg.find_first_of('e');
+	const bool	negative_exponent = (arg[arg.find_first_of('e') + 1]) == '-';
+	if (negative_exponent)
+		arg.erase(arg.find_first_of('e') + 1, 1);
 	const bool	negative = arg.find_first_of('-') != std::string::npos;
 	const bool	has_digit = arg.find_first_of("0123456789") != std::string::npos;
 
 	if (arg.find_first_of('.') != arg.find_last_of('.') \
-		|| (negative && (arg.find_first_of('-') != arg.find_last_of('-'))) || (negative && \
-			arg.find('-') != 0) || !has_digit)
+		|| (negative && (arg.find_first_of('-') != arg.find_last_of('-'))) 
+			|| !has_digit || (is_scientific && arg.find_first_of('e') != arg.find_last_of('e')))
 				return (false);
-	if (arg.find_first_not_of("0123456789.") != std::string::npos)
-	{
-		if (has_f)
-			return (true);
-		return (negative ? true : false);
-	}
-	return (has_f == true ? true : arg.find_first_of('.') != std::string::npos);
+	return (true);
 }
 
 bool	ScalarConverter::isDouble(std::string arg)
 {
 	if (arg == "inf" || arg == "-inf")
 		return (true);
+
+	const bool	is_scientific = arg.find_first_of('e');
 	const bool	negative = arg.find_first_of('-') != std::string::npos;
 	const bool	has_digit = arg.find_first_of("0123456789") != std::string::npos;
+	const bool	negative_exponent = (arg[arg.find_first_of('e') + 1]) == '-';
+	if (negative_exponent)
+		arg.erase(arg.find_first_of('e') + 1, 1);
 
 	if (arg.find_first_of('.') != arg.find_last_of('.') \
-		|| (negative && (arg.find_first_of('-') != arg.find_last_of('-'))) || (negative && \
-			arg.find('-') != 0) || !has_digit)
+		|| (negative && (arg.find_first_of('-') != arg.find_last_of('-')))
+			|| !has_digit || (is_scientific && arg.find_first_of('e') != arg.find_last_of('e')))
 				return (false);
 	return (true);
 }
@@ -102,6 +108,8 @@ char	ScalarConverter::toChar(std::string arg)
 
 std::string	ScalarConverter::getType(std::string arg)
 {
+	arg = arg.erase(0, arg.find_first_not_of(" \t"));	// trim whitespaces in the beginning
+	arg = arg.erase(arg.find_last_not_of(" \t") + 1, std::string::npos);	// trim whitespaces in the end
 	if (ScalarConverter::isInt(arg)) return ("Int");
 	if (ScalarConverter::isFloat(arg)) return ("Float");
 	if (ScalarConverter::isDouble(arg)) return ("Double");
@@ -127,7 +135,7 @@ void	ScalarConverter::printChar(std::string arg, ScalarConverter::e_types type)
 
 bool	ScalarConverter::checkDecimal(double arg)
 {
-	return ((int)arg - (double)arg);
+	return (static_cast<int>(arg) - static_cast<float>(arg));
 }
 
 void	ScalarConverter::convert(std::string arg)
@@ -140,7 +148,7 @@ void	ScalarConverter::convert(std::string arg)
 		if (type == types[t])
 			break ;
 	}
-	std::cout << "Type: " << types[t] << "\n";
+	// std::cout << "Type: " << types[t] << "\n";
 	switch(t)
 	{
 		case(Char):
