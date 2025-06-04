@@ -148,7 +148,6 @@ void	ScalarConverter::convert(std::string arg)
 		if (type == types[t])
 			break ;
 	}
-	// std::cout << "Type: " << types[t] << "\n";
 	switch(t)
 	{
 		case(Char):

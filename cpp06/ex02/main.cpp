@@ -18,6 +18,7 @@
 Base*	generate(void)
 {
 	time_t	t;
+
 	srand(time(&t));
 	int	r = rand() % 3;
 	switch(r)
@@ -78,7 +79,7 @@ void	identify(Base& p)
 	}
 	catch (std::bad_cast)
 	{
-		
+		;
 	}
 	
 	try

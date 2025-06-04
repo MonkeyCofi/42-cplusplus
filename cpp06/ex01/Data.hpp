@@ -13,16 +13,20 @@
 #ifndef DATA_HPP
 # define DATA_HPP
 
+#include <iostream>
+
 class	Data
 {
 	private:
-		int	num;
+		int	age;
+		std::string	name;
 	public:
 		Data();
 		~Data();
 		Data(const Data& obj);
-		Data	&operator=(const Data& obj);
-		int		getNum() const;
+		Data		&operator=(const Data& obj);
+		int			getAge() const;
+		std::string	getName() const;
 };
 
 #endif
