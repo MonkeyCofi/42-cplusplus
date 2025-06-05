@@ -15,12 +15,13 @@
 int main(void)
 {
 	Data	data;
-	std::cout << "Original data: " << data.getAge() << " " << data.getName() << "\n";
+	std::cout << "Original data: " << data.getAge() << "\n";
 	uintptr_t	raw = Serialize::serialize(&data);
 	Data		*recovered = Serialize::deserialize(raw);
 	if (recovered == reinterpret_cast<Data*>(raw))
 		std::cout << "Addresses are the same\n";
 	else
 		std::cout << "Addresses are different\n";
-	std::cout << "Recovered: " << recovered->getAge() << " " << recovered->getName() << "\n";
+	std::cout << "Recovered: " << recovered->getAge() << "\n";
+	std::cout << "size of (void *): " << sizeof(void *) << " size of (uintptr_t): " << sizeof(uintptr_t) << "\n";
 }

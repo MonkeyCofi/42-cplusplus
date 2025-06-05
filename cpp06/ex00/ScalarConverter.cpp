@@ -35,18 +35,18 @@ ScalarConverter	&ScalarConverter::operator=(const ScalarConverter& obj)
 
 bool	ScalarConverter::isFloat(std::string arg)
 {
+	const bool	has_f = (*(arg.end() - 1) == 'f') || (*(arg.end() - 1) == 'F');
+	if (!has_f || (atof(arg.c_str()) == 0 && arg != "0"))
+		return (false);
 	if (arg == "inff" || arg == "-inff")	// for infinity
 		return (true);
-	if ((atof(arg.c_str()) == 0 && arg != "0"))
-		return (false);
-	const bool	has_f = (*(arg.end() - 1) == 'f');
-	if (!has_f)
-		return (false);
+	if (arg.find_first_of('f') != arg.find_last_of('f') || arg.find_first_of('F') != arg.find_last_of('F'))
+		throw (ScalarConverter::NotATypeException());
 
 	const bool	is_scientific = arg.find_first_of('e');
 	const bool	negative_exponent = (arg[arg.find_first_of('e') + 1]) == '-';
-	if (negative_exponent)
-		arg.erase(arg.find_first_of('e') + 1, 1);
+	arg = !negative_exponent ? arg : arg.erase(arg.find_first_of('e') + 1, 1);
+
 	const bool	negative = arg.find_first_of('-') != std::string::npos;
 	const bool	has_digit = arg.find_first_of("0123456789") != std::string::npos;
 
@@ -61,6 +61,8 @@ bool	ScalarConverter::isDouble(std::string arg)
 {
 	if (arg == "inf" || arg == "-inf")
 		return (true);
+	if ((atof(arg.c_str()) == 0 && arg != "0") || arg.find_first_not_of("0123456789-+.e") != std::string::npos)
+		throw (ScalarConverter::NotATypeException());
 
 	const bool	is_scientific = arg.find_first_of('e');
 	const bool	negative = arg.find_first_of('-') != std::string::npos;
@@ -78,14 +80,24 @@ bool	ScalarConverter::isDouble(std::string arg)
 
 bool	ScalarConverter::isInt(std::string arg)
 {
-	int i = 0;
+	int 	i = 0;
+	int 	res = 0;
+	bool	negative = false;
 	if (arg[i] == '-')
+	{
 		i++;
+		negative = !negative;
+	}
 	for (; arg[i]; i++)
 	{
 		if (!(arg[i] >= '0' && arg[i] <= '9'))
 			return (false);
+		if ((res == INT_MAX / 10 && arg[i] - '0' > 7) || 
+			(negative && res == INT_MAX / 10 && arg[i] - '0' > 8))	// if integer overflows, throw exception
+			throw (ScalarConverter::IntOverflowException());
+		res = arg[i] - '0' + res * 10;	
 	}
+	std::cout << "Res: " <<  res << "\n";
 	return (true);
 }
 
@@ -110,10 +122,17 @@ std::string	ScalarConverter::getType(std::string arg)
 {
 	arg = arg.erase(0, arg.find_first_not_of(" \t"));	// trim whitespaces in the beginning
 	arg = arg.erase(arg.find_last_not_of(" \t") + 1, std::string::npos);	// trim whitespaces in the end
-	if (ScalarConverter::isInt(arg)) return ("Int");
-	if (ScalarConverter::isFloat(arg)) return ("Float");
-	if (ScalarConverter::isDouble(arg)) return ("Double");
-	if (ScalarConverter::isChar(arg)) return ("Char");
+	try
+	{
+		if (ScalarConverter::isInt(arg)) return ("Int");
+		if (ScalarConverter::isFloat(arg)) return ("Float");
+		if (ScalarConverter::isDouble(arg)) return ("Double");
+		if (ScalarConverter::isChar(arg)) return ("Char");
+	}
+	catch (std::exception& e)	// catch the two exceptions that are possibly thrown
+	{
+		return ("Invalid");
+	}
 	return ("Invalid");
 }
 
@@ -200,4 +219,14 @@ void	ScalarConverter::convert(std::string arg)
 			std::cout << "Double: " << "nan\n";
 		}
 	}
+}
+
+const char*	ScalarConverter::NotATypeException::what() const throw()
+{
+	return ("Not a type");
+}
+
+const char*	ScalarConverter::IntOverflowException::what() const throw()
+{
+	return ("Int overflow");
 }

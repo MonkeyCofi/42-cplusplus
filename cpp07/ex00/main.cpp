@@ -35,17 +35,16 @@ void	swap(T& x, T& y)
 int main(void)
 {
 	{
-		std::cout << "\n";
 		std::cout << "\033[2;34mMin and max\n\033[0m";
 		int x = 5;
 		int y = 10;
 		std::cout << "x is " << x << " and y is " << y << "\n";
-		std::cout << "Between x and y, " << (max<int>(x, y) == x ? "x" : "y") << " is greater\n";
+		std::cout << "Between x and y, " << (::max<int>(x, y) == x ? "x" : "y") << " is greater\n";
 		std::cout << "\n";
 		double a = 1.2;
 		double b = -21;
 		std::cout << "a is " << a << " and b is " << b << "\n";
-		std::cout << "Between a and b, " << (min<double>(a, b) == a ? "a" : "b") << " is lesser\n";
+		std::cout << "Between a and b, " << (::min<double>(a, b) == a ? "a" : "b") << " is lesser\n";
 		std::cout << "\n";
 	}
 	{
@@ -54,7 +53,7 @@ int main(void)
 		double y = -66.1;
 		std::cout << "x before swap: " << x << "\n";
 		std::cout << "y before swap: " << y << "\n";
-		swap<double>(x, y);
+		::swap<double>(x, y);
 		std::cout << "\n";
 		std::cout << "x after swap: " << x << "\n";
 		std::cout << "y after swap: " << y << "\n";

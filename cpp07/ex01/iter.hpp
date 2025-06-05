@@ -16,6 +16,6 @@
 # include <iostream>
 
 template <class T>
-void	iter(T* array, int arr_len, void(*func)(T&));
+void    iter(T* array, int arrayLength, void(*func)(T&));
 
 #endif

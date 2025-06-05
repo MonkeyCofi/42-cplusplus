@@ -14,7 +14,6 @@
 
 Data::Data()
 {
-	name = "Unknown";
 	age = 42;
 };
 
@@ -26,22 +25,15 @@ Data::~Data()
 Data::Data(const Data& obj)
 {
 	this->age = obj.age;
-	this->name = obj.name;
 }
 
 Data	&Data::operator=(const Data& obj)
 {
 	this->age = obj.age;
-	this->name = obj.name;
 	return (*this);
 }
 
 int	Data::getAge() const
 {
 	return (this->age);
-}
-
-std::string	Data::getName() const
-{
-	return (this->name);
 }

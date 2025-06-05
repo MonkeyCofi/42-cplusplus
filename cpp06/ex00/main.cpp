@@ -20,5 +20,4 @@ int main(int ac, char **av)
 		return (1);
 	} 
 	ScalarConverter::convert(av[1]);
-	std::cout << atof(av[1]) << "\n";
 }

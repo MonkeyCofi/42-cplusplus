@@ -17,6 +17,8 @@
 # include <string>
 # include <cmath>
 # include <iomanip>
+# include <climits>
+# include <exception>
 
 class	ScalarConverter
 {
@@ -41,20 +43,24 @@ class	ScalarConverter
 		
 		static std::string	getType(std::string arg);
 
-		static bool			isValid(std::string arg);
 		static bool			isFloat(std::string arg);
 		static bool			isDouble(std::string arg);
 		static bool			isInt(std::string arg);
 		static bool			isChar(std::string arg);
 		
 		static bool			checkDecimal(double arg);
-	public:
-		static void convert(std::string to_convert);
-		class	NonCharException: public std::exception
+		class	NotATypeException: public std::exception
 		{
 			public:
-				const char*	what() const throw();
+				const char* what() const throw();
 		};
+		class	IntOverflowException: public std::exception
+		{
+			public:
+				const char* what() const throw();
+		};
+	public:
+		static void convert(std::string to_convert);
 };
 
 #endif

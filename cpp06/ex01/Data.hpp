@@ -19,14 +19,12 @@ class	Data
 {
 	private:
 		int	age;
-		std::string	name;
 	public:
 		Data();
 		~Data();
 		Data(const Data& obj);
 		Data		&operator=(const Data& obj);
 		int			getAge() const;
-		std::string	getName() const;
 };
 
 #endif
