@@ -15,7 +15,10 @@
 
 # include <iostream>
 
-template <class T>
-void    iter(T* array, int arrayLength, void(*func)(T&));
+template <class T, class Func>
+void    iter(T* array, int arrayLength, Func func);\
+
+template <class T, class Func>
+void    iter(const T* array, int arrayLength, Func func);\
 
 #endif
