@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PMergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:45:24 by pipolint          #+#    #+#             */
-/*   Updated: 2025/04/07 15:11:25 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/06/10 22:26:14 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,25 @@ void	PMergeMe::fillContainers(const char** args)
 */
 void	PMergeMe::sortVector()
 {
+	if (this->vector.size() <= 1)
+		return ;
+	std::vector<int>	winners;
+	std::vector<int>	losers;
 	std::vector<int>	sortedPairs;
 
 	for (std::vector<int>::iterator it = vector.begin(); it != vector.end();)
 	{
 		if (comp((*it), *(it + 1)))
 		{
+			losers.push_back(*it);
+			winners.push_back(*(it + 1));
 			sortedPairs.push_back(*it);
 			sortedPairs.push_back(*(it + 1));
 		}
 		else
 		{
+			winners.push_back(*it);
+			losers.push_back(*(it + 1));
 			sortedPairs.push_back(*(it + 1));
 			sortedPairs.push_back(*it);
 		}
@@ -94,6 +102,7 @@ void	PMergeMe::sortVector()
 	}
 	for (std::vector<int>::iterator it = sortedPairs.begin(); it != sortedPairs.end(); it++)
 		std::cout << "Vec: " << (*it) << "\n";
-	this->vector = sortedPairs;
+	std::cout << "\n";
+	this->vector = winners;
 	sortVector();
 }
