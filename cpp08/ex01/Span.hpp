@@ -35,6 +35,9 @@ class Span
 		int		longestSpan();
 		
 		void	printElements();
+	
+		std::vector<int>::iterator	_begin();
+		std::vector<int>::iterator	_end();
 		
 		class	VectorFullException
 		{

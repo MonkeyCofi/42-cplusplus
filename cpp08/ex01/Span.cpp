@@ -86,10 +86,21 @@ void	Span::addNumber(std::vector<int>::iterator pos, std::vector<int>::iterator 
 void	Span::printElements()
 {
 	int current = 0;
+
 	for (std::vector<int>::iterator it = this->numbers.begin(); it != this->numbers.end(); it++)
 	{
 		std::cout << ++current << ": " << *it << "\n";
 	}
+}
+
+std::vector<int>::iterator	Span::_begin()
+{
+	return (this->numbers.begin());
+}
+
+std::vector<int>::iterator	Span::_end()
+{
+	return (this->numbers.end());
 }
 
 const char*	Span::VectorFullException::what()
