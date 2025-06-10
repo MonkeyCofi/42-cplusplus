@@ -33,9 +33,9 @@ int main(int ac, char **av)
 		return (1);
 	}
 	containers.sortVector();
-	containers.sortList();
-	containers.printVector();
-	(void)av;
+	// containers.sortList();
+	// containers.printVector();
+	// (void)av;
 }
 
 //int main(void)

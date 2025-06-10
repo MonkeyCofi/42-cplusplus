@@ -28,8 +28,6 @@ class	PMergeMe
 		std::vector<int>	vector;
 		std::list<int>		list;
 		std::set<int>		set;
-		bool			oddSize;
-		int				lastElem;
 	public:
 		PMergeMe();
 		~PMergeMe();
