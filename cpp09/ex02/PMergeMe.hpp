@@ -28,8 +28,12 @@ class	PMergeMe
 		std::vector<int>	vector;
 		std::list<int>		list;
 		std::set<int>		set;
-		bool			oddSize;
-		int				lastElem;
+		bool				oddSize;
+		int					lastElem;
+		static long			sequence[];
+
+		template <typename T>
+		void	printStructure(T& structure);
 	public:
 		PMergeMe();
 		~PMergeMe();
@@ -38,28 +42,16 @@ class	PMergeMe
 		
 		void	fillContainers(const char** args);
 		int		size();
-		
-		static int			calculateJacobsthal(int nthJacobsthal);
-		static unsigned int	binarySearchVector(std::vector<int>& _vector, unsigned int low, unsigned int high, int valToInsert);
+
+		long			getJacobsthal(int n);
 
 		void			sortVector();
 		void			sortList();
-		void			printVector();
-		void			printVector(std::vector<int>& _vector);
-		void			printPairs(std::vector<int>::iterator begin, std::vector<int>::iterator end);
-		// unsigned int	binarySearchVector(unsigned int start, unsigned int middle, unsigned int end, int valToInsert);
-		void			insertRemaining(std::vector<int>& mainChain, std::vector<int>& appendChain, unsigned int lastInsertedIndex);
-		
-		void			jacobsthalInsert(int jacobsthalNumber, unsigned int& appendageCount, std::vector<int>& mainChain, std::vector< std::pair<int,int> >& pairElements);
-		void			binaryInsert(std::vector<int>& mainChain, std::vector< std::pair<int,int> >& pairElements);
-		
-		void			recurseVector(int pairSize);
-		
-		void				sortVector(std::vector<int>& _vec);
-		void				mergeInsertionSort(std::vector<int>& _winners, std::vector<int>& _losers);
-		std::vector<int>	swapPairs(std::vector<int>& to_sort);
-		std::vector<int>	returnWinners(std::vector<int>& _vec);
-		std::vector<int>	returnLosers(std::vector<int>& _vec);
+
+		// utility
+		void			printPairs(std::vector< std::pair<int, int> >& print);
+		template <typename T>
+		int	PMergeMe::binaryInsertSearch(int _toInsert, T& container);
 };
 
 #endif

@@ -12,17 +12,21 @@
 
 #include "PMergeMe.hpp"
 
+long	PMergeMe::sequence[] = {0, 1, 1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 
+	5461, 10923, 21845, 43691, 87381, 174763, 349525, 699051, 1398101, 2796203, 5592405, 
+	11184811, 22369621, 44739243, 89478485, 178956971, 357913941, 715827883, 1431655765, 2863311531, 5726623061, 11453246123};
+
 int comparisonCount = 0;
 
 PMergeMe::PMergeMe()
 {
-	this->lastElem = -1;
-	this->oddSize = false;	
+	oddSize = false;
+	lastElem = -1;
 };
 
 PMergeMe::~PMergeMe()
 {
-
+	;
 };
 
 PMergeMe::PMergeMe(const PMergeMe& obj)
@@ -68,6 +72,41 @@ void	PMergeMe::fillContainers(const char** args)
 	}
 }
 
+long	PMergeMe::getJacobsthal(int n)
+{
+	return (PMergeMe::sequence[n]);
+}
+
+template <typename T>
+void	PMergeMe::printStructure(T& structure)
+{
+	for (typename T::iterator it = structure.begin(); it != structure.end(); it++)
+	{
+		std::cout << (*it) << "\n";
+	}
+}
+
+void	PMergeMe::printPairs(std::vector< std::pair<int, int> >& print)
+{
+	for (std::vector< std::pair<int, int> >::iterator it = print.begin(); it != print.end(); it++)
+	{
+		std::cout << "First elem: " << (*it).first << "\n";
+		std::cout << "Second elem: " << (*it).second << "\n";
+	}
+}
+
+template <typename T>
+int	PMergeMe::binaryInsertSearch(int _toInsert, T& container)
+{
+	size_t	size = container.size();
+	for (size_t i = 0; i < size; i++)
+	{
+		if (comp(_toInsert, container.begin() + i) == true) // _toInsert < container.at(i)
+			
+	}
+	return (index);
+}
+
 /*
 	form pairs and sort using one comparison per pair
 	once the pairs are sorted; name all elements a[i] and b[i] where a[i] - a[n / 2] > b[i] - b[n / 2]
@@ -78,31 +117,52 @@ void	PMergeMe::sortVector()
 {
 	if (this->vector.size() <= 1)
 		return ;
-	std::vector<int>	winners;
-	std::vector<int>	losers;
-	std::vector<int>	sortedPairs;
+	std::vector<int>					winners;
+	std::vector<int>					losers;
+	std::vector< std::pair<int, int> >	pairs;
 
 	for (std::vector<int>::iterator it = vector.begin(); it != vector.end();)
 	{
+		if (it + 1 == vector.end())
+		{
+			std::cout << "True" << "\n";
+			break ;
+		}
 		if (comp((*it), *(it + 1)))
 		{
 			losers.push_back(*it);
 			winners.push_back(*(it + 1));
-			sortedPairs.push_back(*it);
-			sortedPairs.push_back(*(it + 1));
+			pairs.push_back(std::pair<int, int>((*it), *(it + 1)));
 		}
 		else
 		{
 			winners.push_back(*it);
 			losers.push_back(*(it + 1));
-			sortedPairs.push_back(*(it + 1));
-			sortedPairs.push_back(*it);
+			pairs.push_back(std::pair<int, int>(*(it + 1), (*it)));
 		}
 		it += 2;
 	}
-	for (std::vector<int>::iterator it = sortedPairs.begin(); it != sortedPairs.end(); it++)
-		std::cout << "Vec: " << (*it) << "\n";
-	std::cout << "\n";
 	this->vector = winners;
 	sortVector();
+	std::cout << "\033[34m";
+	printStructure(winners);
+	std::cout << "\033[0m";
+	std::cout << "\033[31m";
+	printStructure(losers);
+	std::cout << "\033[0m";
+	printPairs(pairs);
+	std::cout << "\n";
+	/*
+		the vector is now the 'main chain'
+		the losers vector is the 'pend chain'
+		insert from pend chain to main chain in jacobsthal sequence order
+		keep track of the original pairing
+	*/
+	int	jacobsthalIndex = 3;
+	while (1)
+	{
+		// if the number of elements in losers is leser than jacobsthal index, just binary insert
+		break ;
+	}
+	(void)jacobsthalIndex;
 }
