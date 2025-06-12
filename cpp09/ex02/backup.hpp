@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PMergeMe.hpp                                       :+:      :+:    :+:   */
+/*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PMERGEME_HPP
-# define PMERGEME_HPP
+#ifndef PmergeMe_HPP
+# define PmergeMe_HPP
 
 # include <iostream>
 # include <vector>
@@ -22,17 +22,17 @@
 # include <algorithm>
 # include <set>
 
-class	PMergeMe
+class	PmergeMe
 {
 	private:
 		std::vector<int>	vector;
 		std::list<int>		list;
 		std::set<int>		set;
 	public:
-		PMergeMe();
-		~PMergeMe();
-		PMergeMe(const PMergeMe& obj);
-		PMergeMe&	operator=(const PMergeMe& obj);
+		PmergeMe();
+		~PmergeMe();
+		PmergeMe(const PmergeMe& obj);
+		PmergeMe&	operator=(const PmergeMe& obj);
 		
 		void	fillContainers(const char** args);
 		int		size();

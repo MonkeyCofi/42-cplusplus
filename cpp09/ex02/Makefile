@@ -1,6 +1,6 @@
-NAME = PMergeMe
+NAME = PmergeMe
 
-SRCS = PMergeMe.cpp main.cpp
+SRCS = PmergeMe.cpp main.cpp
 
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g3 #-fsanitize=address
 

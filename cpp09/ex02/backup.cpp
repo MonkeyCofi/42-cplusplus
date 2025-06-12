@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PMergeMe.cpp                                       :+:      :+:    :+:   */
+/*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,23 +14,23 @@
 
 int comparisonCount = 0;
 
-PMergeMe::PMergeMe()
+PmergeMe::PmergeMe()
 {
 	
 };
 
-PMergeMe::~PMergeMe()
+PmergeMe::~PmergeMe()
 {
 
 };
 
-PMergeMe::PMergeMe(const PMergeMe& obj)
+PmergeMe::PmergeMe(const PmergeMe& obj)
 {
 	this->vector = obj.vector;
 	this->list = obj.list;
 };
 
-PMergeMe	&PMergeMe::operator=(const PMergeMe& obj)
+PmergeMe	&PmergeMe::operator=(const PmergeMe& obj)
 {
 	this->vector = obj.vector;
 	this->list = obj.list;
@@ -43,7 +43,7 @@ unsigned int	comp(int val, int iteratorPoint)
 	return (val < iteratorPoint);
 }
 
-void	PMergeMe::fillContainers(const char** args)
+void	PmergeMe::fillContainers(const char** args)
 {
 	for (int i = 1; args[i]; i++)
 	{
@@ -60,7 +60,7 @@ void	PMergeMe::fillContainers(const char** args)
 		throw (std::invalid_argument("Error: No duplicate values"));
 }
 
-std::vector<int>	PMergeMe::swapPairs(std::vector<int>& to_sort)
+std::vector<int>	PmergeMe::swapPairs(std::vector<int>& to_sort)
 {
 	for (std::vector<int>::iterator it = to_sort.begin(); it != to_sort.end(); it += 2)
 	{
@@ -75,7 +75,7 @@ std::vector<int>	PMergeMe::swapPairs(std::vector<int>& to_sort)
 	return (to_sort);
 }
 
-std::vector<int>	PMergeMe::returnWinners(std::vector<int>& _vec)
+std::vector<int>	PmergeMe::returnWinners(std::vector<int>& _vec)
 {
 	std::vector<int>	ret;
 	// for (std::vector<int>::iterator it = _vec.begin() + 1; it != _vec.end(); it = std::next(it, 2))
@@ -88,7 +88,7 @@ std::vector<int>	PMergeMe::returnWinners(std::vector<int>& _vec)
 	return (ret);
 }
 
-std::vector<int>	PMergeMe::returnLosers(std::vector<int>& _vec)
+std::vector<int>	PmergeMe::returnLosers(std::vector<int>& _vec)
 {
 	std::vector<int>	ret;
 	// for (std::vector<int>::iterator it = _vec.begin(); it != _vec.end(); it = std::next(it, 2))
@@ -101,7 +101,7 @@ std::vector<int>	PMergeMe::returnLosers(std::vector<int>& _vec)
 	return (ret);
 }
 
-void	PMergeMe::mergeInsertionSort(std::vector<int>& _winners, std::vector<int>& _losers)
+void	PmergeMe::mergeInsertionSort(std::vector<int>& _winners, std::vector<int>& _losers)
 {
 	std::vector<int>	mainChain;
 	std::vector<int>	pendChain;
@@ -126,7 +126,7 @@ void	PMergeMe::mergeInsertionSort(std::vector<int>& _winners, std::vector<int>& 
 	}
 }
 
-void	PMergeMe::sortVector(std::vector<int>& _vec)
+void	PmergeMe::sortVector(std::vector<int>& _vec)
 {
 	if (_vec.size() == 1)
 		return ;
@@ -150,7 +150,7 @@ void	PMergeMe::sortVector(std::vector<int>& _vec)
 	mergeInsertionSort(winners, losers);
 }
 
-void	PMergeMe::sortVector()
+void	PmergeMe::sortVector()
 {
 	std::vector<int>	swapped;
 	std::vector<int>	winners;
@@ -170,7 +170,7 @@ void	PMergeMe::sortVector()
 	sortVector(winners);
 }
 
-void	PMergeMe::sortList()
+void	PmergeMe::sortList()
 {
 	// for (std::list<int>::iterator it = this->list.begin(); it != this->list.end(); it++)
 	// {
@@ -178,14 +178,14 @@ void	PMergeMe::sortList()
 	// }
 }
 
-void	PMergeMe::printVector()
+void	PmergeMe::printVector()
 {
 	for (std::vector<int>::iterator it = this->vector.begin(); it != this->vector.end(); it++)
 		std::cout << (*it) << " ";
 	std::cout << "\n";
 }
 
-void	PMergeMe::printVector(std::vector<int>& _vector)
+void	PmergeMe::printVector(std::vector<int>& _vector)
 {
 	for (std::vector<int>::iterator it = _vector.begin(); it != _vector.end(); it++)
 		std::cout << (*it) << " ";
@@ -198,7 +198,7 @@ void	PMergeMe::printVector(std::vector<int>& _vector)
 	stop once the size of pairings is larger than number of elements
 */
 
-// unsigned int	PMergeMe::binarySearchVector(unsigned int start, unsigned int middle, unsigned int end, int valToInsert)
+// unsigned int	PmergeMe::binarySearchVector(unsigned int start, unsigned int middle, unsigned int end, int valToInsert)
 // {
 // 	if (end - start == 0)
 // 		throw(std::invalid_argument("Element not found"));
@@ -215,7 +215,7 @@ void	PMergeMe::printVector(std::vector<int>& _vector)
 // 	return (middle);
 // }
 
-unsigned int	PMergeMe::binarySearchVector(std::vector<int>& _vector, unsigned int low, unsigned int high, int valToInsert)
+unsigned int	PmergeMe::binarySearchVector(std::vector<int>& _vector, unsigned int low, unsigned int high, int valToInsert)
 {
 	unsigned int	middle;
 
@@ -234,7 +234,7 @@ unsigned int	PMergeMe::binarySearchVector(std::vector<int>& _vector, unsigned in
 	return (low);
 }
 
-int	PMergeMe::calculateJacobsthal(int nthJacobsthal)
+int	PmergeMe::calculateJacobsthal(int nthJacobsthal)
 {
 	if (nthJacobsthal == 0 || nthJacobsthal == 1)
 		return (0);

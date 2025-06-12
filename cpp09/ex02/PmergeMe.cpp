@@ -187,7 +187,7 @@ void	PmergeMe::sortVector()
 		winnerIndices.push_back(i);
 	this->vector = winners;
 	sortVector(winnerIndices);
-	reorderLosers(winners, losers, winnerIndices);
+	// reorderLosers(winners, losers, winnerIndices);
 	std::cout << "Winners: ";
 	printStructure(winners);
 	std::cout << "Losers: ";
@@ -298,23 +298,19 @@ void	PmergeMe::sortVector(std::vector<int>& winnerIndices)
 		i += 2;
 	}
 	this->vector = winners;
-	sortVector();
-	reorderLosers(winners, losers, winnerIndices);
-	std::cout << "Updated indices: ";
-	printStructure(winnerIndices);
-	std::cout << "Winners: ";
-	printStructure(winners);
-	std::cout << "Losers: ";
-	printStructure(losers);
-	std::cout << "Vector: ";
-	printStructure(vector);
+	// std::cout << "Vector before recursion: ";
+	// printStructure(vector);
+	// sortVector();
+	// std::cout << "Updated indices: ";
+	// printStructure(winnerIndices);
+	// reorderLosers(winners, losers, winnerIndices);
+	// std::cout << "Winners: ";
+	// printStructure(winners);
+	// std::cout << "Losers: ";
+	// printStructure(losers);
+	// std::cout << "Vector: ";
+	// printStructure(vector);
 	printPairs(pairs);
-	/*
-		the vector is now the 'main chain'
-		the losers vector is the 'pend chain'
-		insert from pend chain to main chain in jacobsthal sequence order
-		keep track of the original pairing
-	*/
 	int	jacobsthalIndex = 3;
 	while (1)
 	{

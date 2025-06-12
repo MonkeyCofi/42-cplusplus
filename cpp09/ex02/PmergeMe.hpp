@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PMergeMe.hpp                                       :+:      :+:    :+:   */
+/*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PMERGEME_HPP
-# define PMERGEME_HPP
+#ifndef PmergeMe_HPP
+# define PmergeMe_HPP
 
 # include <iostream>
 # include <vector>
@@ -23,7 +23,7 @@
 # include <set>
 # include <cmath>
 
-class	PMergeMe
+class	PmergeMe
 {
 	private:
 		std::vector<int>	vector;
@@ -36,10 +36,10 @@ class	PMergeMe
 		template <typename T>
 		void	printStructure(T& structure);
 	public:
-		PMergeMe();
-		~PMergeMe();
-		PMergeMe(const PMergeMe& obj);
-		PMergeMe&	operator=(const PMergeMe& obj);
+		PmergeMe();
+		~PmergeMe();
+		PmergeMe(const PmergeMe& obj);
+		PmergeMe&	operator=(const PmergeMe& obj);
 		
 		void	fillContainers(const char** args);
 		int		size();
@@ -57,7 +57,7 @@ class	PMergeMe
 		void			reorderLosers(std::vector<int>& winners, 
 			std::vector<int>& losers, std::vector<int>& winnerIndices);
 		// template <typename T>
-		// int	PMergeMe::binaryInsertSearch(int _toInsert, T& container);
+		// int	PmergeMe::binaryInsertSearch(int _toInsert, T& container);
 };
 
 #endif
