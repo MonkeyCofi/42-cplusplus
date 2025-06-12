@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pipolint <pipolint@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:47:11 by pipolint          #+#    #+#             */
-/*   Updated: 2025/04/07 14:29:09 by pipolint         ###   ########.fr       */
+/*   Updated: 2025/06/12 19:32:28 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int main(int ac, char **av)
 		return (1);
 	}
 	containers.sortVector();
+	containers.printVector();
 	// containers.sortList();
 	// containers.printVector();
 	// (void)av;
