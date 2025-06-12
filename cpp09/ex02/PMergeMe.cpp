@@ -6,7 +6,7 @@
 /*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:45:24 by pipolint          #+#    #+#             */
-/*   Updated: 2025/06/10 22:26:14 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:58:34 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 long	PMergeMe::sequence[] = {0, 1, 1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 
 	5461, 10923, 21845, 43691, 87381, 174763, 349525, 699051, 1398101, 2796203, 5592405, 
-	11184811, 22369621, 44739243, 89478485, 178956971, 357913941, 715827883, 1431655765, 2863311531, 5726623061, 11453246123};
+	11184811, 22369621, 44739243, 89478485, 178956971, 357913941, 715827883, 1431655765,
+	2863311531, 5726623061, 11453246123};
 
 int comparisonCount = 0;
 
@@ -64,12 +65,12 @@ void	PMergeMe::fillContainers(const char** args)
 	}
 	if (set.size() < vector.size())
 		throw (std::invalid_argument("Error: No duplicate values"));
-	this->oddSize = vector.size() % 2;
-	if (this->oddSize)
-	{
-		this->lastElem = vector.back();
-		this->vector.pop_back();
-	}
+	// this->oddSize = vector.size() % 2;
+	// if (this->oddSize)
+	// {
+	// 	this->lastElem = vector.back();
+	// 	this->vector.pop_back();
+	// }
 }
 
 long	PMergeMe::getJacobsthal(int n)
@@ -82,7 +83,7 @@ void	PMergeMe::printStructure(T& structure)
 {
 	for (typename T::iterator it = structure.begin(); it != structure.end(); it++)
 	{
-		std::cout << (*it) << "\n";
+		std::cout << (*it) << (it + 1 == structure.end() ? "\n" : " ");
 	}
 }
 
@@ -90,21 +91,25 @@ void	PMergeMe::printPairs(std::vector< std::pair<int, int> >& print)
 {
 	for (std::vector< std::pair<int, int> >::iterator it = print.begin(); it != print.end(); it++)
 	{
-		std::cout << "First elem: " << (*it).first << "\n";
-		std::cout << "Second elem: " << (*it).second << "\n";
+		std::cout << (*it).first << " -> " << (*it).second << "\n";
 	}
 }
 
-template <typename T>
-int	PMergeMe::binaryInsertSearch(int _toInsert, T& container)
+int	PMergeMe::binaryInsertSearch(int _toInsert, size_t capIndex, std::vector<int>& searchVector)
 {
-	size_t	size = container.size();
-	for (size_t i = 0; i < size; i++)
+	int low = 0;
+	int high = capIndex;
+	std::cout << _toInsert << " < " << searchVector[capIndex] << "\n";
+	while (low <= high)
 	{
-		if (comp(_toInsert, container.begin() + i) == true) // _toInsert < container.at(i)
-			
+		int middle = (high + low) / 2;
+		if (_toInsert < searchVector[middle])
+			high = middle - 1;
+		else
+			low = middle + 1;
+		comparisonCount++;
 	}
-	return (index);
+	return (low);
 }
 
 /*
@@ -126,6 +131,7 @@ void	PMergeMe::sortVector()
 		if (it + 1 == vector.end())
 		{
 			std::cout << "True" << "\n";
+			losers.push_back(*it);
 			break ;
 		}
 		if (comp((*it), *(it + 1)))
@@ -144,14 +150,6 @@ void	PMergeMe::sortVector()
 	}
 	this->vector = winners;
 	sortVector();
-	std::cout << "\033[34m";
-	printStructure(winners);
-	std::cout << "\033[0m";
-	std::cout << "\033[31m";
-	printStructure(losers);
-	std::cout << "\033[0m";
-	printPairs(pairs);
-	std::cout << "\n";
 	/*
 		the vector is now the 'main chain'
 		the losers vector is the 'pend chain'
@@ -159,10 +157,57 @@ void	PMergeMe::sortVector()
 		keep track of the original pairing
 	*/
 	int	jacobsthalIndex = 3;
+	std::cout << "Losers: ";
+	printStructure(losers);
 	while (1)
 	{
 		// if the number of elements in losers is leser than jacobsthal index, just binary insert
-		break ;
+		if (losers.size() < static_cast<size_t>(getJacobsthal(jacobsthalIndex)))
+		{
+			std::cout << "Inserting from losers in reverse order\n";
+			while (losers.size() > 0)
+			{
+				int insertPos = binaryInsertSearch(losers.back(), vector.size() - 1, vector);
+				vector.insert(vector.begin() + insertPos, losers.back());
+				std::cout << "Element to insert: " << losers.back() << " at " << insertPos << "\n";
+				losers.pop_back();
+			}
+			// printStructure(vector);
+		}
+		else	// use jacobsthal sequence to determine insertion 
+		{
+			std::cout << "Using jacobsthal to determine insertion point\n";
+			int jacobsthalNumber = getJacobsthal(jacobsthalIndex);
+			int previousJacobsthal = getJacobsthal(jacobsthalIndex - 1);
+			while (jacobsthalNumber > previousJacobsthal)
+			{
+				int insertPos = 0;
+				int toInsert = losers[jacobsthalNumber - 1];
+				std::cout << "Inserting " << toInsert << " from pend to main\n";
+				// if jacobsthal number is larger than vector size, this means straggler is being inserted
+				if (static_cast<size_t>(jacobsthalNumber) > vector.size())
+				{
+					std::cout << "Using size of main as the cap index\n";
+					insertPos = binaryInsertSearch(toInsert, vector.size() - 1, vector);
+					vector.insert(vector.begin() + insertPos, toInsert);
+				}
+				else
+				{
+					std::cout << "using a" << jacobsthalNumber << " as the cap for the main\n";
+					insertPos = binaryInsertSearch(toInsert, jacobsthalNumber - 1, vector);
+					vector.insert(vector.begin() + insertPos, toInsert);
+				}
+				losers.erase(losers.begin() + jacobsthalNumber - 1);
+				std::cout << "jacobsthal: " << jacobsthalNumber << "\n";
+				jacobsthalNumber--;	
+			}
+			previousJacobsthal = jacobsthalNumber;
+			jacobsthalNumber = getJacobsthal(++jacobsthalIndex);
+		}
+		if (losers.size() == 0)
+			break ;
+		// break ;
 	}
-	(void)jacobsthalIndex;
+	printStructure(vector);
+	std::cout << "Number of comparisons: " << comparisonCount << "\n";
 }
