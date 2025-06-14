@@ -6,7 +6,7 @@
 /*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:45:24 by pipolint          #+#    #+#             */
-/*   Updated: 2025/06/12 22:12:44 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/06/14 19:32:12 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,26 +112,6 @@ int	PmergeMe::binaryInsertSearch(int _toInsert, size_t capIndex, std::vector<int
 	return (low);
 }
 
-void	PmergeMe::reorderLosers(std::vector<int>& winners, std::vector<int>& losers, 
-	std::vector<int>& winnerIndices)
-{
-	std::vector<int>	newLosers;
-
-	for (size_t i = 0, size = losers.size(); i < size; i++)
-	{
-		if (i == size - 1 && losers.size() > winners.size())
-		{
-			newLosers.push_back(losers[i]);
-			break ;
-		}
-		newLosers.push_back(losers[winnerIndices[i]]);
-	}
-	std::cout << "NewLosers: ";
-	(void)winners;
-	printStructure(newLosers);
-	losers = newLosers;
-}
-
 void	PmergeMe::printVector()
 {
 	std::cout << "\033[34m";
@@ -140,12 +120,88 @@ void	PmergeMe::printVector()
 	std::cout << "\n\033[0m";
 }
 
+void	PmergeMe::positionPendElements(std::vector<int>& unsorted_winners, std::vector<int>& sorted_winners, 
+	std::vector<int>& losers, std::vector<int>& pendChain)
+{
+	/*
+		go through the vector of new winners
+		for each winner, find its position in the orignal_winners vector
+			the loser at this found position gets pushed into the pendChain
+	*/
+	// std::cout << "Untouched winners: ";
+	// printStructure(unsorted_winners);
+	// std::cout << "Sorted winners: ";
+	// printStructure(sorted_winners);
+	// std::cout << "Size of winners: " << unsorted_winners.size() << "\n";
+	// std::cout << "Size of winners: " << sorted_winners.size() << "\n";
+	// std::cout << "Size of losers: " << losers.size() << "\n";
+	// std::cout << "losers: ";
+	// printStructure(losers);
+	for (size_t i = 0, size = sorted_winners.size(); i < size; i++)
+	{
+		// returns an iterator to sorted_value[i] in the unsorted_winners vector
+		std::vector<int>::iterator pos = std::find(unsorted_winners.begin(), 
+			unsorted_winners.end(), sorted_winners[i]);
+		std::cout << "current element: " << (*pos) << "\n";
+		// get the distance from the start of the losers vector to the position
+		int index = std::distance(unsorted_winners.begin(), pos);
+		pendChain.push_back(losers[index]);
+	}
+	if (losers.size() > unsorted_winners.size())
+		pendChain.push_back(losers[losers.size() - 1]);
+	(void)losers;
+	(void)pendChain;
+}
+
 /*
 	form pairs and sort using one comparison per pair
 	once the pairs are sorted; name all elements a[i] and b[i] where a[i] - a[n / 2] > b[i] - b[n / 2]
 	repeat this process for all a[i] - a[n / 2] elements
 
 */
+
+void	PmergeMe::insertPend(std::vector<int>& pendChain, std::vector<int>& unsorted_winners, std::vector<int>& losers)
+{
+	std::cout << "\033[31mNEW CALL\033[0m\n";
+	// the pendchain is the losers vector sorted according to its winners
+	std::cout << "Pend: ";
+	printStructure(pendChain);
+	std::cout << "Inserting into: ";
+	printStructure(this->vector);
+	unsigned int	insertCount = 0;
+	int	jacobsthalIndex = 3;
+	unsigned int	currentJacobsthal = getJacobsthal(jacobsthalIndex);
+	unsigned int	prevJacobsthal = getJacobsthal(jacobsthalIndex - 1);
+	std::vector<int>	winners = vector;
+	// insert pend chain's first element
+	if (pendChain.size())
+	{
+		vector.insert(vector.begin(), pendChain[0]);
+		insertCount++;
+	}
+	while (insertCount < pendChain.size() - 1)	// terminate loop once insert count is equal to size
+	{
+		if (currentJacobsthal == prevJacobsthal)
+		{
+			prevJacobsthal = currentJacobsthal;
+			currentJacobsthal = getJacobsthal(++jacobsthalIndex);
+		}
+		// find pend chain's partner's position in vector
+		int	cap = 0;
+		std::vector<int>::iterator partnerIt = std::find(vector.begin(), vector.end(), winners[currentJacobsthal - 1]);
+		cap = partnerIt - vector.begin() - (partnerIt == vector.end());
+		// int	pos = binaryInsertSearch(pendChain[currentJacobsthal - 1], partnerIt - vector.begin(), vector);
+		int	pos = binaryInsertSearch(pendChain[currentJacobsthal - 1], cap, vector);
+		vector.insert(vector.begin() + pos, pendChain[currentJacobsthal - 1]);
+		insertCount++;
+		currentJacobsthal--;
+	}
+	(void)prevJacobsthal;
+	(void)unsorted_winners;
+	(void)currentJacobsthal;
+	(void)losers;
+}
+
 void	PmergeMe::sortVector()
 {
 	if (this->vector.size() <= 1)
@@ -153,19 +209,21 @@ void	PmergeMe::sortVector()
 	if (this->vector.size() == 2)
 	{
 		if (comp(vector[0], vector[1]) == false)
+		{
 			std::swap(vector[0], vector[1]);
+		}
+		printStructure(vector);
 		return ;
 	}
 	std::vector<int>					winners;
 	std::vector<int>					losers;
 	std::vector< std::pair<int, int> >	pairs;
-	std::vector<int>					winnerIndices;
 
 	for (std::vector<int>::iterator it = vector.begin(); it != vector.end();)
 	{
 		if (it + 1 == vector.end())
 		{
-			std::cout << "True" << "\n";
+			// std::cout << "True" << "\n";
 			losers.push_back(*it);
 			break ;
 		}
@@ -183,185 +241,18 @@ void	PmergeMe::sortVector()
 		}
 		it += 2;
 	}
-	for (size_t i = 0, size = winners.size(); i < size; i++)
-		winnerIndices.push_back(i);
-	this->vector = winners;
-	sortVector(winnerIndices);
-	// reorderLosers(winners, losers, winnerIndices);
-	std::cout << "Winners: ";
-	printStructure(winners);
-	std::cout << "Losers: ";
-	printStructure(losers);
-	std::cout << "Vector: ";
-	printStructure(vector);
 	printPairs(pairs);
-	/*
-		the vector is now the 'main chain'
-		the losers vector is the 'pend chain'
-		insert from pend chain to main chain in jacobsthal sequence order
-		keep track of the original pairing
-	*/
-	int	jacobsthalIndex = 3;
-	while (1)
-	{
-		// if the number of elements in losers is leser than jacobsthal index, just binary insert
-		if (losers.size() < static_cast<size_t>(getJacobsthal(jacobsthalIndex)))
-		{
-			std::cout << "Inserting from losers in reverse order\n";
-			while (losers.size() > 0)
-			{
-				int insertPos = binaryInsertSearch(losers.back(), vector.size() - 1, vector);
-				vector.insert(vector.begin() + insertPos, losers.back());
-				// std::cout << "Element to insert: " << losers.back() << " at " << insertPos << "\n";
-				losers.pop_back();
-				printStructure(vector);
-			}
-		}
-		else	// use jacobsthal sequence to determine insertion 
-		{
-			// std::cout << "Using jacobsthal to determine insertion point\n";
-			int jacobsthalNumber = getJacobsthal(jacobsthalIndex);
-			int previousJacobsthal = getJacobsthal(jacobsthalIndex - 1);
-			while (jacobsthalNumber > previousJacobsthal)
-			{
-				int insertPos = 0;
-				int toInsert = losers[jacobsthalNumber - 1];
-				// std::cout << "Inserting " << toInsert << " from pend to main\n";
-				// if jacobsthal number is larger than vector size, this means straggler is being inserted
-				if (static_cast<size_t>(jacobsthalNumber) > vector.size())
-				{
-					// std::cout << "Using size of main as the cap index\n";
-					insertPos = binaryInsertSearch(toInsert, vector.size() - 1, vector);
-					vector.insert(vector.begin() + insertPos, toInsert);
-				}
-				else
-				{
-					// std::cout << "using a" << jacobsthalNumber << " as the cap for the main\n";
-					insertPos = binaryInsertSearch(toInsert, jacobsthalNumber - 1, vector);
-					vector.insert(vector.begin() + insertPos, toInsert);
-				}
-				printStructure(vector);
-				losers.erase(losers.begin() + jacobsthalNumber - 1);
-				jacobsthalNumber--;	
-			}
-			previousJacobsthal = jacobsthalNumber;
-			jacobsthalNumber = getJacobsthal(++jacobsthalIndex);
-		}
-		if (losers.size() == 0)
-			break ;
-		// break ;
-	}
-	printStructure(vector);
-	std::cout << "Number of comparisons: " << comparisonCount << "\n";
-}
-
-void	PmergeMe::sortVector(std::vector<int>& winnerIndices)
-{
-	if (this->vector.size() <= 1)
-		return ;
-	if (this->vector.size() == 2)
-	{
-		if (comp(vector[0], vector[1]) == false)
-			std::swap(vector[0], vector[1]);
-		return ;
-	}
-	std::vector<int>					winners;
-	std::vector<int>					losers;
-	std::vector< std::pair<int, int> >	pairs;
-
-	int	i = 0;
-	std::cout << "Old indices: ";
-	printStructure(winnerIndices);
-	for (std::vector<int>::iterator it = vector.begin(); it != vector.end();)
-	{
-		if (it + 1 == vector.end())
-		{
-			std::cout << "True" << "\n";
-			losers.push_back(*it);
-			break ;
-		}
-		if (comp((*it), *(it + 1)))
-		{
-			std::swap(winnerIndices[i], winnerIndices[i + 1]);
-			losers.push_back(*it);
-			winners.push_back(*(it + 1));
-			pairs.push_back(std::pair<int, int>((*it), *(it + 1)));
-		}
-		else
-		{
-			std::swap(winnerIndices[i], winnerIndices[i + 1]);
-			winners.push_back(*it);
-			losers.push_back(*(it + 1));
-			pairs.push_back(std::pair<int, int>(*(it + 1), (*it)));
-		}
-		it += 2;
-		i += 2;
-	}
+	std::cout << "\n";
+	// winners vector stores the original positions of the winners
+	// the cap index for the binarysearch should be where the loser's winner is with respect to whats been inserted
 	this->vector = winners;
-	// std::cout << "Vector before recursion: ";
-	// printStructure(vector);
-	// sortVector();
-	// std::cout << "Updated indices: ";
-	// printStructure(winnerIndices);
-	// reorderLosers(winners, losers, winnerIndices);
-	// std::cout << "Winners: ";
+	// std::cout << "winners: ";
 	// printStructure(winners);
 	// std::cout << "Losers: ";
 	// printStructure(losers);
-	// std::cout << "Vector: ";
+	sortVector();
 	// printStructure(vector);
-	printPairs(pairs);
-	int	jacobsthalIndex = 3;
-	while (1)
-	{
-		// if the number of elements in losers is leser than jacobsthal index, just binary insert
-		if (losers.size() < static_cast<size_t>(getJacobsthal(jacobsthalIndex)))
-		{
-			std::cout << "Inserting from losers in reverse order\n";
-			while (losers.size() > 0)
-			{
-				int insertPos = binaryInsertSearch(losers.back(), vector.size() - 1, vector);
-				vector.insert(vector.begin() + insertPos, losers.back());
-				// std::cout << "Element to insert: " << losers.back() << " at " << insertPos << "\n";
-				losers.pop_back();
-				printStructure(vector);
-			}
-		}
-		else	// use jacobsthal sequence to determine insertion 
-		{
-			// std::cout << "Using jacobsthal to determine insertion point\n";
-			int jacobsthalNumber = getJacobsthal(jacobsthalIndex);
-			int previousJacobsthal = getJacobsthal(jacobsthalIndex - 1);
-			while (jacobsthalNumber > previousJacobsthal)
-			{
-				int insertPos = 0;
-				int toInsert = losers[jacobsthalNumber - 1];
-				// std::cout << "Inserting " << toInsert << " from pend to main\n";
-				// if jacobsthal number is larger than vector size, this means straggler is being inserted
-				if (static_cast<size_t>(jacobsthalNumber) > vector.size())
-				{
-					// std::cout << "Using size of main as the cap index\n";
-					insertPos = binaryInsertSearch(toInsert, vector.size() - 1, vector);
-					vector.insert(vector.begin() + insertPos, toInsert);
-				}
-				else
-				{
-					// std::cout << "using a" << jacobsthalNumber << " as the cap for the main\n";
-					insertPos = binaryInsertSearch(toInsert, jacobsthalNumber - 1, vector);
-					vector.insert(vector.begin() + insertPos, toInsert);
-				}
-				printStructure(vector);
-				losers.erase(losers.begin() + jacobsthalNumber - 1);
-				// std::cout << "jacobsthal: " << jacobsthalNumber << "\n";
-				jacobsthalNumber--;	
-			}
-			previousJacobsthal = jacobsthalNumber;
-			jacobsthalNumber = getJacobsthal(++jacobsthalIndex);
-		}
-		if (losers.size() == 0)
-			break ;
-		// break ;
-	}
-	printStructure(vector);
-	std::cout << "Number of comparisons: " << comparisonCount << "\n";
+	std::vector<int>	pendChain;
+	positionPendElements(winners, vector, losers, pendChain);
+	insertPend(pendChain, winners, losers);
 }
