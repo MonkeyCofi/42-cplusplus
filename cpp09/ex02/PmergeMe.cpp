@@ -135,14 +135,14 @@ void	PmergeMe::positionPendElements(std::vector<int>& unsorted_winners, std::vec
 	// std::cout << "Size of winners: " << unsorted_winners.size() << "\n";
 	// std::cout << "Size of winners: " << sorted_winners.size() << "\n";
 	// std::cout << "Size of losers: " << losers.size() << "\n";
-	// std::cout << "losers: ";
-	// printStructure(losers);
+	std::cout << "losers: ";
+	printStructure(losers);
 	for (size_t i = 0, size = sorted_winners.size(); i < size; i++)
 	{
 		// returns an iterator to sorted_value[i] in the unsorted_winners vector
 		std::vector<int>::iterator pos = std::find(unsorted_winners.begin(), 
 			unsorted_winners.end(), sorted_winners[i]);
-		std::cout << "current element: " << (*pos) << "\n";
+		// std::cout << "current element: " << (*pos) << "\n";
 		// get the distance from the start of the losers vector to the position
 		int index = std::distance(unsorted_winners.begin(), pos);
 		pendChain.push_back(losers[index]);
@@ -168,48 +168,101 @@ void	PmergeMe::insertPend(std::vector<int>& pendChain, std::vector<int>& unsorte
 	printStructure(pendChain);
 	std::cout << "Inserting into: ";
 	printStructure(this->vector);
+	std::cout << "Winners: ";
+	printStructure(unsorted_winners);
+	std::cout << "Main chain: ";
+	printStructure(vector);
 	unsigned int	insertCount = 0;
 	int	jacobsthalIndex = 3;
 	unsigned int	currentJacobsthal = getJacobsthal(jacobsthalIndex);
 	unsigned int	prevJacobsthal = getJacobsthal(jacobsthalIndex - 1);
 	std::vector<int>	winners = vector;
+	size_t			mainChainSize = vector.size();
 	// insert pend chain's first element
-	if (pendChain.size())
+	if (pendChain.size())	// insert the first element
 	{
+		std::cout << "Inserting element 0 from pend chain: " << pendChain[0] << "\n";
 		vector.insert(vector.begin(), pendChain[0]);
-		insertCount++;
 	}
-	while (insertCount < pendChain.size() - 1)	// terminate loop once insert count is equal to size
+	// keep inserting elements from pendChain until size of mainChain is original size + pendChain.size()
+	int i = pendChain.size() - 1;
+	while (vector.size() != mainChainSize + pendChain.size())
 	{
 		if (currentJacobsthal == prevJacobsthal)
 		{
-			prevJacobsthal = currentJacobsthal;
+			prevJacobsthal = getJacobsthal(jacobsthalIndex);
 			currentJacobsthal = getJacobsthal(++jacobsthalIndex);
 		}
-		// find pend chain's partner's position in vector
-		int	cap = 0;
-		std::vector<int>::iterator partnerIt = std::find(vector.begin(), vector.end(), winners[currentJacobsthal - 1]);
-		cap = partnerIt - vector.begin() - (partnerIt == vector.end());
-		// int	pos = binaryInsertSearch(pendChain[currentJacobsthal - 1], partnerIt - vector.begin(), vector);
-		int	pos = binaryInsertSearch(pendChain[currentJacobsthal - 1], cap, vector);
-		vector.insert(vector.begin() + pos, pendChain[currentJacobsthal - 1]);
-		insertCount++;
+		int _toInsert = 0;
+		if (pendChain.size() - 1 < currentJacobsthal)
+		{
+			std::cout << "in here\n";
+			_toInsert = pendChain[i--];
+		}
+		else
+			_toInsert = pendChain[currentJacobsthal - 1];
+		std::cout << "Jacobsthal: " << currentJacobsthal << " previous: " << prevJacobsthal << "\n";
+		std::cout << "Inserting: " << _toInsert << "\n";
+		// find loser's winning partner's position in the mainChain
+		// get the winning pair's position in the mainChain
+		std::vector<int>::iterator pairPosition;
+		// if winner only contains one element, use that as the pair
+		if (winners.size() > currentJacobsthal - 1)
+		{
+			std::cout << 1 << "\n";
+			pairPosition = std::find(vector.begin(), vector.end(), winners[currentJacobsthal - 1]);
+		}
+		else
+		{
+			std::cout << 2 << "\n";
+			pairPosition = vector.end() - 1;
+		}
+		// the cap should be the pendChain's jacobsthalth element's position in the main chain
+		size_t	capIndex = std::distance(vector.begin(), pairPosition);
+		int insertPos = binaryInsertSearch(_toInsert, capIndex, vector);
+		vector.insert(vector.begin() + insertPos, _toInsert);
 		currentJacobsthal--;
 	}
-	(void)prevJacobsthal;
-	(void)unsorted_winners;
-	(void)currentJacobsthal;
+	(void)insertCount;
 	(void)losers;
 }
+
+
+// while (insertCount <= pendChain.size() - 1)	// terminate loop once insert count is equal to size
+// {
+// 	if (currentJacobsthal == prevJacobsthal)
+// 	{
+// 		prevJacobsthal = currentJacobsthal;
+// 		currentJacobsthal = getJacobsthal(++jacobsthalIndex);
+// 	}
+// 	std::cout << "Jacobsthal: " << currentJacobsthal << "\n";
+// 	// find pend chain's partner's position in vector
+// 	int	cap = 0;
+// 	// if the current jacobsthalnumber - 1 is larger than the size of the winners, 
+// 	int winnerIndex = currentJacobsthal - 1 < winners.size() - 1 ? currentJacobsthal - 1 : winners.size() - 1;
+// 	// std::vector<int>::iterator partnerIt = std::find(vector.begin(), vector.end(), winners[currentJacobsthal - 1]);
+// 	std::vector<int>::iterator partnerIt = std::find(vector.begin(), vector.end(), winners[winnerIndex]);
+// 	cap = partnerIt - vector.begin() - (partnerIt == vector.end());
+// 	// int	pos = binaryInsertSearch(pendChain[currentJacobsthal - 1], partnerIt - vector.begin(), vector);
+// 	int	pos = binaryInsertSearch(pendChain[currentJacobsthal - 1], cap, vector);
+// 	vector.insert(vector.begin() + pos, pendChain[currentJacobsthal - 1]);
+// 	insertCount++;
+// 	std::cout << "Insert count: " << insertCount << "\n";
+// 	currentJacobsthal--;
+// }
 
 void	PmergeMe::sortVector()
 {
 	if (this->vector.size() <= 1)
+	{
+		std::cout << "vector has only one element\n";
 		return ;
+	}
 	if (this->vector.size() == 2)
 	{
 		if (comp(vector[0], vector[1]) == false)
 		{
+			std::cout << "Swapping " << vector[0] << " and " << vector[1] << "\n";
 			std::swap(vector[0], vector[1]);
 		}
 		printStructure(vector);
@@ -255,4 +308,5 @@ void	PmergeMe::sortVector()
 	std::vector<int>	pendChain;
 	positionPendElements(winners, vector, losers, pendChain);
 	insertPend(pendChain, winners, losers);
+	std::cout << comparisonCount << " comparisons\n";
 }
