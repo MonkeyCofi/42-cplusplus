@@ -6,7 +6,7 @@
 /*   By: ppolinta <ppolinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 17:45:24 by pipolint          #+#    #+#             */
-/*   Updated: 2025/06/14 19:32:12 by ppolinta         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:57:03 by ppolinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,36 +21,33 @@ int comparisonCount = 0;
 
 PmergeMe::PmergeMe()
 {
-	oddSize = false;
-	lastElem = -1;
-};
+	;
+}
 
 PmergeMe::~PmergeMe()
 {
 	;
-};
+}
 
 PmergeMe::PmergeMe(const PmergeMe& obj)
 {
 	*this = obj;
-};
+}
 
 PmergeMe	&PmergeMe::operator=(const PmergeMe& obj)
 {
 	this->vector = obj.vector;
 	this->list = obj.list;
-	this->lastElem = obj.lastElem;
-	this->oddSize = obj.oddSize;
 	return (*this);
 }
 
-unsigned int	comp(int val, int iteratorPoint)
+unsigned int	PmergeMe::comp(int val1, int val2)
 {
 	comparisonCount++;
-	return (val < iteratorPoint);
+	return (val1 < val2);
 }
 
-void	PmergeMe::fillContainers(const char** args)
+void	PmergeMe::fillContainers(char** args)
 {
 	for (int i = 1; args[i]; i++)
 	{
@@ -65,12 +62,6 @@ void	PmergeMe::fillContainers(const char** args)
 	}
 	if (set.size() < vector.size())
 		throw (std::invalid_argument("Error: No duplicate values"));
-	// this->oddSize = vector.size() % 2;
-	// if (this->oddSize)
-	// {
-	// 	this->lastElem = vector.back();
-	// 	this->vector.pop_back();
-	// }
 }
 
 long	PmergeMe::getJacobsthal(int n)
@@ -78,31 +69,32 @@ long	PmergeMe::getJacobsthal(int n)
 	return (PmergeMe::sequence[n]);
 }
 
-template <typename T>
-void	PmergeMe::printStructure(T& structure)
+void	printVector(std::vector<int>& print)
 {
-	for (typename T::iterator it = structure.begin(); it != structure.end(); it++)
+	for (std::vector<int>::iterator it = print.begin(); it != print.end(); it++)
 	{
-		std::cout << (*it) << (it + 1 == structure.end() ? "\n" : " ");
+		std::cout << (*it) << ((it + 1) == print.end() ? "" : " ");
 	}
+	std::cout << "\n";
 }
 
-void	PmergeMe::printPairs(std::vector< std::pair<int, int> >& print)
+void	PmergeMe::printVector(std::vector<int>& print)
 {
-	for (std::vector< std::pair<int, int> >::iterator it = print.begin(); it != print.end(); it++)
+	for (std::vector<int>::iterator it = print.begin(); it != print.end(); it++)
 	{
-		std::cout << (*it).first << " -> " << (*it).second << "\n";
+		std::cout << (*it) << (it + 1 == print.end() ? "" : " ");
 	}
+	std::cout << "\n";
 }
 
 int	PmergeMe::binaryInsertSearch(int _toInsert, size_t capIndex, std::vector<int>& searchVector)
 {
 	int low = 0;
 	int high = capIndex;
+
 	while (low <= high)
 	{
 		int middle = round((high + low) / 2);
-		std::cout << "low " << searchVector[low] << " middle " << searchVector[middle] << " high " << searchVector[high] << " insert " << _toInsert << "\n";
 		if (_toInsert < searchVector[middle])
 			high = middle - 1;
 		else
@@ -112,12 +104,11 @@ int	PmergeMe::binaryInsertSearch(int _toInsert, size_t capIndex, std::vector<int
 	return (low);
 }
 
-void	PmergeMe::printVector()
+void	PmergeMe::printInternalVector()
 {
-	std::cout << "\033[34m";
-	for (std::vector<int>::iterator it = vector.begin(); it != vector.end(); it++)
+	for (std::vector<int>::iterator it = this->vector.begin(); it != this->vector.end(); it++)
 		std::cout << (*it) << " ";
-	std::cout << "\n\033[0m";
+	std::cout << "\n";
 }
 
 void	PmergeMe::positionPendElements(std::vector<int>& unsorted_winners, std::vector<int>& sorted_winners, 
@@ -128,42 +119,25 @@ void	PmergeMe::positionPendElements(std::vector<int>& unsorted_winners, std::vec
 		// returns an iterator to sorted_value[i] in the unsorted_winners vector
 		std::vector<int>::iterator pos = std::find(unsorted_winners.begin(), 
 			unsorted_winners.end(), sorted_winners[i]);
-		// std::cout << "current element: " << (*pos) << "\n";
 		// get the distance from the start of the losers vector to the position
 		int index = std::distance(unsorted_winners.begin(), pos);
 		pendChain.push_back(losers[index]);
 	}
 	if (losers.size() > unsorted_winners.size())
 		pendChain.push_back(losers[losers.size() - 1]);
-	(void)losers;
-	(void)pendChain;
 }
 
-/*
-	form pairs and sort using one comparison per pair
-	once the pairs are sorted; name all elements a[i] and b[i] where a[i] - a[n / 2] > b[i] - b[n / 2]
-	repeat this process for all a[i] - a[n / 2] elements
-
-*/
-
-void	PmergeMe::insertPend(std::vector<int>& pendChain, std::vector<int>& unsorted_winners, std::vector<int>& losers)
+void	PmergeMe::insertPend(std::vector<int>& pendChain)
 {
 	int					jacobsthalIndex = 3;
 	unsigned int		currentJacobsthal = getJacobsthal(jacobsthalIndex);
 	unsigned int		prevJacobsthal = getJacobsthal(jacobsthalIndex - 1);
 	std::vector<int>	winners = vector;
 	size_t				mainChainSize = vector.size();
-	std::cout << "Pend chain: ";
-	printStructure(pendChain);
-	std::cout << "main chain: ";
-	printStructure(vector);
 
 	// insert pend chain's first element
 	if (pendChain.size())	// insert the first element
-	{
-		std::cout << "Inserting element 0 from pend chain: " << pendChain[0] << "\n";
 		vector.insert(vector.begin(), pendChain[0]);
-	}
 	// keep inserting elements from pendChain until size of mainChain is original size + pendChain.size()
 	int i = pendChain.size() - 1;
 	while (vector.size() != mainChainSize + pendChain.size())
@@ -174,22 +148,16 @@ void	PmergeMe::insertPend(std::vector<int>& pendChain, std::vector<int>& unsorte
 			currentJacobsthal = getJacobsthal(++jacobsthalIndex);
 		}
 		int _toInsert = 0;
-		if (pendChain.size() - 1 < currentJacobsthal)
-		{
-			std::cout << "in here\n";
+		if (pendChain.size() - 1 < static_cast<unsigned int>(getJacobsthal(jacobsthalIndex)))
 			_toInsert = pendChain[i--];
-		}
 		else
 			_toInsert = pendChain[currentJacobsthal - 1];
-		std::cout << "Jacobsthal: " << currentJacobsthal << " previous: " << prevJacobsthal << "\n";
-		std::cout << "Inserting: " << _toInsert << "\n";
 		// find loser's winning partner's position in the mainChain
 		// get the winning pair's position in the mainChain
 		std::vector<int>::iterator pairPosition;
-		// if winner only contains one element, use that as the pair
 		if (winners.size() > currentJacobsthal - 1)
 			pairPosition = std::find(vector.begin(), vector.end(), winners[currentJacobsthal - 1]);
-		else
+		else	// else winner only contains one element: use that as the pair
 			pairPosition = vector.end() - 1;
 		// the cap should be the pendChain's jacobsthalth element's position in the main chain
 		size_t	capIndex = std::distance(vector.begin(), pairPosition);
@@ -197,17 +165,12 @@ void	PmergeMe::insertPend(std::vector<int>& pendChain, std::vector<int>& unsorte
 		vector.insert(vector.begin() + insertPos, _toInsert);
 		currentJacobsthal--;
 	}
-	(void)losers;
-	(void)unsorted_winners;
 }
 
 void	PmergeMe::sortVector()
 {
 	if (this->vector.size() <= 1)
-	{
-		std::cout << "vector has only one element\n";
 		return ;
-	}
 	if (this->vector.size() == 2)
 	{
 		if (comp(vector[0], vector[1]) == false)
@@ -246,57 +209,159 @@ void	PmergeMe::sortVector()
 	this->vector = winners;
 	sortVector();
 	positionPendElements(winners, vector, losers, pendChain);
-	insertPend(pendChain, winners, losers);
-	std::cout << comparisonCount << " comparisons\n";
+	insertPend(pendChain);
 }
 
-// void	PmergeMe::sortList()
-// {
-// 	if (this->list.size() <= 1)
-// 	{
-// 		std::cout << "vector has only one element\n";
-// 		return ;
-// 	}
-// 	if (this->list.size() == 2)
-// 	{
-// 		// if (comp(list[0], list[1]) == false)
-// 		if (comp(list.front(), list.back()))
-// 		{
-// 			comparisonCount++;
-// 			std::swap(list.front(), list.back());
-// 		}
-// 		return ;
-// 	}
+void	PmergeMe::printList(std::list<int>& print)
+{
+	std::list<int>::iterator it = print.begin();
+	while (1)
+	{
+		std::list<int>::iterator current = it;
+		it++;
+		std::cout << (*current) << ((it) == print.end() ? "" : " ");
+		if (it == print.end())
+			break ;
+	}
+	std::cout << "\n";
+}
 
-// 	std::list<int>	winners;
-// 	std::list<int>	losers;
-// 	std::list<int>	pendChain;
+void	PmergeMe::printInternalList()
+{
+	std::list<int>::iterator it = this->list.begin();
+	while (1)
+	{
+		std::list<int>::iterator current = it;
+		it++;
+		std::cout << (*current) << ((it) == this->list.end() ? "" : " ");
+		if (it == this->list.end())
+			break ;
+	}
+	std::cout << "\n";
+}
 
-// 	for (std::list<int>::iterator it = list.begin(); it != list.end();)
-// 	{
-// 		// if (it-> == list.end())
-// 		if (it->)
-// 		{
-// 			losers.push_back(*it);
-// 			break ;
-// 		}
-// 		if (comp((*it), *(it + 1)))
-// 		{
-// 			losers.push_back(*it);
-// 			winners.push_back(*(it + 1));
-// 		}
-// 		else
-// 		{
-// 			winners.push_back(*it);
-// 			losers.push_back(*(it + 1));
-// 		}
-// 		it += 2;
-// 	}
-// 	// winners vector stores the original positions of the winners
-// 	// the cap index for the binarysearch should be where the loser's winner is with respect to whats been inserted
-// 	this->list = winners;
-// 	sortList();
-// 	positionPendElements(winners, list, losers, pendChain);
-// 	insertPend(pendChain, winners, losers);
-// 	std::cout << comparisonCount << " comparisons\n";
-// }
+std::list<int>::iterator	PmergeMe::advancedIterator(std::list<int>::iterator iterator, int advanceBy)
+{
+	std::advance(iterator, advanceBy);
+	return (iterator);
+}
+
+int	PmergeMe::binaryInsertSearch(int _toInsert, size_t capIndex, std::list<int>& searchList)
+{
+	int low = 0;
+	int high = capIndex;
+	while (low <= high)
+	{
+		int middle = round((high + low) / 2);
+		if (_toInsert < *advancedIterator(searchList.begin(), middle))
+			high = middle - 1;
+		else
+			low = middle + 1;
+		comparisonCount++;
+	}
+	return (low);
+}
+
+void	PmergeMe::positionPendElements(std::list<int>& unsorted_winners, std::list<int>& sorted_winners, 
+	std::list<int>& losers, std::list<int>& pendChain)
+{
+	for (size_t i = 0, size = sorted_winners.size(); i < size; i++)
+	{
+		std::list<int>::iterator pos = std::find(unsorted_winners.begin(), 
+			unsorted_winners.end(), *advancedIterator(sorted_winners.begin(), i));
+		int index = std::distance(unsorted_winners.begin(), pos);
+		pendChain.push_back(*advancedIterator(losers.begin(), index));
+	}
+	if (losers.size() > unsorted_winners.size())
+		pendChain.push_back(losers.back());
+}
+
+void	PmergeMe::insertPend(std::list<int>& pendChain)
+{
+	int					jacobsthalIndex = 3;
+	unsigned int		currentJacobsthal = getJacobsthal(jacobsthalIndex);
+	unsigned int		prevJacobsthal = getJacobsthal(jacobsthalIndex - 1);
+	std::list<int>		winners = this->list;
+	size_t				mainChainSize = list.size();
+
+	// insert pend chain's first element
+	if (pendChain.size())	// insert the first element
+		list.insert(list.begin(), pendChain.front());
+	// keep inserting elements from pendChain until size of mainChain is original size + pendChain.size()
+	int i = pendChain.size() - 1;
+	while (this->list.size() != mainChainSize + pendChain.size())
+	{
+		if (currentJacobsthal == prevJacobsthal)
+		{
+			prevJacobsthal = getJacobsthal(jacobsthalIndex);
+			currentJacobsthal = getJacobsthal(++jacobsthalIndex);
+		}
+		std::list<int>::iterator pendIterator = pendChain.begin();
+		if (pendChain.size() - 1 < static_cast<unsigned int>(getJacobsthal(jacobsthalIndex)))
+			std::advance(pendIterator, i--);
+		else
+			std::advance(pendIterator, currentJacobsthal - 1);
+		int _toInsert = *pendIterator;
+		// find loser's winning partner's position in the mainChain
+		// get the winning pair's position in the mainChain
+		std::list<int>::iterator pairPosition;
+		if (winners.size() > currentJacobsthal - 1)
+			pairPosition = std::find(this->list.begin(), this->list.end(), *advancedIterator(winners.begin(), currentJacobsthal - 1));
+		else	// else winner only contains one element: use that as the pair
+		{
+			pairPosition = this->list.end();
+			pairPosition--;
+		}
+		// the cap should be the pendChain's jacobsthalth element's position in the main chain
+		size_t	capIndex = std::distance(this->list.begin(), pairPosition);
+		list.insert(advancedIterator(list.begin(), binaryInsertSearch(_toInsert, capIndex, this->list)), _toInsert);
+		currentJacobsthal--;
+	}
+}
+
+void	PmergeMe::sortList()
+{
+	if (this->list.size() <= 1)
+		return ;
+	if (this->list.size() == 2)
+	{
+		if (comp(list.back(), list.front()))
+		{
+			comparisonCount++;
+			std::swap(list.front(), list.back());
+		}
+		return ;
+	}
+
+	std::list<int>	winners;
+	std::list<int>	losers;
+	std::list<int>	pendChain;
+
+	for (std::list<int>::iterator it = list.begin(); it != list.end();)
+	{
+		std::list<int>::iterator curr = it;
+		it++;
+		if (it == list.end())
+		{
+			losers.push_back(*curr);
+			break ;
+		}
+		if (comp((*curr), *(it)))
+		{
+			losers.push_back(*curr);
+			winners.push_back(*it);
+		}
+		else
+		{
+			winners.push_back(*curr);
+			losers.push_back(*it);
+		}
+		it++;
+	}
+	// winners vector stores the original positions of the winners
+	// the cap index for the binarysearch should be where the loser's winner is with respect to whats been inserted
+	this->list = winners;
+	sortList();
+	positionPendElements(winners, list, losers, pendChain);
+	insertPend(pendChain);
+}
