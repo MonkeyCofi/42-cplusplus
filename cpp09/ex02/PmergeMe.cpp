@@ -21,7 +21,8 @@ int comparisonCount = 0;
 
 PmergeMe::PmergeMe()
 {
-	;
+	vector_ms = 0;
+	list_ms = 0;
 }
 
 PmergeMe::~PmergeMe()
@@ -212,6 +213,21 @@ void	PmergeMe::sortVector()
 	insertPend(pendChain);
 }
 
+void	PmergeMe::mergeInsertionVector()
+{	
+	struct timeval	t;
+	gettimeofday(&t, NULL);
+	vector_ms = (t.tv_sec * 1000) + (t.tv_usec / 1000);
+	sortVector();
+	gettimeofday(&t, NULL);
+	vector_ms = ((t.tv_sec * 1000) + (t.tv_usec / 1000)) - vector_ms;
+}
+
+long long	PmergeMe::getVectorTime() const
+{
+	return (this->vector_ms);
+}
+
 void	PmergeMe::printList(std::list<int>& print)
 {
 	std::list<int>::iterator it = print.begin();
@@ -317,6 +333,22 @@ void	PmergeMe::insertPend(std::list<int>& pendChain)
 		list.insert(advancedIterator(list.begin(), binaryInsertSearch(_toInsert, capIndex, this->list)), _toInsert);
 		currentJacobsthal--;
 	}
+}
+
+void	PmergeMe::mergeInsertionList()
+{
+	struct timeval	t;
+
+	gettimeofday(&t, NULL);
+	list_ms = (t.tv_sec * 1000) + (t.tv_usec / 1000);
+	sortList();
+	gettimeofday(&t, NULL);
+	list_ms = ((t.tv_sec * 1000) + (t.tv_usec / 1000)) - list_ms;
+}
+
+long long	PmergeMe::getListTime() const
+{
+	return (this->list_ms);
 }
 
 void	PmergeMe::sortList()

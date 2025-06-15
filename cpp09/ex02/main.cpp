@@ -29,12 +29,12 @@ int main(int ac, char **av)
 		std::cerr << e.what() << "\n";
 		return (1);
 	}
-	std::cout << "Unsorted elements: ";
+	std::cout << "Before:  ";
 	containers.printInternalVector();
-	containers.sortVector();
-	containers.sortList();
-	std::cout << "  Sorted elements: ";
+	containers.mergeInsertionVector();
+	containers.mergeInsertionList();
+	std::cout << "After:   ";
 	containers.printInternalVector();
-	std::cout << "list: ";
-	containers.printInternalList();
+	std::cout << "Time for vector to sort: " << containers.getVectorTime() << "ms\n";
+	std::cout << "Time for list to sort  : " << containers.getListTime() << "ms\n";
 }
