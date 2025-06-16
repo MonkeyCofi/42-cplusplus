@@ -28,7 +28,7 @@
 class	PmergeMe
 {
 	private:
-		static unsigned int		comparsionCount;
+		unsigned int			comparisonCount;
 		std::vector<int>		vector;
 		std::list<int>			list;
 		std::set<int>			set;
@@ -39,37 +39,38 @@ class	PmergeMe
 		unsigned int	comp(int val1, int val2);
 		void			sortVector();
 		void			sortList();
+		long			getJacobsthal(int n);
+
+		// vector utility
+		int		binaryInsertSearch(int _toInsert, size_t capIndex, std::vector<int>& searchVector);
+		void	insertPend(std::vector<int>& pendChain);
+		void	positionPendElements(std::vector<int>& unsorted_winners, std::vector<int>& sorted_winners, 
+										std::vector<int>& losers, std::vector<int>& pendChain);
+			
+		// list utility
+		std::list<int>::iterator	advancedIterator(std::list<int>::iterator iterator, int advanceBy); // this advances iterator by advanceBy
+
+		void	printList(std::list<int>& print);
+		int		binaryInsertSearch(int _toInsert, size_t capIndex, std::list<int>& searchList);
+		void	positionPendElements(std::list<int>& unsorted_winners, std::list<int>& sorted_winners, 
+										std::list<int>& losers, std::list<int>& pendChain);
+		void	insertPend(std::list<int>& pendChain);
 	public:
 		PmergeMe();
 		~PmergeMe();
 		PmergeMe(const PmergeMe& obj);
 		PmergeMe&	operator=(const PmergeMe& obj);
-		
+
 		void	fillContainers(char** args);
 		int		size();
 		
-		long	getJacobsthal(int n);
-		long long	getVectorTime() const;
-		long long	getListTime() const;
-		
-		// vector utility
-		int		binaryInsertSearch(int _toInsert, size_t capIndex, std::vector<int>& searchVector);
-		void	insertPend(std::vector<int>& pendChain);
-		void	positionPendElements(std::vector<int>& unsorted_winners, std::vector<int>& sorted_winners, 
-			std::vector<int>& losers, std::vector<int>& pendChain);
-		void	printVector(std::vector<int>& print);
-		void	printInternalVector();
-		void	mergeInsertionVector();
-			
-			// list utility
-		std::list<int>::iterator	advancedIterator(std::list<int>::iterator iterator, int advanceBy);
-		void	printInternalList();
-		void	printList(std::list<int>& print);
-		int		binaryInsertSearch(int _toInsert, size_t capIndex, std::list<int>& searchList);
-		void	positionPendElements(std::list<int>& unsorted_winners, std::list<int>& sorted_winners, 
-			std::list<int>& losers, std::list<int>& pendChain);
-		void	insertPend(std::list<int>& pendChain);
-		void	mergeInsertionList();
+		long long		getVectorTime() const;
+		long long		getListTime() const;
+		unsigned int	getComparisonCount() const;
+		void			mergeInsertionVector();
+		void			mergeInsertionList();
+		void			printInternalVector();
+		void			printInternalList();
 };
 
 #endif
