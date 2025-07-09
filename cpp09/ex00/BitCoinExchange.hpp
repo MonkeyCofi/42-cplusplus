@@ -50,25 +50,25 @@ class	BTC
 		std::string	validateLine(std::string& line);
 		void		returnDatabaseFromInput();
 
-		class	BtcDataBaseException
+		class	BtcDataBaseException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
-		class	InputDataBaseException
+		class	InputDataBaseException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
-		class	InvalidDatabaseHeader
+		class	InvalidDatabaseHeader: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
-		class	BadInputException
+		class	BadInputException: public std::exception
 		{
 			public:
-				const char*	what();
+				const char*	what() const throw();
 		};
 };
 

@@ -179,22 +179,22 @@ void	BTC::returnDatabaseFromInput()
 	}
 }
 
-const char*	BTC::InputDataBaseException::what()
+const char*	BTC::InputDataBaseException::what() const throw()
 {
 	return ("Database file: Could not open input database file");
 }
 
-const char*	BTC::BtcDataBaseException::what()
+const char*	BTC::BtcDataBaseException::what() const throw()
 {
 	return ("Database file: Could not open BTC database file");
 }
 
-const char*	BTC::InvalidDatabaseHeader::what()
+const char*	BTC::InvalidDatabaseHeader::what() const throw()
 {
 	return ("The input database has invalid header fields");
 }
 
-const char*	BTC::BadInputException::what()
+const char*	BTC::BadInputException::what() const throw()
 {
 	return ("Error: bad input");
 }

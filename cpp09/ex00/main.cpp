@@ -27,14 +27,19 @@ int main(int ac, char **av)
 		btc.open_input_database(av[1]);
 		btc.returnDatabaseFromInput();
 	}
-	catch (BTC::BtcDataBaseException& e)
+	catch (std::exception& e)
 	{
 		std::cerr << e.what() << "\n";
 		return (1);
 	}
-	catch (BTC::InputDataBaseException& e)
-	{
-		std::cerr << e.what() << "\n";
-		return (1);
-	}
+	// catch (BTC::BtcDataBaseException& e)
+	// {
+	// 	std::cerr << e.what() << "\n";
+	// 	return (1);
+	// }
+	// catch (BTC::InputDataBaseException& e)
+	// {
+	// 	std::cerr << e.what() << "\n";
+	// 	return (1);
+	// }
 }

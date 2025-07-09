@@ -42,12 +42,6 @@ RPN::operators	RPN::returnOperation(char c)
 	return (unknown);
 }
 
-void	RPN::stackCheckAndPop(std::stack& stack)
-{
-	if (stack.empty())
-		throw ()
-}
-
 double	RPN::calculate(char *s)
 {
 	std::string			input;
